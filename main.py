@@ -2,6 +2,8 @@ import pygame, sys, random
 import time
 from pygame.locals import *
 from typing import Tuple
+from threading import Timer#import timer for the delays in game
+
 pygame.init()#initates pygame
 clock = pygame.time.Clock()#imports the time
 screen = pygame.display.set_mode((600,400))#initate the WINDOW_SIZE
@@ -14,7 +16,7 @@ icon = pygame.image.load("logo.png")
 asteroid_image = pygame.image.load("asteroid.png")
 rocket_image = pygame.image.load("player.png")
 pygame.display.set_icon(icon)
-
+atmosphere_colour = (252,116,53)
 
 class Asteroid:#asteroid class
   def __init__(self, pos_x, pos_y):#THE TWO THINGYS INSIDE THE OBJCET
@@ -62,6 +64,9 @@ message ="GAME OVER"
 running = True 
 damage = 0
 num_of_asteroids = 80
+
+bg = pygame.image.load('background.png').convert()# get the background
+bgy = 0 #background y
 
 
 #playerhitbox
@@ -116,22 +121,39 @@ def gameover():
   gameovermessage = myFont.render(str(message), 1, (254,254,254))
   screen.blit(gameovermessage, (200,100))
 #moving around minigame
+def redrawWindow():
+    screen.blit(bg, (0, bgy))  # draws our first bg image
+      # draws the seconf bg image
+      # updates the screen
+
+
+
+def platformer():
+    print ("hello, world")
+
+t = Timer(45.0, platformer)
+t.start() # after 30 seconds, "hello, world" will be printed
 while running:
+  
   rocket_rect = pygame.Rect(rocket.rect.x, rocket.rect.y, rocket_image.get_width(), rocket_image.get_height())
   pygame.display.update()
-  screen.fill((146,244,255))
+  screen.fill(atmosphere_colour)
+  redrawWindow()
   rocket.update()
   rocket_list.draw(screen)
   #print(rocket.rect.x, rocket.rect.y)
+  bgy -= 5
+  
   
   asteroid_collison()
   if damage >50:
     gameover()
   button_input()
-
+  
   damage_display = myFont.render(str(damage), 1, black)#shows score
   screen.blit(damage_display, (520, 30))
   healthbar(damage)
+  
   if rocket.rect.x <= 0:#boundries in the game for x axis
     rocket.rect.x = 0
   elif rocket.rect.x >= 568:
