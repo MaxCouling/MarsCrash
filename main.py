@@ -19,14 +19,13 @@ pygame.display.set_icon(icon)
 atmosphere_colour = (252,116,53)
 steps = 4
 message ="GAME OVER"
-click = False
+
 #variables
-rocket = True 
 damage = 0
 num_of_asteroids = 80
 
 bg = pygame.image.load('background.png').convert()# get the background
-bgy = 0 #background y
+bgy =0
 
 
 #playerhitbox
@@ -37,8 +36,8 @@ myFont = pygame.font.SysFont("Times New Roman", 18)
 class Asteroid:#asteroid class
   def __init__(self, pos_x, pos_y):#THE TWO THINGYS INSIDE THE OBJCET
     self.pos = [pos_x, pos_y]
-  def update(num):
-    for i in range(num):#making all the 
+  def update(self):
+    for i in range(self):#making all the 
       asteroid_location = Asteroid(random.randint(0,568), random.randint(400,16000))#change this
       asteroids.append(asteroid_location)
 
@@ -65,17 +64,22 @@ class Rocket(pygame.sprite.Sprite):#using pygames sprite function for future ani
   def update(self):
     self.rect.x += self.movex
     self.rect.y += self.movey
-    
 
 
-
-
+def draw_text(text,font,color,surface,x,y):
+  textobj = myFont.render(text,1,color)
+  textrect = textobj.get_rect()
+  textrect.topleft = (x,y)
+  surface.blit(textobj,textrect)   
 
 def main_menu():
+  click = False
+  
   while True:
-
+    pygame.display.update()#updates the screen
+    clock.tick(60)#make sthe menu run at 60fps
     screen.fill ((0,0,0))
-    
+    draw_text("main menu",myFont,(255,255,255), screen,20,20)
 
     mx, my = pygame.mouse.get_pos()#gets the mouse postion. mx is mouse x and mouse y is mouse y postion on the screen
     
@@ -86,7 +90,7 @@ def main_menu():
     pygame.draw.rect(screen,(255,0,0),button_2)
     if button_1.collidepoint((mx,my)):
       if click:
-        rocket()
+        rocketgame()
     if button_2.collidepoint((mx,my)):
       if click:
         pass
@@ -103,9 +107,11 @@ def main_menu():
           pygame.quit()#it will terminate ptgame
           sys.exit()
       if event.type == MOUSEBUTTONDOWN:
-        if event.key == 1:
+        if event.button == 1:
           click = True
-    
+
+
+
 
 
 def asteroid_collison():
@@ -119,6 +125,10 @@ def asteroid_collison():
     
     if rocket_rect.colliderect(asteroid_rect):
       damage += 1
+      
+      
+
+
       
 def button_input():
   for event in pygame.event.get():#getting all the keyboard inputs from user
@@ -156,6 +166,7 @@ def gameover():
   gameovermessage = myFont.render(str(message), 1, (254,254,254))
   screen.blit(gameovermessage, (200,100))
 #moving around minigame
+
 def redrawWindow():
     screen.blit(bg, (0, bgy))  # draws our first bg image
       # draws the seconf bg image
@@ -169,19 +180,9 @@ def platformer():#carry on platformer from here
 
 
 
-def main_loop():
-  main_menu()
 
-
-
-
-
-
-
-
-
-def rocket():
-  Asteroid.update(num_of_asteroids)
+def rocketgame():
+  global rocket_rect, rocket, bgy
   t = Timer(45.0,platformer)
   t.start
   rocket = Rocket()
@@ -191,9 +192,11 @@ def rocket():
   rocket.rect.y = 0  # go to y
   rocket_list = pygame.sprite.Group()
   rocket_list.add(rocket)
+  Asteroid.update(num_of_asteroids)
   while True:
     
     rocket_rect = pygame.Rect(rocket.rect.x, rocket.rect.y, rocket_image.get_width(), rocket_image.get_height())
+    
     pygame.display.update()
     screen.fill(atmosphere_colour)
     redrawWindow()
@@ -206,7 +209,7 @@ def rocket():
     
     asteroid_collison()
     if damage >50:
-      gameover()
+      main_menu()
     button_input()
     
     damage_display = myFont.render(str(damage), 1, black)#shows score
@@ -227,4 +230,10 @@ def rocket():
     clock.tick(60)#making the game run at 60fps by limiting the amount of.0
 
 
-main_loop()
+
+
+
+
+
+
+main_menu()#starts the code
