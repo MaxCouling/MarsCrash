@@ -71,48 +71,49 @@ def draw_text(text,font,color,surface,x,y):
   textrect.topleft = (x,y)
   surface.blit(textobj,textrect)   
 
-def main_menu():#this is the main menu and the dying screen on pygame # 
-  click = False #sets click to false for the mouse clicking input
+class Main_menu:#this is the main menu and the dying screen on pygame # 
+  
+  def __init__(self):
+    self.click = False #sets self.click to false for the mouse clicking input
   
   
-  while True:
+  def menu(self):
+    self.click = False
+    while True:
+      pygame.display.update()#updates the screen
+      clock.tick(60)#make sthe menu run at 60fps
+      screen.fill ((0,0,0))#makes the screen black
+      draw_text("main menu",myFont,(255,255,255), screen,20,20)#this draw text function makes the text main menu appear on the top left corner
+
+      mx, my = pygame.mouse.get_pos()#gets the mouse postion. mx is mouse x and mouse y is mouse y postion on the screen
+      
+
+      button_1 = pygame.Rect(50,100,200,50)#postion of the mouse 1
     
-    pygame.display.update()#updates the screen
-    clock.tick(60)#make sthe menu run at 60fps
-    screen.fill ((0,0,0))#makes the screen black
-    draw_text("main menu",myFont,(255,255,255), screen,20,20)#this draw text function makes the text main menu appear on the top left corner
+      button_2 = pygame.Rect(50,200,200,50)
+      pygame.draw.rect(screen,(255,0,0),button_1)
+      draw_text("Start",myFont,(255,255,255), screen, 75,105)#drawiing the start text
+      pygame.draw.rect(screen,(255,0,0),button_2)
+      if button_1.collidepoint((mx,my)):
+        if self.click:
+          rocketgame()
 
-    mx, my = pygame.mouse.get_pos()#gets the mouse postion. mx is mouse x and mouse y is mouse y postion on the screen
-    
+      if button_2.collidepoint((mx,my)):
+        if self.click:
+          pass
 
-    button_1 = pygame.Rect(50,100,200,50)#postion of the mouse 1
-   
-    button_2 = pygame.Rect(50,200,200,50)
-    pygame.draw.rect(screen,(255,0,0),button_1)
-    draw_text("Start",myFont,(255,255,255), screen, 75,105)#drawiing the start text
-    pygame.draw.rect(screen,(255,0,0),button_2)
-    if button_1.collidepoint((mx,my)):
-      if click:
-        rocketgame()
-
-    if button_2.collidepoint((mx,my)):
-      if click:
-        pass
-
-
-
-    click = False#sets click to false before the mouse button down event but after the 
-    for event in pygame.event.get():#getting all the keyboard inputs from user
-      if event.type == QUIT:#if one of those inputs is the user pressing the quit button
-        pygame.quit()#it will terminate ptgame
-        sys.exit()
-      if event.type == KEYDOWN:
-        if event.key == K_ESCAPE:
+      self.click = False#sets self.click to false before the mouse button down event but after the 
+      for event in pygame.event.get():#getting all the keyboard inputs from user
+        if event.type == QUIT:#if one of those inputs is the user pressing the quit button
           pygame.quit()#it will terminate ptgame
           sys.exit()
-      if event.type == MOUSEBUTTONDOWN:
-        if event.button == 1:
-          click = True
+        if event.type == KEYDOWN:
+          if event.key == K_ESCAPE:
+            pygame.quit()#it will terminate ptgame
+            sys.exit()
+        if event.type == MOUSEBUTTONDOWN:
+          if event.button == 1:
+            self.click = True
 
 
 
@@ -229,13 +230,7 @@ def rocketgame():
     
     clock.tick(60)#making the game run at 60fps by limiting the amount of.0
     if damage >=50:#if the damge = 50, makes the player die and makes the player also go back to the starting menu
-      main_menu()#function of the menu.
+      menu.menu()#function of the menu.
 
-
-
-
-
-
-
-
-main_menu()#starts the code
+menu = Main_menu()#starts the code
+menu.menu()
