@@ -2,7 +2,7 @@ import pygame, sys, random
 import time
 from pygame.locals import *
 from typing import Tuple
-from threading import Timer#import timer for the delays in game
+
 
 pygame.init()#initates pygame
 clock = pygame.time.Clock()#imports the time
@@ -18,12 +18,11 @@ rocket_image = pygame.image.load("player.png")
 pygame.display.set_icon(icon)
 atmosphere_colour = (252,116,53)
 steps = 4
-message ="GAME OVER"
 
 #variables
 damage = 0
 num_of_asteroids = 100
-
+asteroids = []
 bg = pygame.image.load('background.png').convert()# get the background
 bgy =0
 
@@ -72,7 +71,7 @@ def draw_text(text,font,color,surface,x,y):
   textrect.topleft = (x,y)
   surface.blit(textobj,textrect)   
 
-def main_menu():#this is the main menu and the dying screen on pygame
+def main_menu():#this is the main menu and the dying screen on pygame # 
   click = False #sets click to false for the mouse clicking input
   
   
@@ -128,6 +127,7 @@ def asteroid_collison():
     asteroid_rect.x = asteroid_location.pos[0]
     asteroid_rect.y = asteroid_location.pos[1]
     
+      
     if rocket_hitbox.colliderect(asteroid_rect):
       damage += 1
       
@@ -166,10 +166,7 @@ def healthbar(x):
   length = x *10
   pygame.draw.rect(screen, (0,0,0),pygame.Rect(30,368,500,32))
   pygame.draw.rect(screen, (255,0,0), pygame.Rect(30, 368, 500 - length,32)) 
-def gameover():
-  screen.fill((0,0,0))
-  gameovermessage = myFont.render(str(message), 1, (254,254,254))
-  screen.blit(gameovermessage, (200,100))
+
 #moving around minigame
 
 def redrawWindow():
@@ -182,9 +179,10 @@ def platformer():
 
 
 
-t = Timer(45.0,platformer)#this sets a timer that will go off when the minigame is done after 45 seconds
-t.start
+
+
 def rocketgame():
+  
   global rocket_hitbox, rocket, bgy, damage, num_of_asteroids,asteroids#setting these variables as global so other functions can use them
   
   rocket = Rocket()#sets the object as the rocket varible
@@ -198,6 +196,7 @@ def rocketgame():
   Asteroid.update(num_of_asteroids)#this updates the class and makes asteroid objects
   bgy = 0#sets the backround images y value to 0
   damage = 0#sets the damge to 0
+  
   
   while True:#loops the game 
     
