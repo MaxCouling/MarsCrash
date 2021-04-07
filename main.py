@@ -1,8 +1,8 @@
 import pygame, sys, random
-import time
+
 from pygame.locals import *
 from typing import Tuple
-
+from time import time, sleep
 
 pygame.init()#initates pygame
 clock = pygame.time.Clock()#imports the time
@@ -15,6 +15,7 @@ pygame.display.set_caption("Mars Rover")
 icon = pygame.image.load("logo.png")
 asteroid_image = pygame.image.load("asteroid.png")
 rocket_image = pygame.image.load("player.png")
+dababy = pygame.image.load("dababy.jpg")
 pygame.display.set_icon(icon)
 atmosphere_colour = (252,116,53)
 steps = 4
@@ -95,8 +96,12 @@ class Main_menu:#this is the main menu and the dying screen on pygame #
       draw_text("Start",myFont,(255,255,255), screen, 75,105)#drawiing the start text
       pygame.draw.rect(screen,(255,0,0),button_2)
       if button_1.collidepoint((mx,my)):
+        pygame.draw.rect(screen,(100,100,100),button_1)
+        draw_text("Lets Go!",myFont,(255,255,255), screen, 75,105)#drawiing the start text
+        
         if self.click:
           rocketgame()
+          
 
       if button_2.collidepoint((mx,my)):
         if self.click:
@@ -181,7 +186,6 @@ def platformer():
 
 
 
-
 def rocketgame():
   
   global rocket_hitbox, rocket, bgy, damage, num_of_asteroids,asteroids#setting these variables as global so other functions can use them
@@ -230,7 +234,9 @@ def rocketgame():
     
     clock.tick(60)#making the game run at 60fps by limiting the amount of.0
     if damage >=50:#if the damge = 50, makes the player die and makes the player also go back to the starting menu
-      menu.menu()#function of the menu.
+      menu.menu()#function of the menu
+    
+	# thing to run
 
 menu = Main_menu()#starts the code
 menu.menu()
