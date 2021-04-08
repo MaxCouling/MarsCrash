@@ -1,13 +1,14 @@
-import pygame, sys, random
-
+import pygame, sys, random,pygame_gui
+import time
 from pygame.locals import *
 from typing import Tuple
-from time import time, sleep
+
 
 pygame.init()#initates pygame
 clock = pygame.time.Clock()#imports the time
-screen = pygame.display.set_mode((600,400))#initate the WINDOW_SIZE
-ALPHA = (0, 255, 0)
+WINDOW_SIZE = (600,400)
+screen = pygame.display.set_mode((WINDOW_SIZE))#initate the 
+ALPHA = (0,255,0)
 #THIS WILL HOLD ALL THE OBJECTS
 ani = 4
 black = (0,0,0)#tuple
@@ -187,7 +188,7 @@ def platformer():
 
 
 def rocketgame():
-  
+  start_time = time.time()
   global rocket_hitbox, rocket, bgy, damage, num_of_asteroids,asteroids#setting these variables as global so other functions can use them
   
   rocket = Rocket()#sets the object as the rocket varible
@@ -204,7 +205,10 @@ def rocketgame():
   
   
   while True:#loops the game 
-    
+    end_time = time.time()
+    print(end_time - start_time)
+    if end_time - start_time > 5:
+      Game.game(1)
     rocket_hitbox = pygame.Rect(rocket.rect.x, rocket.rect.y, rocket_image.get_width(), rocket_image.get_height())#this is used as the hitbox for the rocket collisons with asteroids
     
     pygame.display.update()
@@ -237,6 +241,25 @@ def rocketgame():
       menu.menu()#function of the menu
     
 	# thing to run
+class Game:#actual game
+  def __init__(self):
+    self.click = False
+    
+  def game(self):
+    manager = pygame_gui.UIManager(WINDOW_SIZE)
+    while True:
+      time_delta = clock.tick(60)/1000.0
+      hello_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 275), (100, 50)),text='Say Hello',manager=manager)
+      for event in pygame.event.get():
+         if event.type == pygame.QUIT:
+          print("Exited")#prints ecited into the console
+          pygame.quit()#it will terminate ptgame
+          sys.exit()
 
+         manager.process_events(event)
+      manager.update(time_delta)
+      screen.blit(dababy, (0, 0))
+      manager.draw_ui(screen)
+      pygame.display.update()
 menu = Main_menu()#starts the code
 menu.menu()
