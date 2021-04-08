@@ -249,7 +249,7 @@ class Game:#actual game
     manager = pygame_gui.UIManager(WINDOW_SIZE)
     while True:
       time_delta = clock.tick(60)/1000.0
-      hello_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 275), (100, 50)),text='Say Hello',manager=manager)
+      hello_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 275), (100, 50)),text='Lets goo',manager=manager)
       for event in pygame.event.get():
          if event.type == pygame.QUIT:
           print("Exited")#prints ecited into the console
@@ -261,5 +261,6 @@ class Game:#actual game
       screen.blit(dababy, (0, 0))
       manager.draw_ui(screen)
       pygame.display.update()
+      #use https://pygame-gui.readthedocs.io/en/latest/theme_reference/theme_horizontal_scroll_bar.html
 menu = Main_menu()#starts the code
 menu.menu()
