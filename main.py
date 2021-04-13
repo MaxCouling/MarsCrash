@@ -137,7 +137,7 @@ class Main_menu:#this is the main menu and the dying screen on pygame #
 
 class Rocketgame:
   def __init__(self):
-    self.rocket = Rocket()#sets the object as the rocket varible
+    self.rocket = Rocket()
     self.rocket.rect.x = 250#this is where the rocket starts off in the screen
     self.rocket.rect.y = 100
     
@@ -148,9 +148,10 @@ class Rocketgame:
     self.damage = 0#sets the damge to 0
     Asteroid.update(num_of_asteroids)#this updates the class and makes asteroid objects
     self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, rocket_image.get_width(), rocket_image.get_height())
-    self.steps = 4
+    self.steps = 4 
+
+
   def asteroid_collison(self):
-  
     for asteroid_location in asteroids:
       asteroid_rect = pygame.Rect(asteroid_location.pos[0], asteroid_location.pos[1], asteroid_image.get_width(), asteroid_image.get_height())
       screen.blit(asteroid_image, asteroid_location.pos)#astriod location
@@ -161,7 +162,10 @@ class Rocketgame:
         
       if self.rocket_hitbox.colliderect(asteroid_rect):
         self.damage += 1
+
+
   def button_input(self):
+    
     for event in pygame.event.get():#getting all the keyboard inputs from user
         if event.type == QUIT:#if one of those inputs is the user pressing the quit button
           print("Exited")#prints ecited into the console
@@ -170,27 +174,26 @@ class Rocketgame:
         
         if event.type == KEYDOWN:#movemtnt code
           if event.key == K_RIGHT:
-            rocket.control(self.steps, 0)
+            self.rocket.control(self.steps, 0)
           if event.key == K_LEFT:
-            rocket.control(-self.steps, 0)
+            self.rocket.control(-self.steps, 0)
           if event.key == K_DOWN:
-            rocket.control(0,self.steps)
+            self.rocket.control(0,self.steps)
           if event.key == K_UP:
-            rocket.control(0,-self.steps)
+            self.rocket.control(0,-self.steps)
 
         if event.type == KEYUP:
           if event.key == K_RIGHT:
-            rocket.control(-self.steps, 0)
+            self.rocket.control(-self.steps, 0)
           if event.key == K_LEFT:
-            rocket.control(self.steps, 0)
+            self.rocket.control(self.steps, 0)
           if event.key == K_DOWN:
-            rocket.control(0, -self.steps)
+            self.rocket.control(0, -self.steps)
           if event.key == K_UP:
-            rocket.control(0, self.steps)
+            self.rocket.control(0, self.steps)
+
+
   def rocketGameRunning(self):
-    r = Rocketgame()
-    r.asteroid_collison()
-    r.button_input()
     start_time = time.time()
     while True:#loops the game 
       end_time = time.time()
@@ -206,7 +209,8 @@ class Rocketgame:
       self.rocket_list.draw(screen)#draws the rocket in the new x or y depending on if the player has pressed a new input
       #print(rocket.rect.x, self.rocket.rect.y)
       self.bgy -= 5#makes the image move down by 5 pixes every time this loops over
-    
+      self.asteroid_collison()
+      self.button_input()
       
       length = self.damage *10
       pygame.draw.rect(screen, (0,0,0),pygame.Rect(30,368,500,32))
