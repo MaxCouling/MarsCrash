@@ -1,4 +1,4 @@
-import pygame, sys, random,pygame_gui
+import pygame, sys, random
 import time
 from pygame.locals import *
 from typing import Tuple
@@ -198,7 +198,7 @@ class Rocketgame:
     while True:#loops the game 
       end_time = time.time()
       print(end_time - start_time)
-      if end_time - start_time > 5:
+      if end_time - start_time > 45:
         Game.game(1)
       self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, rocket_image.get_width(), rocket_image.get_height())#this is used as the hitbox for the rocket collisons with asteroids
       
@@ -240,7 +240,7 @@ class Game:#actual game
     while True:
       screen.fill ((0,0,0))#makes the screen black
       time_delta = clock.tick(60)/1000.0
-      hello_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 275), (100, 50)),text='Lets goo',manager=manager)#button
+      #hello_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 275), (100, 50)),text='Lets goo',manager=manager)#button
       for event in pygame.event.get():
          if event.type == pygame.QUIT:
           print("Exited")#prints ecited into the console
