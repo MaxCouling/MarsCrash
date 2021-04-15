@@ -1,4 +1,7 @@
-import pygame, sys, random,pygame_gui
+import pygame
+import sys
+import random
+import pygame_gui
 import time
 from pygame.locals import *
 from typing import Tuple
