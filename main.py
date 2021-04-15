@@ -17,6 +17,7 @@ icon = pygame.image.load("logo.png")
 asteroid_image = pygame.image.load("asteroid.png")
 rocket_image = pygame.image.load("player.png")
 dababy = pygame.image.load("dababy.jpg")
+front = pygame.image.load("mars front.png")
 pygame.display.set_icon(icon)
 atmosphere_colour = (252,116,53)
 #variables
@@ -198,7 +199,7 @@ class Rocketgame:
     while True:#loops the game 
       end_time = time.time()
       print(end_time - start_time)
-      if end_time - start_time > 5:
+      if end_time - start_time > 25:
         Game.game(1)
       self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, rocket_image.get_width(), rocket_image.get_height())#this is used as the hitbox for the rocket collisons with asteroids
       
@@ -237,20 +238,25 @@ class Game:#actual game
     
   def game(self):
     manager = pygame_gui.UIManager(WINDOW_SIZE)
-    while True:
+    slowAnimation = 500
+    while True:#this will be the little animation of it going into mars
       screen.fill ((0,0,0))#makes the screen black
-      time_delta = clock.tick(60)/1000.0
-      hello_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 275), (100, 50)),text='Lets goo',manager=manager)#button
+      
+      
       for event in pygame.event.get():
          if event.type == pygame.QUIT:
           print("Exited")#prints ecited into the console
           pygame.quit()#it will terminate ptgame
           sys.exit()
-
-         manager.process_events(event)
-      manager.update(time_delta)
-      screen.blit(dababy, (0, 0))
-      manager.draw_ui(screen)
+      
+      screen.fill(atmosphere_colour)
+      
+      if slowAnimation >= 0:
+        slowAnimation -= 1
+      screen.blit(front,(0,slowAnimation))
+      
+      
+   
       pygame.display.update()
       #use https://pygame-gui.readthedocs.io/en/latest/theme_reference/theme_horizontal_scroll_bar.html
 menu = Main_menu()#starts the code
