@@ -24,9 +24,9 @@ front = pygame.image.load("mars front.png")
 pygame.display.set_icon(icon)
 atmosphere_colour = (252,116,53)
 #variables
-
-num_of_asteroids = 100
 asteroids = []
+num_of_asteroids = 100
+
 bg = pygame.image.load('background.png').convert()# get the background
 
 
@@ -135,7 +135,7 @@ class Main_menu:#this is the main menu and the dying screen on pygame #
 
       
 
-
+#need to add sound
 
 
 
@@ -150,12 +150,14 @@ class Rocketgame:
     self.num_of_asteroids = 100#the number of asteroids that the rocket will have to dodge on the way to mars
     self.bgy = 0#sets the backround images y value to 0
     self.damage = 0#sets the damge to 0
+    asteroids.clear()#makes it so that the list of asteroids is clear before adding more. So that the code doesn't keep adding more and more asteroids
     Asteroid.update(num_of_asteroids)#this updates the class and makes asteroid objects
     self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, rocket_image.get_width(), rocket_image.get_height())
     self.steps = 4 
 
 
   def asteroid_collison(self):
+
     for asteroid_location in asteroids:
       asteroid_rect = pygame.Rect(asteroid_location.pos[0], asteroid_location.pos[1], asteroid_image.get_width(), asteroid_image.get_height())
       screen.blit(asteroid_image, asteroid_location.pos)#astriod location
