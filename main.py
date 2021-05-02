@@ -17,7 +17,8 @@ ani = 4
 black = (0,0,0)#tuple
 pygame.display.set_caption("Mars Rover")
 icon = pygame.image.load("logo.png")
-asteroid_image = pygame.image.load("asteroid.png")
+grey_asteroid_image = pygame.image.load("grey_asteroid.png")
+
 rocket_image = pygame.image.load("player.png")
 dababy = pygame.image.load("dababy.jpg")
 front = pygame.image.load("mars front.png")
@@ -39,11 +40,12 @@ myFont = pygame.font.SysFont("Comic Sans MS", 24)
 class Asteroid:#asteroid class
   def __init__(self, pos_x, pos_y):#THE TWO THINGYS INSIDE THE OBJCET
     self.pos = [pos_x, pos_y]
-    
+    self.angle = 0
   def update(self):
-    for i in range(self):#making all the 
-      asteroid_location = Asteroid(random.randint(0,568), random.randint(400,16000))#change this
-      asteroids.append(asteroid_location)
+    #making all the 
+    asteroid_location = Asteroid(random.randint(0,568), random.randint(400,16000))#change this
+    self.angle += random.randint(0,10)
+    asteroids.append(asteroid_location)
 
 
 class Rocket(pygame.sprite.Sprite):#using pygames sprite function for future aninmations
@@ -154,15 +156,18 @@ class Rocketgame:
     Asteroid.update(num_of_asteroids)#this updates the class and makes asteroid objects
     self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, rocket_image.get_width(), rocket_image.get_height())
     self.steps = 4 
-
+    self.angle = 0
 
   def asteroid_collison(self):
 
     for asteroid_location in asteroids:
+      
+      scale = 1
+      asteroid_image = pygame.transform.rotozoom(grey_asteroid_image, self.angle, scale)#change scale and rotation of asteroid
       asteroid_rect = pygame.Rect(asteroid_location.pos[0], asteroid_location.pos[1], asteroid_image.get_width(), asteroid_image.get_height())
       screen.blit(asteroid_image, asteroid_location.pos)#astriod location
       asteroid_location.pos[1] -= 6#IMPORTANT!!!!!!!! HOW TO GET THE X AND Y VARIABLES FROM OBJECT TYPE BEAT
-      asteroid_rect.x = asteroid_location.pos[0]
+      asteroid_rect.x = asteroid_location.pos[0]#asigning it to the rectangle wich is used as a hitbox
       asteroid_rect.y = asteroid_location.pos[1]
       
         
@@ -204,7 +209,7 @@ class Rocketgame:
     while True:#loops the game 
       end_time = time.time()
       print(end_time - start_time)
-      if end_time - start_time > 25:
+      if end_time - start_time > 15:
         Game.game(1)
       self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, rocket_image.get_width(), rocket_image.get_height())#this is used as the hitbox for the rocket collisons with asteroids
       
@@ -257,12 +262,15 @@ class Game:#actual game
       screen.fill(atmosphere_colour)
       
       if slowAnimation >= 0:
-        slowAnimation -= 1
-      screen.blit(front,(0,slowAnimation))
+        slowAnimation -= 5
       
+
+      screen.blit(front,(0,slowAnimation))
+      screen.blit(rocket_image,(50,50))
       
    
       pygame.display.update()
+      clock.tick(60)
       #use https://pygame-gui.readthedocs.io/en/latest/theme_reference/theme_horizontal_scroll_bar.html
 menu = Main_menu()#starts the code
 menu.menu()
