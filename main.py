@@ -18,6 +18,7 @@ black = (0,0,0)#tuple
 pygame.display.set_caption("Mars Rover")
 icon = pygame.image.load("logo.png")
 asteroid_image = pygame.image.load("asteroid.png")
+big_asteroid = pygame.image.load("BigAsteroid.png")
 rocket_image = pygame.image.load("player.png")
 dababy = pygame.image.load("dababy.jpg")
 front = pygame.image.load("mars front.png")
@@ -27,9 +28,9 @@ atmosphere_colour = (252,116,53)
 asteroids = []
 num_of_asteroids = 200
 
-bg = pygame.image.load('background.png').convert()# get the background
 
-
+mars_floor = pygame.image.load("mars_floor.png")
+bg = pygame.image.load("background.png")
 
 #playerhitbox
 
@@ -126,15 +127,6 @@ class Main_menu:#this is the main menu and the dying screen on pygame #
             self.click = True
 
 
-
-
-
-
-      
-
-
-      
-
 #need to add sound
 
 
@@ -153,8 +145,9 @@ class Rocketgame:
     asteroids.clear()#makes it so that the list of asteroids is clear before adding more. So that the code doesn't keep adding more and more asteroids
     Asteroid.update(num_of_asteroids)#this updates the class and makes asteroid objects
     self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, rocket_image.get_width(), rocket_image.get_height())
-    self.steps = 5
 
+    self.steps = 4 
+    
 
   def asteroid_collison(self):
 
@@ -201,11 +194,19 @@ class Rocketgame:
 
   def rocketGameRunning(self):
     start_time = time.time()
+    big_asteroid_posy = 1000
     while True:#loops the game 
+      
       end_time = time.time()
       print(end_time - start_time)
-      if end_time - start_time > 45:
-        Game.game(1)
+
+      if end_time - start_time > 45:#when all the baby asteroids are gone
+        screen.blit(big_asteroid,(0,big_asteroid_posy))
+        big_asteroid_posy -= 5
+        if big_asteroid_posy <= 10:
+          Game.game(2)
+        
+    
       self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, rocket_image.get_width(), rocket_image.get_height())#this is used as the hitbox for the rocket collisons with asteroids
       
       pygame.display.update()
@@ -242,8 +243,7 @@ class Game:#actual game
     self.click = False
     
   def game(self):
-    manager = pygame_gui.UIManager(WINDOW_SIZE)
-    slowAnimation = 500
+    
     while True:#this will be the little animation of it going into mars
       screen.fill ((0,0,0))#makes the screen black
       
@@ -254,15 +254,21 @@ class Game:#actual game
           pygame.quit()#it will terminate ptgame
           sys.exit()
       
-      screen.fill(atmosphere_colour)
-      
-      if slowAnimation >= 0:
-        slowAnimation -= 1
-      screen.blit(front,(0,slowAnimation))
+      screen.fill((0,0,0))
       
       
-   
+      screen.blit(mars_floor,(0,0))
+
+      
+      draw_text("insert game here",myFont,(255,255,255), screen,20,20)#
+      
+      #need to draw mars floor/ make a tile system for that
+      #need to make "nodes", which you can get reasources
+      #ice can be converted to water or hydrogen and oxegen, hydrogen to power rovers and oxegen to breathe
       pygame.display.update()
+      clock.tick(60)
       #use https://pygame-gui.readthedocs.io/en/latest/theme_reference/theme_horizontal_scroll_bar.html
+
+
 menu = Main_menu()#starts the code
 menu.menu()
