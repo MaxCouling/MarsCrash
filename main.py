@@ -25,7 +25,7 @@ pygame.display.set_icon(icon)
 atmosphere_colour = (252,116,53)
 #variables
 asteroids = []
-num_of_asteroids = 100
+num_of_asteroids = 200
 
 bg = pygame.image.load('background.png').convert()# get the background
 
@@ -153,7 +153,7 @@ class Rocketgame:
     asteroids.clear()#makes it so that the list of asteroids is clear before adding more. So that the code doesn't keep adding more and more asteroids
     Asteroid.update(num_of_asteroids)#this updates the class and makes asteroid objects
     self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, rocket_image.get_width(), rocket_image.get_height())
-    self.steps = 4 
+    self.steps = 5
 
 
   def asteroid_collison(self):
@@ -204,7 +204,7 @@ class Rocketgame:
     while True:#loops the game 
       end_time = time.time()
       print(end_time - start_time)
-      if end_time - start_time > 25:
+      if end_time - start_time > 45:
         Game.game(1)
       self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, rocket_image.get_width(), rocket_image.get_height())#this is used as the hitbox for the rocket collisons with asteroids
       
