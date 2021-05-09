@@ -140,7 +140,7 @@ class Rocketgame:
     self.rocket_list = pygame.sprite.Group()
     self.rocket_list.add(self.rocket)
     self.num_of_asteroids = 100#the number of asteroids that the rocket will have to dodge on the way to mars
-    self.bgy = 0#sets the backround images y value to 0
+    self.minigame_bgY = 0#sets the backround images y value to 0
     self.damage = 0#sets the damge to 0
     asteroids.clear()#makes it so that the list of asteroids is clear before adding more. So that the code doesn't keep adding more and more asteroids
     Asteroid.update(num_of_asteroids)#this updates the class and makes asteroid objects
@@ -210,11 +210,11 @@ class Rocketgame:
       
       pygame.display.update()
       screen.fill(atmosphere_colour)#fills the screen with the atsmophere colour
-      screen.blit(bg, (0, self.bgy))#this function is what makes the backround image move down in the rocket videogame
+      screen.blit(bg, (0, self.minigame_bgY))#this function is what makes the backround image move down in the rocket videogame
       self.rocket.update()#makes the rocket image move by x or y 
       self.rocket_list.draw(screen)#draws the rocket in the new x or y depending on if the player has pressed a new input
       #print(rocket.rect.x, self.rocket.rect.y)
-      self.bgy -= 5#makes the image move down by 5 pixes every time this loops over
+      self.minigame_bgY -= 5#makes the image move down by 5 pixes every time this loops over
       self.asteroid_collison()
       self.button_input()
       
@@ -236,31 +236,57 @@ class Rocketgame:
       if self.damage >=50:#if the damge = 50, makes the player die and makes the player also go back to the starting menu
         menu.menu()#function of the menu
   
+class Background(pygame.sprite.Sprite):
+  def __init__(self):
+    super().__init__()
+    self.bgimage = pygame.image.load("mars_bg.png")
+    self.bgY = 0
+    self.bgX = 0
+  def render(self):
+    screen.blit(self.bgimage,(self.bgY,self.bgX))
+
+ 
+ 
+class Ground(pygame.sprite.Sprite):
+  def __init__(self):
+    super().__init__()
+    self.image = pygame.image.load("mars_floor.png")
+    self.rect = self.image.get_rect(center = (300, 200))
+  def render(self):
+    screen.blit(self.image,(self.rect.x,self.rect.y))
+    
+class Player(pygame.sprite.Sprite):
+  def __init__(self):
+    super().__init__() 
 
 class Game:#actual game
   def __init__(self):
-    self.click = False
-    
+    #variables and constants that need to be decleared
+    self.vec = pygame.math.Vector2
+    self.ACC = 0.3
+    self.FRIC = -0.10
   def game(self):
     
-    while True:#this will be the little animation of it going into mars
-      screen.fill ((0,0,0))#makes the screen black
-      
-      
+    while True:#
       for event in pygame.event.get():
-         if event.type == pygame.QUIT:
-          print("Exited")#prints ecited into the console
-          pygame.quit()#it will terminate ptgame
-          sys.exit()
-      
-      screen.fill((0,0,0))
-      
-      
-      screen.blit(mars_floor,(0,0))
+        # Will run when the close window button is clicked    
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit() 
+             
+        # For events that occur upon clicking the mouse (left click) 
+        if event.type == pygame.MOUSEBUTTONDOWN:
+              pass
+ 
+        # Event handling for a range of different key presses    
+        if event.type == pygame.KEYDOWN:
+              pass
 
-      
-      draw_text("insert game here",myFont,(255,255,255), screen,20,20)#
-      
+
+      background = Background()
+      ground = Ground()
+      background.render()
+      ground.render()
       #need to draw mars floor/ make a tile system for that
       #need to make "nodes", which you can get reasources
       #ice can be converted to water or hydrogen and oxegen, hydrogen to power rovers and oxegen to breathe
@@ -269,5 +295,6 @@ class Game:#actual game
       #use https://pygame-gui.readthedocs.io/en/latest/theme_reference/theme_horizontal_scroll_bar.html
 
 
-menu = Main_menu()#starts the code
-menu.menu()
+#menu = Main_menu()#starts the code
+#menu.menu()
+Game.game(1)
