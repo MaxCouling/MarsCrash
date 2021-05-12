@@ -198,10 +198,10 @@ class Rocketgame:
       
       end_time = time.time()
       print(end_time - start_time)
-      if end_time - start_time > 45:#when all the baby asteroids are gone
+      if end_time - start_time > 15:#when all the baby asteroids are gone
         screen.blit(big_asteroid,(0,big_asteroid_posy))
         big_asteroid_posy -= 5
-        if big_asteroid_posy <= 10:
+        if big_asteroid_posy <= 0:
           Game.game(2)
         
         
@@ -295,6 +295,5 @@ class Game:#actual game
       #use https://pygame-gui.readthedocs.io/en/latest/theme_reference/theme_horizontal_scroll_bar.html
 
 
-#menu = Main_menu()#starts the code
-#menu.menu()
-Game.game(1)
+menu = Main_menu()#starts the code
+menu.menu()
