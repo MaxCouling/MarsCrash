@@ -255,7 +255,7 @@ class Ground(pygame.sprite.Sprite):
   def __init__(self):
     super().__init__()
     self.image = pygame.image.load("mars_floor.png")
-    self.rect = self.image.get_rect(center = (300, 200))
+    self.rect = self.image.get_rect(center = (300, 360))
     
   def render(self):
     screen.blit(self.image,(self.rect.x,self.rect.y))
@@ -271,13 +271,14 @@ class Player(pygame.sprite.Sprite):
     
     #postion and direction
     self.vx = 0
-    self.pos = vec((340, 240))
+    self.pos = vec((200, 200))
     self.vel = vec(0,0)
     self.acc = vec(0,0)
     self.direction = "RIGHT"
     self.jumping = False
   
   def move(self):#method to do the running
+    
     self.acc = vec(0,0.5)#gravity, Force that constantly pulls the player down
     
     if abs(self.vel.x) > 0.3:
@@ -317,8 +318,8 @@ class Player(pygame.sprite.Sprite):
         lowest = hits[0]#the first one in the list is the lowest
         if self.pos.y < lowest.rect.bottom:#if the player is touching the ground
           self.pos.y = lowest.rect.top +1#add one so it is above the ground
-          self.vel = 0#set the verticle velocity to 0, it is on the ground now
-          self.jumping = False
+          self.vel.y = 0#set the verticle velocity to 0, it is on the ground now
+          self.jumping = False#if player is touching the ground, it cannot be in the state of jump (duh)
   
   def jump(self):
     self.rect.x += 1
