@@ -29,7 +29,7 @@ atmosphere_colour = (252,116,53)
 asteroids = []
 num_of_asteroids = 100
 
-
+vec = pygame.math.Vector2
 mars_floor = pygame.image.load("mars_floor.png")
 bg = pygame.image.load("background.png")
 
@@ -259,13 +259,13 @@ class Ground(pygame.sprite.Sprite):
     
   def render(self):
     screen.blit(self.image,(self.rect.x,self.rect.y))
-    
+
 class Player(pygame.sprite.Sprite):
   def __init__(self):
     super().__init__()
     self.image = pygame.image.load("Astronaut.png")#loading the player in
     self.rect = self.image.get_rect()#getting the hitbox for the player
-    vec = pygame.math.Vector2
+    
     self.ACC = 0.3
     self.FRIC = -0.10
     
@@ -278,12 +278,12 @@ class Player(pygame.sprite.Sprite):
     self.jumping = False
   
   def move(self):#method to do the running
-    #self.acc = self.vec(0,0.5)#gravity, Force that constantly pulls the player down
+    self.acc = vec(0,0.5)#gravity, Force that constantly pulls the player down
     
     if abs(self.vel.x) > 0.3:
       self.running = True
     else:
-      running = False
+      self.running = False
   
 
     pressed_keys = pygame.key.get_pressed()
@@ -310,7 +310,6 @@ class Player(pygame.sprite.Sprite):
   
   def update(self):#animation
     pass
-  
   def gravity_check(self):
     hits = pygame.sprite.spritecollide(player , ground_group, False)
     if self.vel.y > 0:
@@ -333,6 +332,8 @@ class Player(pygame.sprite.Sprite):
     if hits and not self.jumping:
        self.jumping = True
        self.vel.y = -12
+  
+
 
 
 
@@ -356,7 +357,9 @@ class Game:#actual game
  
         # Event handling for a range of different key presses    
         if event.type == pygame.KEYDOWN:
-          pass
+          
+          if event.key == pygame.K_SPACE:
+            player.jump()
 
 
      
@@ -371,6 +374,7 @@ class Game:#actual game
       #need to draw mars floor/ make a tile system for that
       #need to make "nodes", which you can get reasources
       #ice can be converted to water or hydrogen and oxegen, hydrogen to power rovers and oxegen to breathe
+      
       pygame.display.update()
       clock.tick(60)
       #use https://pygame-gui.readthedocs.io/en/latest/theme_reference/theme_horizontal_scroll_bar.html
