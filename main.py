@@ -260,6 +260,12 @@ class Ground(pygame.sprite.Sprite):
   def render(self):
     screen.blit(self.image,(self.rect.x,self.rect.y))
 
+class Level_Loader(pygame.sprite.Sprite):
+  def __init__(self):
+    super().__init__()#inits the pygame sprite.sprite
+    self.crash = pygame.image.load()
+
+    
 class Player(pygame.sprite.Sprite):
   def __init__(self):
     super().__init__()
@@ -352,6 +358,7 @@ class Game:#actual game
   def game(self):
     
     while True:#main game loop
+
       player.gravity_check()
       for event in pygame.event.get():
         # Will run when the close window button is clicked    
@@ -388,12 +395,6 @@ class Game:#actual game
       clock.tick(60)
       #use https://pygame-gui.readthedocs.io/en/latest/theme_reference/theme_horizontal_scroll_bar.html
 
-
-
-
-
-menu = Main_menu()#starts the code
-#menu.menu()
 ground = Ground()
 background = Background()
 ground_group = pygame.sprite.Group()
@@ -401,5 +402,11 @@ ground_group.add(ground)
 player = Player()
 Playergroup = pygame.sprite.Group()
 
-Game.game(1)
+
+
+menu = Main_menu()#starts the code
+menu.menu()
+
+
+
 
