@@ -268,6 +268,7 @@ class Player(pygame.sprite.Sprite):
     vec = pygame.math.Vector2
     self.ACC = 0.3
     self.FRIC = -0.10
+    
     #postion and direction
     self.vx = 0
     self.pos = vec((340, 240))
@@ -275,14 +276,16 @@ class Player(pygame.sprite.Sprite):
     self.acc = vec(0,0)
     self.direction = "RIGHT"
     self.jumping = False
+  
   def move(self):#method to do the running
-    self.acc = self.vec(0,0.5)#gravity, Force that constantly pulls the player down
+    #self.acc = self.vec(0,0.5)#gravity, Force that constantly pulls the player down
     
-    if abs(self.vel.x) > 0.3:#abs is used to return the speed because it can also be in the negative direction/ Absolute value
-      self.running = True#sets running to true, no the running of code but the running of the player
+    if abs(self.vel.x) > 0.3:
+      self.running = True
     else:
-      self.running = False
-    
+      running = False
+  
+
     pressed_keys = pygame.key.get_pressed()
     
     if pressed_keys[K_LEFT]:
@@ -305,9 +308,10 @@ class Player(pygame.sprite.Sprite):
       self.pos.x = 600
     self.rect.midbottom = self.pos  # Update rect with new pos
   
-  def update(self):
+  def update(self):#animation
     pass
-  """def gravity_check(self):
+  
+  def gravity_check(self):
     hits = pygame.sprite.spritecollide(player , ground_group, False)
     if self.vel.y > 0:
       if hits:
@@ -316,6 +320,7 @@ class Player(pygame.sprite.Sprite):
           self.pos.y = lowest.rect.top +1#add one so it is above the ground
           self.vel = 0#set the verticle velocity to 0, it is on the ground now
           self.jumping = False
+  
   def jump(self):
     self.rect.x += 1
  
@@ -329,7 +334,7 @@ class Player(pygame.sprite.Sprite):
        self.jumping = True
        self.vel.y = -12
 
-"""
+
 
 class Game:#actual game
   def __init__(self):
@@ -338,30 +343,31 @@ class Game:#actual game
   def game(self):
     
     while True:#main game loop
-
+      player.gravity_check()
       for event in pygame.event.get():
         # Will run when the close window button is clicked    
         if event.type == QUIT:
-            pygame.quit()
-            sys.exit() 
+          pygame.quit()
+          sys.exit() 
              
         # For events that occur upon clicking the mouse (left click) 
         if event.type == pygame.MOUSEBUTTONDOWN:
-              pass
+          pass
  
         # Event handling for a range of different key presses    
         if event.type == pygame.KEYDOWN:
-              pass
+          pass
 
 
-      background = Background()
-      ground = Ground()
-      player = Player()
-      player.gravity_check()
+     
+      
+      
+     
+      player.move()
       background.render()
       ground.render()
-      player.move()
-      screen.blit(player.image,player.rect)
+      
+      screen.blit(player.image, player.rect)
       #need to draw mars floor/ make a tile system for that
       #need to make "nodes", which you can get reasources
       #ice can be converted to water or hydrogen and oxegen, hydrogen to power rovers and oxegen to breathe
@@ -373,9 +379,10 @@ class Game:#actual game
 
 
 
-#menu = Main_menu()#starts the code
+menu = Main_menu()#starts the code
 #menu.menu()
 ground = Ground()
+background = Background()
 ground_group = pygame.sprite.Group()
 ground_group.add(ground)
 player = Player()
