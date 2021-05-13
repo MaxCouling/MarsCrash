@@ -265,7 +265,7 @@ class Player(pygame.sprite.Sprite):
     super().__init__()
     self.image_right = pygame.image.load("Astronaut.png")#loading the player in
     self.image_left = pygame.image.load("Astronaut_L.png")
-    
+    self.image = self.image_right
     self.rect = self.image.get_rect()#getting the hitbox for the player
     
     self.ACC = 0.3
@@ -278,7 +278,7 @@ class Player(pygame.sprite.Sprite):
     self.acc = vec(0,0)
     self.direction = "RIGHT"
     self.jumping = False
-    self.move.frame = 0
+    self.level = 1
   def move(self):#method to do the running
     
     self.acc = vec(0,0.5)#gravity, Force that constantly pulls the player down
@@ -307,8 +307,10 @@ class Player(pygame.sprite.Sprite):
     
     if self.pos.x > 600:#this is stopping the player getting out
       self.pos.x = 0
+      self.level += 1
     if self.pos.x < 0:
       self.pos.x = 600
+      self.level -= 1
     self.rect.midbottom = self.pos  # Update rect with new pos
   
   def update(self):#animation
@@ -376,7 +378,7 @@ class Game:#actual game
       player.update()
       background.render()
       ground.render()
-      
+      print(player.level)
       screen.blit(player.image, player.rect)
       #need to draw mars floor/ make a tile system for that
       #need to make "nodes", which you can get reasources
