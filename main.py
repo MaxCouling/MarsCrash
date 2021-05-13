@@ -263,7 +263,9 @@ class Ground(pygame.sprite.Sprite):
 class Player(pygame.sprite.Sprite):
   def __init__(self):
     super().__init__()
-    self.image = pygame.image.load("Astronaut.png")#loading the player in
+    self.image_right = pygame.image.load("Astronaut.png")#loading the player in
+    self.image_left = pygame.image.load("Astronaut_L.png")
+    
     self.rect = self.image.get_rect()#getting the hitbox for the player
     
     self.ACC = 0.3
@@ -276,7 +278,7 @@ class Player(pygame.sprite.Sprite):
     self.acc = vec(0,0)
     self.direction = "RIGHT"
     self.jumping = False
-  
+    self.move.frame = 0
   def move(self):#method to do the running
     
     self.acc = vec(0,0.5)#gravity, Force that constantly pulls the player down
@@ -310,7 +312,10 @@ class Player(pygame.sprite.Sprite):
     self.rect.midbottom = self.pos  # Update rect with new pos
   
   def update(self):#animation
-    pass
+    if self.vel.x > 0:
+      self.image = self.image_right
+    else:
+      self.image = self.image_left
   def gravity_check(self):
     hits = pygame.sprite.spritecollide(player , ground_group, False)
     if self.vel.y > 0:
@@ -368,6 +373,7 @@ class Game:#actual game
       
      
       player.move()
+      player.update()
       background.render()
       ground.render()
       
