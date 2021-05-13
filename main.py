@@ -199,12 +199,10 @@ class Rocketgame:
       
       end_time = time.time()
       print(end_time - start_time)
-<<<<<<< HEAD
+
 
       if end_time - start_time > 45:#when all the baby asteroids are gone
-=======
-      if end_time - start_time > 15:#when all the baby asteroids are gone
->>>>>>> 4a9017dc0172699bf92ad7499f499d104a199636
+
         screen.blit(big_asteroid,(0,big_asteroid_posy))
         big_asteroid_posy -= 5
         if big_asteroid_posy <= 0:
@@ -258,34 +256,89 @@ class Ground(pygame.sprite.Sprite):
     super().__init__()
     self.image = pygame.image.load("mars_floor.png")
     self.rect = self.image.get_rect(center = (300, 200))
+    
   def render(self):
     screen.blit(self.image,(self.rect.x,self.rect.y))
     
 class Player(pygame.sprite.Sprite):
   def __init__(self):
-    super().__init__() 
+    super().__init__()
+    self.image = pygame.image.load("Astronaut.png")#loading the player in
+    self.rect = self.image.get_rect()#getting the hitbox for the player
+    vec = pygame.math.Vector2
+    self.ACC = 0.3
+    self.FRIC = -0.10
+    #postion and direction
+    self.vx = 0
+    self.pos = vec((340, 240))
+    self.vel = vec(0,0)
+    self.acc = vec(0,0)
+    self.direction = "RIGHT"
+    self.jumping = False
+  def move(self):#method to do the running
+    self.acc = self.vec(0,0.5)#gravity, Force that constantly pulls the player down
+    
+    if abs(self.vel.x) > 0.3:#abs is used to return the speed because it can also be in the negative direction/ Absolute value
+      self.running = True#sets running to true, no the running of code but the running of the player
+    else:
+      self.running = False
+    
+    pressed_keys = pygame.key.get_pressed()
+    
+    if pressed_keys[K_LEFT]:
+      self.acc.x += -self.ACC#making it so when you press the left arrow key the acc goes down
+    
+    if pressed_keys[K_RIGHT]:
+      self.acc.x += self.ACC
+      
+    # Formulas to calculate velocity while accounting for friction
+    
+    self.acc.x += self.vel.x * self.FRIC #slows the player down
+    self.vel += self.acc #adds the acceleration to the veloctiy
+    self.pos += self.vel + 0.5 * self.acc  # Updates Position with new values
+    
+    
+    
+    if self.pos.x > 600:#this is stopping the player getting out
+      self.pos.x = 0
+    if self.pos.x < 0:
+      self.pos.x = 600
+    self.rect.midbottom = self.pos  # Update rect with new pos
+  
+  def update(self):
+    pass
+  """def gravity_check(self):
+    hits = pygame.sprite.spritecollide(player , ground_group, False)
+    if self.vel.y > 0:
+      if hits:
+        lowest = hits[0]#the first one in the list is the lowest
+        if self.pos.y < lowest.rect.bottom:#if the player is touching the ground
+          self.pos.y = lowest.rect.top +1#add one so it is above the ground
+          self.vel = 0#set the verticle velocity to 0, it is on the ground now
+          self.jumping = False
+  def jump(self):
+    self.rect.x += 1
+ 
+    # Check to see if payer is in contact with the ground
+    hits = pygame.sprite.spritecollide(self, ground_group, False)
+     
+    self.rect.x -= 1
+ 
+    # If touching the ground, and not currently jumping, cause the player to jump.
+    if hits and not self.jumping:
+       self.jumping = True
+       self.vel.y = -12
+
+"""
 
 class Game:#actual game
   def __init__(self):
     #variables and constants that need to be decleared
-    self.vec = pygame.math.Vector2
-    self.ACC = 0.3
-    self.FRIC = -0.10
+    pass
   def game(self):
     
-<<<<<<< HEAD
-    while True:#this will be the little animation of it going into mars
-      screen.fill ((0,0,0))#makes the screen black
+    while True:#main game loop
 
-     
-      #hello_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 275), (100, 50)),text='Lets goo',manager=manager)#button
-
-      
-      
-
-=======
-    while True:#
->>>>>>> 4a9017dc0172699bf92ad7499f499d104a199636
       for event in pygame.event.get():
         # Will run when the close window button is clicked    
         if event.type == QUIT:
@@ -303,8 +356,12 @@ class Game:#actual game
 
       background = Background()
       ground = Ground()
+      player = Player()
+      player.gravity_check()
       background.render()
       ground.render()
+      player.move()
+      screen.blit(player.image,player.rect)
       #need to draw mars floor/ make a tile system for that
       #need to make "nodes", which you can get reasources
       #ice can be converted to water or hydrogen and oxegen, hydrogen to power rovers and oxegen to breathe
@@ -313,12 +370,16 @@ class Game:#actual game
       #use https://pygame-gui.readthedocs.io/en/latest/theme_reference/theme_horizontal_scroll_bar.html
 
 
-<<<<<<< HEAD
+
+
+
 #menu = Main_menu()#starts the code
-#menu.menu() while debuggin this is hashtagged
+#menu.menu()
+ground = Ground()
+ground_group = pygame.sprite.Group()
+ground_group.add(ground)
+player = Player()
+Playergroup = pygame.sprite.Group()
 
 Game.game(1)
-=======
-menu = Main_menu()#starts the code
-menu.menu()
->>>>>>> 4a9017dc0172699bf92ad7499f499d104a199636
+
