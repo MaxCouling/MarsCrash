@@ -20,7 +20,7 @@ pygame.display.set_caption("Mars Rover")
 icon = pygame.image.load("logo.png")
 asteroid_image = pygame.image.load("asteroid.png")
 big_asteroid = pygame.image.load("BigAsteroid.png")
-rocket_image = pygame.image.load("player.png")
+rocket_image = pygame.image.load("player2.png")
 dababy = pygame.image.load("dababy.jpg")
 front = pygame.image.load("mars front.png")
 pygame.display.set_icon(icon)
@@ -56,8 +56,7 @@ class Rocket(pygame.sprite.Sprite):#using pygames sprite function for future ani
     self.frame = 0
     self.images = []
     img = rocket_image.convert()
-    img.convert_alpha()  # optimise alpha
-    img.set_colorkey(ALPHA)  # set alpha
+    
     self.images.append(img)
     self.image = self.images[0]
     self.rect = self.image.get_rect()
@@ -101,8 +100,8 @@ class Main_menu:#this is the main menu and the dying screen on pygame #
       pygame.draw.rect(screen,(255,0,0),button_1)
       draw_text("Start",myFont,(255,255,255), screen, 75,105)#drawiing the start text
       pygame.draw.rect(screen,(255,0,0),button_2)
-      if button_1.collidepoint((mx,my)):
-        pygame.draw.rect(screen,(100,100,100),button_1)
+      if button_1.collidepoint((mx,my)):#if the mouse is collding with the boxes x and y
+        pygame.draw.rect(screen,(100,100,100),button_1)#makes it grey
         draw_text("Lets Go!",myFont,(255,255,255), screen, 75,105)#drawiing the start text
         
         if self.click:
@@ -129,7 +128,6 @@ class Main_menu:#this is the main menu and the dying screen on pygame #
 
 
 #need to add sound
-
 
 
 class Rocketgame:
@@ -217,7 +215,7 @@ class Rocketgame:
       screen.blit(bg, (0, self.minigame_bgY))#this function is what makes the backround image move down in the rocket videogame
       self.rocket.update()#makes the rocket image move by x or y 
       self.rocket_list.draw(screen)#draws the rocket in the new x or y depending on if the player has pressed a new input
-      #print(rocket.rect.x, self.rocket.rect.y)
+      
       self.minigame_bgY -= 5#makes the image move down by 5 pixes every time this loops over
       self.asteroid_collison()
       self.button_input()
@@ -324,6 +322,7 @@ class Player(pygame.sprite.Sprite):
       self.image = self.image_right
     else:
       self.image = self.image_left
+  
   def gravity_check(self):
     hits = pygame.sprite.spritecollide(player , ground_group, False)
     if self.vel.y > 0:
@@ -347,8 +346,28 @@ class Player(pygame.sprite.Sprite):
        self.jumping = True
        self.vel.y = -12
   
+class Object_load(pygame.sprite.Sprite):
+  def __init__(self):
+    super().__init__()
+    
+    player = Player()
+    
+    self.crash_image = pygame.image.load("crash.png")
+    self.water_image = pygame.image.load("water.png")
+    self.mine_image = pygame.image.load("mine.png")
+  
+    
+    self.crash_rect = self.crash_image.get_rect()
+    self.water_rect = self.water_image.get_rect()
+    self.mine_rect = self.mine_image.get_rect()
 
-
+  def render(self):
+    if player.level == 1:
+      screen.blit(self.crash_image,(300, 220))#loads the thing in
+    elif player.level == 0:
+      screen.blit(self.water_image,(200,220))#loads the thing in
+    elif player.level == -1:
+      screen.blit(self.mine_image,(400,220))#loads the thing in
 
 
 class Game:#actual game
@@ -386,6 +405,7 @@ class Game:#actual game
       background.render()
       ground.render()
       print(player.level)
+      crashy.render()
       screen.blit(player.image, player.rect)
       #need to draw mars floor/ make a tile system for that
       #need to make "nodes", which you can get reasources
@@ -401,11 +421,12 @@ ground_group = pygame.sprite.Group()
 ground_group.add(ground)
 player = Player()
 Playergroup = pygame.sprite.Group()
-
+crashy = Object_load()
 
 
 menu = Main_menu()#starts the code
-menu.menu()
+#menu.menu()
+Game.game(1)
 
 
 
