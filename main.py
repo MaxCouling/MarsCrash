@@ -236,7 +236,30 @@ class Rocketgame:
       clock.tick(60)#making the game run at 60fps by limiting the amount of.0
       if self.damage >=50:#if the damge = 50, makes the player die and makes the player also go back to the starting menu
         menu.menu()#function of the menu
-  
+
+#these are classes for the secondary game
+class Player(pygame.sprite.Sprite):
+  def __init__(self):
+    self.image = pygame.image.load("Astronaut.png")
+    self.rect = self.image.get_rect()
+
+    #position and direction
+    self.vx = 0
+    self.vel = vec(0,0)
+    self.acc = vec(0,0)
+    self.direction = "RIGHT"
+  def move():
+    pass
+  def update():
+    pass
+class Background(pygame.sprite.Sprite):
+      def __init__(self):
+            super().__init__()      
+ 
+ 
+class Ground(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
 
 class Game:#actual game
   def __init__(self):
@@ -255,7 +278,8 @@ class Game:#actual game
           sys.exit()
       
       screen.fill((0,0,0))
-      
+      player = Player()
+      screen.blit(player.image,player.rect )
       
       screen.blit(mars_floor,(0,0))
 
@@ -272,3 +296,4 @@ class Game:#actual game
 
 menu = Main_menu()#starts the code
 menu.menu()
+
