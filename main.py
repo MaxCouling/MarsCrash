@@ -28,7 +28,7 @@ atmosphere_colour = (252,116,53)
 #variables
 asteroids = []
 num_of_asteroids = 100
-
+click = False
 vec = pygame.math.Vector2
 mars_floor = pygame.image.load("mars_floor.png")
 bg = pygame.image.load("background.png")
@@ -80,11 +80,11 @@ def draw_text(text,font,color,surface,x,y):
 class Main_menu:#this is the main menu and the dying screen on pygame # 
   
   def __init__(self):
-    self.click = False #sets self.click to false for the mouse clicking input
+    pass #sets self.click to false for the mouse clicking input
   
   
   def menu(self):
-    self.click = False
+    click = False
     while True:
       pygame.display.update()#updates the screen
       clock.tick(60)#make sthe menu run at 60fps
@@ -104,16 +104,16 @@ class Main_menu:#this is the main menu and the dying screen on pygame #
         pygame.draw.rect(screen,(100,100,100),button_1)#makes it grey
         draw_text("Lets Go!",myFont,(255,255,255), screen, 75,105)#drawiing the start text
         
-        if self.click:
+        if click:
           r = Rocketgame()
           r.rocketGameRunning()
           
 
       if button_2.collidepoint((mx,my)):
-        if self.click:
+        if click:
           pass
 
-      self.click = False#sets self.click to false before the mouse button down event but after the 
+      click = False#sets self.click to false before the mouse button down event but after the 
       for event in pygame.event.get():#getting all the keyboard inputs from user
         if event.type == QUIT:#if one of those inputs is the user pressing the quit button
           pygame.quit()#it will terminate ptgame
@@ -124,7 +124,7 @@ class Main_menu:#this is the main menu and the dying screen on pygame #
             sys.exit()
         if event.type == MOUSEBUTTONDOWN:
           if event.button == 1:
-            self.click = True
+            click = True
 
 
 #need to add sound
@@ -258,10 +258,7 @@ class Ground(pygame.sprite.Sprite):
   def render(self):
     screen.blit(self.image,(self.rect.x,self.rect.y))
 
-class Level_Loader(pygame.sprite.Sprite):
-  def __init__(self):
-    super().__init__()#inits the pygame sprite.sprite
-    self.crash = pygame.image.load()
+
 
     
 class Player(pygame.sprite.Sprite):
@@ -295,10 +292,10 @@ class Player(pygame.sprite.Sprite):
 
     pressed_keys = pygame.key.get_pressed()
     
-    if pressed_keys[K_LEFT]:
+    if pressed_keys[K_LEFT] or pressed_keys[K_a]:
       self.acc.x += -self.ACC#making it so when you press the left arrow key the acc goes down
     
-    if pressed_keys[K_RIGHT]:
+    if pressed_keys[K_RIGHT] or pressed_keys[K_d]:
       self.acc.x += self.ACC
       
     # Formulas to calculate velocity while accounting for friction
@@ -355,19 +352,29 @@ class Object_load(pygame.sprite.Sprite):
     self.crash_image = pygame.image.load("crash.png")
     self.water_image = pygame.image.load("water.png")
     self.mine_image = pygame.image.load("mine.png")
-  
+    self.game = Game()
+    self.crash_rect = pygame.Rect(300,220,100,100)
     
-    self.crash_rect = self.crash_image.get_rect()
-    self.water_rect = self.water_image.get_rect()
-    self.mine_rect = self.mine_image.get_rect()
+    
 
   def render(self):
-    if player.level == 1:
-      screen.blit(self.crash_image,(300, 220))#loads the thing in
-    elif player.level == 0:
+    
+    mx, my = pygame.mouse.get_pos()#gets the mouse coords
+    if player.level == 1:#the crashsite is on level 1K_a
+      
+      screen.blit(self.crash_image,(300,220))#loads the thing in
+      print(self.game.handle_click())
+      if self.crash_rect.collidepoint((mx,my)):
+        if self.game.handle_click():
+          print(1)
+
+    elif player.level == 0:#the water is on level 0
       screen.blit(self.water_image,(200,220))#loads the thing in
-    elif player.level == -1:
+    elif player.level == -1:#the mine is on level -1
       screen.blit(self.mine_image,(400,220))#loads the thing in
+  
+
+    
 
 
 class Game:#actual game
@@ -377,7 +384,7 @@ class Game:#actual game
   def game(self):
     
     while True:#main game loop
-
+      
       player.gravity_check()
       for event in pygame.event.get():
         # Will run when the close window button is clicked    
@@ -386,25 +393,30 @@ class Game:#actual game
           sys.exit() 
              
         # For events that occur upon clicking the mouse (left click) 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-          pass
+        
+          
+        
+            
  
         # Event handling for a range of different key presses    
         if event.type == pygame.KEYDOWN:
           
           if event.key == pygame.K_SPACE:
             player.jump()
+        
+          
 
 
      
       
       
-     
+      self.handle_click()
+      
       player.move()
       player.update()
       background.render()
       ground.render()
-      print(player.level)
+      
       crashy.render()
       screen.blit(player.image, player.rect)
       #need to draw mars floor/ make a tile system for that
@@ -414,6 +426,12 @@ class Game:#actual game
       pygame.display.update()
       clock.tick(60)
       #use https://pygame-gui.readthedocs.io/en/latest/theme_reference/theme_horizontal_scroll_bar.html
+
+  def handle_click(self):
+    mx, my = pygame.mouse.get_pos()
+    
+    #need pos of mouse, if clicked or not, its over or with object we ewant to interact wiht object
+    
 
 ground = Ground()
 background = Background()
