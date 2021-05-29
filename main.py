@@ -347,13 +347,15 @@ class Object_load(pygame.sprite.Sprite):
   def __init__(self):
     super().__init__()
     
-    player = Player()
     
+    #init crashsite stuff
     self.crash_image = pygame.image.load("crash.png")
+    self.crash_coords = (300,220)
+    
     self.water_image = pygame.image.load("water.png")
     self.mine_image = pygame.image.load("mine.png")
     self.game = Game()
-    self.crash_rect = pygame.Rect(300,220,100,100)
+    self.crash_rect = (self.crash_image.get_rect(topleft = (300,220)))
     
     
 
@@ -362,14 +364,14 @@ class Object_load(pygame.sprite.Sprite):
     mx, my = pygame.mouse.get_pos()#gets the mouse coords
     if player.level == 1:#the crashsite is on level 1K_a
       
-      screen.blit(self.crash_image,(300,220))#loads the thing in
-      print(self.game.handle_click())
-      if self.crash_rect.collidepoint((mx,my)):
-        if self.game.handle_click():
-          print(1)
-
+      screen.blit(self.crash_image,self.crash_rect)#loads the thing in
+      if self.crash_rect.collidepoint(mx,my):
+        
+      
+      
     elif player.level == 0:#the water is on level 0
       screen.blit(self.water_image,(200,220))#loads the thing in
+
     elif player.level == -1:#the mine is on level -1
       screen.blit(self.mine_image,(400,220))#loads the thing in
   
@@ -394,9 +396,6 @@ class Game:#actual game
              
         # For events that occur upon clicking the mouse (left click) 
         
-          
-        
-            
  
         # Event handling for a range of different key presses    
         if event.type == pygame.KEYDOWN:
@@ -407,10 +406,10 @@ class Game:#actual game
           
 
 
-     
+
       
       
-      self.handle_click()
+      
       
       player.move()
       player.update()
@@ -427,10 +426,6 @@ class Game:#actual game
       clock.tick(60)
       #use https://pygame-gui.readthedocs.io/en/latest/theme_reference/theme_horizontal_scroll_bar.html
 
-  def handle_click(self):
-    mx, my = pygame.mouse.get_pos()
-    
-    #need pos of mouse, if clicked or not, its over or with object we ewant to interact wiht object
     
 
 ground = Ground()
