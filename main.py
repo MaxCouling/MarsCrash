@@ -361,11 +361,16 @@ class Object_load(pygame.sprite.Sprite):
 
   def render(self):
     
-    mx, my = pygame.mouse.get_pos()#gets the mouse coords
+    
+    
     if player.level == 1:#the crashsite is on level 1K_a
       
-      screen.blit(self.crash_image,self.crash_rect)#loads the thing in
-      if self.crash_rect.collidepoint(mx,my):
+      screen.blit(self.crash_image,self.crash_rect)#loads the crashsite in
+      
+    
+         
+          
+        
         
       
       
@@ -374,6 +379,10 @@ class Object_load(pygame.sprite.Sprite):
 
     elif player.level == -1:#the mine is on level -1
       screen.blit(self.mine_image,(400,220))#loads the thing in
+
+  
+    
+
   
 
     
@@ -396,6 +405,11 @@ class Game:#actual game
              
         # For events that occur upon clicking the mouse (left click) 
         
+        if event.type == pygame.MOUSEBUTTONDOWN:
+          if event.button == 1:
+            self.handle_click()
+            
+            
  
         # Event handling for a range of different key presses    
         if event.type == pygame.KEYDOWN:
@@ -416,7 +430,7 @@ class Game:#actual game
       background.render()
       ground.render()
       
-      crashy.render()
+      objectload.render()
       screen.blit(player.image, player.rect)
       #need to draw mars floor/ make a tile system for that
       #need to make "nodes", which you can get reasources
@@ -425,7 +439,19 @@ class Game:#actual game
       pygame.display.update()
       clock.tick(60)
       #use https://pygame-gui.readthedocs.io/en/latest/theme_reference/theme_horizontal_scroll_bar.html
+  def handle_click(self,level):
+    mx, my = pygame.mouse.get_pos()#gets the mouse coords
+    print("hi")
+    if level == 1:
+      if objectload.crash_rect.collidepoint(mx,my):
+        print("yeah")
+      else:
+        print("noo")
+      
+    
 
+
+    
     
 
 ground = Ground()
@@ -434,7 +460,7 @@ ground_group = pygame.sprite.Group()
 ground_group.add(ground)
 player = Player()
 Playergroup = pygame.sprite.Group()
-crashy = Object_load()
+objectload = Object_load()
 
 
 menu = Main_menu()#starts the code
