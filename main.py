@@ -20,14 +20,14 @@ pygame.display.set_caption("Mars Rover")
 icon = pygame.image.load("logo.png")
 asteroid_image = pygame.image.load("asteroid.png")
 big_asteroid = pygame.image.load("BigAsteroid.png")
-rocket_image = pygame.image.load("player2.png")
+rocket_image = pygame.image.load("player.png")
 dababy = pygame.image.load("dababy.jpg")
 front = pygame.image.load("mars front.png")
 pygame.display.set_icon(icon)
 atmosphere_colour = (252,116,53)
 #variables
 asteroids = []
-num_of_asteroids = 200
+num_of_asteroids = 100
 
 vec = pygame.math.Vector2
 mars_floor = pygame.image.load("mars_floor.png")
@@ -71,7 +71,7 @@ class Rocket(pygame.sprite.Sprite):#using pygames sprite function for future ani
     self.rect.y += self.movey
 
 
-def draw_text(text,font,color,surface,x,y):
+def draw_text(text,color,surface,x,y):
   textobj = myFont.render(text,1,color)
   textrect = textobj.get_rect()
   textrect.topleft = (x,y)
@@ -80,11 +80,11 @@ def draw_text(text,font,color,surface,x,y):
 class Main_menu:#this is the main menu and the dying screen on pygame # 
   
   def __init__(self):
-    self.click = False #sets self.click to false for the mouse clicking input
+    pass #sets self.click to false for the mouse clicking input
   
   
   def menu(self):
-    self.click = False
+    click = False
     while True:
       pygame.display.update()#updates the screen
       clock.tick(60)#make sthe menu run at 60fps
@@ -104,16 +104,16 @@ class Main_menu:#this is the main menu and the dying screen on pygame #
         pygame.draw.rect(screen,(100,100,100),button_1)#makes it grey
         draw_text("Lets Go!",myFont,(255,255,255), screen, 75,105)#drawiing the start text
         
-        if self.click:
+        if click:
           r = Rocketgame()
           r.rocketGameRunning()
           
 
       if button_2.collidepoint((mx,my)):
-        if self.click:
+        if click:
           pass
 
-      self.click = False#sets self.click to false before the mouse button down event but after the 
+      click = False#sets self.click to false before the mouse button down event but after the 
       for event in pygame.event.get():#getting all the keyboard inputs from user
         if event.type == QUIT:#if one of those inputs is the user pressing the quit button
           pygame.quit()#it will terminate ptgame
@@ -124,7 +124,7 @@ class Main_menu:#this is the main menu and the dying screen on pygame #
             sys.exit()
         if event.type == MOUSEBUTTONDOWN:
           if event.button == 1:
-            self.click = True
+            click = True
 
 
 #need to add sound
@@ -221,7 +221,7 @@ class Rocketgame:
       self.button_input()
       
       length = self.damage *10
-      pygame.draw.rect(screen, (0,0,0),pygame.Rect(30,368,500,32))
+      pygame.draw.rect(screen, (0,0,0),pygame.Rect(30,368,500,32))#this is healthbar code
       pygame.draw.rect(screen, (255,0,0), pygame.Rect(30, 368, 500 - length,32))
       
       if self.rocket.rect.x <= 0:#boundries in the game for x axis
@@ -260,10 +260,6 @@ class Ground(pygame.sprite.Sprite):
     screen.blit(self.image,(self.rect.x,self.rect.y))
 
 
-class Level_Loader(pygame.sprite.Sprite):
-  def __init__(self):
-    super().__init__()#inits the pygame sprite.sprite
-    self.crash = pygame.image.load()
 
     
 class Player(pygame.sprite.Sprite):
@@ -285,6 +281,7 @@ class Player(pygame.sprite.Sprite):
     self.direction = "RIGHT"
     self.jumping = False
     self.level = 1
+    self.jump_height = 12
   def move(self):#method to do the running
     
     self.acc = vec(0,0.5)#gravity, Force that constantly pulls the player down
@@ -297,10 +294,10 @@ class Player(pygame.sprite.Sprite):
 
     pressed_keys = pygame.key.get_pressed()
     
-    if pressed_keys[K_LEFT]:
+    if pressed_keys[K_LEFT] or pressed_keys[K_a]:
       self.acc.x += -self.ACC#making it so when you press the left arrow key the acc goes down
     
-    if pressed_keys[K_RIGHT]:
+    if pressed_keys[K_RIGHT] or pressed_keys[K_d]:
       self.acc.x += self.ACC
       
     # Formulas to calculate velocity while accounting for friction
@@ -313,10 +310,13 @@ class Player(pygame.sprite.Sprite):
     
     if self.pos.x > 600:#this is stopping the player getting out
       self.pos.x = 0
-      self.level += 1
-    if self.pos.x < 0:
-      self.pos.x = 600
-      self.level -= 1
+      game.rendertb = False
+      self.level += 1#make sthe level plus one notifying the rest of the code that you are on a different level
+    
+    if self.pos.x < 0:#if the player goes all the way to the left of the screen
+      self.pos.x = 600#the player is then teleported to the right, giving the illusion of going to a different level
+      game.rendertb = False#if there is a textbox rendered it will now be unrendered as we don't want this going across different screens
+      self.level -= 1#makes the rest of the code know we are on a different level now
     self.rect.midbottom = self.pos  # Update rect with new pos
   
   def update(self):#animation
@@ -346,40 +346,84 @@ class Player(pygame.sprite.Sprite):
     # If touching the ground, and not currently jumping, cause the player to jump.
     if hits and not self.jumping:
        self.jumping = True
-       self.vel.y = -12
+       self.vel.y = -player.jump_height
   
 class Object_load(pygame.sprite.Sprite):
   def __init__(self):
     super().__init__()
     
-    player = Player()
     
+    #init crashsite stuff
     self.crash_image = pygame.image.load("crash.png")
+    self.crash_coords = (300,220)
+    
     self.water_image = pygame.image.load("water.png")
     self.mine_image = pygame.image.load("mine.png")
-  
+    self.game = Game()
+    self.crash_rect = (self.crash_image.get_rect(topleft = (300,220)))
     
-    self.crash_rect = self.crash_image.get_rect()
-    self.water_rect = self.water_image.get_rect()
-    self.mine_rect = self.mine_image.get_rect()
+    
 
   def render(self):
-    if player.level == 1:
-      screen.blit(self.crash_image,(300, 220))#loads the thing in
-    elif player.level == 0:
+    
+    
+    
+    if player.level == 1:#the crashsite is on level 1K_a
+      
+      screen.blit(self.crash_image,self.crash_rect)#loads the crashsite in
+    elif player.level == 0:#the water is on level 0
+      
       screen.blit(self.water_image,(200,220))#loads the thing in
-    elif player.level == -1:
+    elif player.level == -1:#the mine is on level -1
+      
       screen.blit(self.mine_image,(400,220))#loads the thing in
+
+class Textbox:
+  def __init__(self):
+    
+    
+    
+    self.tb = pygame.image.load("tb little.png")#loads in the background picture
+    self.tb_rect = (self.tb.get_rect(topleft = (50,20)))#makes the background hitbox so we know when you click out of it
+
+    self.buy = pygame.image.load("BUY.png")
+    self.buy_rect = (self.buy.get_rect(topleft = (300,60)))
+    
+    self.sold = pygame.image.load("SOLD.png")
+    self.sold_rect = (self.sold.get_rect(topleft = (300,60)))
+    self.is_sold = False
+  def render(self):
+    screen.blit(self.tb,self.tb_rect)#this is were the text is going to go
+    draw_text("Jumpboost",(255,255,255),screen,150,60)
+    
+    if self.is_sold:
+      screen.blit(self.sold,self.sold_rect)
+      
+    else:
+      screen.blit(self.buy,self.buy_rect)
+    
+    
+
+
+      
+  def bigtextbox_render(self):
+    pass
+
+
+
+  
+
+    
 
 
 class Game:#actual game
   def __init__(self):
     #variables and constants that need to be decleared
-    pass
+    self.rendertb = False
   def game(self):
     
     while True:#main game loop
-
+      
       player.gravity_check()
       for event in pygame.event.get():
 
@@ -389,27 +433,38 @@ class Game:#actual game
           sys.exit() 
              
         # For events that occur upon clicking the mouse (left click) 
+        
         if event.type == pygame.MOUSEBUTTONDOWN:
-          pass
+          if event.button == 1:
+            
+            
+            self.handle_click()
+  
+
+            
+            
  
         # Event handling for a range of different key presses    
         if event.type == pygame.KEYDOWN:
           
           if event.key == pygame.K_SPACE:
             player.jump()
+        
+          
 
 
 
-     
       
       
-     
+      
+      
       player.move()
       player.update()
       background.render()
       ground.render()
-      print(player.level)
-      crashy.render()
+      if self.rendertb:#just checks if it wants to render the texbox then it renders it in the main loop
+        textbox.render()
+      objectload.render()
       screen.blit(player.image, player.rect)
       #need to draw mars floor/ make a tile system for that
       #need to make "nodes", which you can get reasources
@@ -418,19 +473,55 @@ class Game:#actual game
       pygame.display.update()
       clock.tick(60)
       #use https://pygame-gui.readthedocs.io/en/latest/theme_reference/theme_horizontal_scroll_bar.html
+  
+  
+  def handle_click(self):
+    mx, my = pygame.mouse.get_pos()#gets the mouse coords
+    
+    if player.level == 1:
+      if objectload.crash_rect.collidepoint(mx,my): #seeing if it over the nouse when clicked, if it is over the crashsite or the
+        self.rendertb = True
+        return
+      
+      
+        
+      if self.rendertb:#if the mouse isnt over the crashsite it might be over the textbox and 
+          #we don't want it to leave if it is over the textbox, seees if the textbox is allready up also because we 
+          # don't want it making it so that when you click the area that the textbox is supposed to be but isnt htere you open the textbox
+          
+        if textbox.tb_rect.collidepoint(mx,my):#if it clicks inside the box, it will keep the box up
+            self.rendertb = True
+        if not textbox.is_sold:#if the upgrade hasnt been purchased, this code will play
+          if textbox.buy_rect.collidepoint(mx,my):#User has bought an jump upgrade, will call jump upgrade method
+            player.jump_height += 20#adds the upgrade
+            textbox.is_sold = True #setting is_sold to true
 
+          
+          
+
+        else:
+          self.rendertb = False#in all other cases but there two it will return false
+
+    
+      
+    
+
+
+    
+    
+textbox = Textbox()
 ground = Ground()
 background = Background()
 ground_group = pygame.sprite.Group()
 ground_group.add(ground)
 player = Player()
 Playergroup = pygame.sprite.Group()
-crashy = Object_load()
-
+objectload = Object_load()
+game = Game()
 
 menu = Main_menu()#starts the code
 #menu.menu()
-Game.game(1)
+game.game()
 
 
 
