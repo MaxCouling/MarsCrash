@@ -20,7 +20,7 @@ pygame.display.set_caption("Mars Rover")
 icon = pygame.image.load("logo.png")
 asteroid_image = pygame.image.load("asteroid.png")
 big_asteroid = pygame.image.load("BigAsteroid.png")
-rocket_image = pygame.image.load("player2.png")
+rocket_image = pygame.image.load("player.png")
 dababy = pygame.image.load("dababy.jpg")
 front = pygame.image.load("mars front.png")
 pygame.display.set_icon(icon)
@@ -221,7 +221,7 @@ class Rocketgame:
       self.button_input()
       
       length = self.damage *10
-      pygame.draw.rect(screen, (0,0,0),pygame.Rect(30,368,500,32))
+      pygame.draw.rect(screen, (0,0,0),pygame.Rect(30,368,500,32))#this is healthbar code
       pygame.draw.rect(screen, (255,0,0), pygame.Rect(30, 368, 500 - length,32))
       
       if self.rocket.rect.x <= 0:#boundries in the game for x axis
@@ -366,21 +366,27 @@ class Object_load(pygame.sprite.Sprite):
     if player.level == 1:#the crashsite is on level 1K_a
       
       screen.blit(self.crash_image,self.crash_rect)#loads the crashsite in
-      
-    
-         
-          
-        
-        
-      
-      
     elif player.level == 0:#the water is on level 0
-      screen.blit(self.water_image,(200,220))#loads the thing in
 
+      screen.blit(self.water_image,(200,220))#loads the thing in
     elif player.level == -1:#the mine is on level -1
+
       screen.blit(self.mine_image,(400,220))#loads the thing in
 
-  
+class Textbox:
+  def __init__(self):
+    
+    self.tb = False#drawing the textbox = false, will become true when clicked
+    self.big_tb = False#the big textbox = false, when become true and draw when clicked
+    self.tb_rect = (50,50,500,120)
+  def render(self):
+    screen.blit(dababy,(200,200))
+
+      
+  def bigtextbox_render(self):
+    pass
+
+
     
 
   
@@ -391,7 +397,7 @@ class Object_load(pygame.sprite.Sprite):
 class Game:#actual game
   def __init__(self):
     #variables and constants that need to be decleared
-    pass
+    self.rendertb = False
   def game(self):
     
     while True:#main game loop
@@ -407,7 +413,11 @@ class Game:#actual game
         
         if event.type == pygame.MOUSEBUTTONDOWN:
           if event.button == 1:
+            
+            
             self.handle_click()
+  
+
             
             
  
@@ -429,7 +439,8 @@ class Game:#actual game
       player.update()
       background.render()
       ground.render()
-      
+      if self.rendertb:
+        textbox.render()
       objectload.render()
       screen.blit(player.image, player.rect)
       #need to draw mars floor/ make a tile system for that
@@ -439,21 +450,25 @@ class Game:#actual game
       pygame.display.update()
       clock.tick(60)
       #use https://pygame-gui.readthedocs.io/en/latest/theme_reference/theme_horizontal_scroll_bar.html
-  def handle_click(self,level):
+  
+  
+  def handle_click(self):
     mx, my = pygame.mouse.get_pos()#gets the mouse coords
-    print("hi")
-    if level == 1:
-      if objectload.crash_rect.collidepoint(mx,my):
-        print("yeah")
+    print('working')
+    if player.level == 1:
+      if objectload.crash_rect.collidepoint(mx,my):#seeing if it over the nouse when clicked
+        print('yes')
+        self.rendertb = True
       else:
-        print("noo")
+        print("no")
+        self.rendertb = False
       
     
 
 
     
     
-
+textbox = Textbox()
 ground = Ground()
 background = Background()
 ground_group = pygame.sprite.Group()
@@ -461,11 +476,11 @@ ground_group.add(ground)
 player = Player()
 Playergroup = pygame.sprite.Group()
 objectload = Object_load()
-
+game = Game()
 
 menu = Main_menu()#starts the code
 #menu.menu()
-Game.game(1)
+game.game()
 
 
 
