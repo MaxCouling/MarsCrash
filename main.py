@@ -308,10 +308,13 @@ class Player(pygame.sprite.Sprite):
     
     if self.pos.x > 600:#this is stopping the player getting out
       self.pos.x = 0
-      self.level += 1
-    if self.pos.x < 0:
-      self.pos.x = 600
-      self.level -= 1
+      game.rendertb = False
+      self.level += 1#make sthe level plus one notifying the rest of the code that you are on a different level
+    
+    if self.pos.x < 0:#if the player goes all the way to the left of the screen
+      self.pos.x = 600#the player is then teleported to the right, giving the illusion of going to a different level
+      game.rendertb = False#if there is a textbox rendered it will now be unrendered as we don't want this going across different screens
+      self.level -= 1#makes the rest of the code know we are on a different level now
     self.rect.midbottom = self.pos  # Update rect with new pos
   
   def update(self):#animation
@@ -367,20 +370,27 @@ class Object_load(pygame.sprite.Sprite):
       
       screen.blit(self.crash_image,self.crash_rect)#loads the crashsite in
     elif player.level == 0:#the water is on level 0
-
+      
       screen.blit(self.water_image,(200,220))#loads the thing in
     elif player.level == -1:#the mine is on level -1
-
+      
       screen.blit(self.mine_image,(400,220))#loads the thing in
 
 class Textbox:
   def __init__(self):
     
-    self.tb = False#drawing the textbox = false, will become true when clicked
-    self.big_tb = False#the big textbox = false, when become true and draw when clicked
-    self.tb_rect = (50,50,500,120)
+    
+    
+    self.tb = pygame.image.load("tb little.png")#loads in the background picture
+    self.tb_rect = (self.tb.get_rect(topleft = (50,50)))#makes the background hitbox so we know when you click out of it
+
+    
+  
   def render(self):
-    screen.blit(dababy,(200,200))
+    screen.blit(self.tb,(50,20))#this is were the text is going to go
+
+    
+
 
       
   def bigtextbox_render(self):
@@ -439,7 +449,8 @@ class Game:#actual game
       player.update()
       background.render()
       ground.render()
-      if self.rendertb:
+      print(self.rendertb)
+      if self.rendertb:#just checks if it wants to render the texbox then it renders it in the main loop
         textbox.render()
       objectload.render()
       screen.blit(player.image, player.rect)
@@ -454,14 +465,27 @@ class Game:#actual game
   
   def handle_click(self):
     mx, my = pygame.mouse.get_pos()#gets the mouse coords
-    print('working')
+    
     if player.level == 1:
-      if objectload.crash_rect.collidepoint(mx,my):#seeing if it over the nouse when clicked
-        print('yes')
+      if objectload.crash_rect.collidepoint(mx,my): #seeing if it over the nouse when clicked, if it is over the crashsite or the
         self.rendertb = True
+      
       else:
-        print("no")
-        self.rendertb = False
+        
+        if self.rendertb:#if the mouse isnt over the crashsite it might be over the textbox and 
+          #we don't want it to leave if it is over the textbox, seees if the textbox is allready up also because we 
+          # don't want it making it so that when you click the area that the textbox is supposed to be but isnt htere you open the textbox
+          
+          if textbox.tb_rect.collidepoint(mx,my):
+            self.rendertb = True
+          
+          else:#if it was there the first time but you are clicking off the text box it goes away
+            self.rendertb = False
+        
+        else:#if you click anywhere else it doesnt render in the textbox
+          self.rendertb = False
+
+    
       
     
 
