@@ -71,7 +71,7 @@ class Rocket(pygame.sprite.Sprite):#using pygames sprite function for future ani
     self.rect.y += self.movey
 
 
-def draw_text(text,font,color,surface,x,y):
+def draw_text(text,color,surface,x,y):
   textobj = myFont.render(text,1,color)
   textrect = textobj.get_rect()
   textrect.topleft = (x,y)
@@ -280,6 +280,7 @@ class Player(pygame.sprite.Sprite):
     self.direction = "RIGHT"
     self.jumping = False
     self.level = 1
+    self.jump_height = 12
   def move(self):#method to do the running
     
     self.acc = vec(0,0.5)#gravity, Force that constantly pulls the player down
@@ -344,7 +345,7 @@ class Player(pygame.sprite.Sprite):
     # If touching the ground, and not currently jumping, cause the player to jump.
     if hits and not self.jumping:
        self.jumping = True
-       self.vel.y = -12
+       self.vel.y = -player.jump_height
   
 class Object_load(pygame.sprite.Sprite):
   def __init__(self):
@@ -382,13 +383,24 @@ class Textbox:
     
     
     self.tb = pygame.image.load("tb little.png")#loads in the background picture
-    self.tb_rect = (self.tb.get_rect(topleft = (50,50)))#makes the background hitbox so we know when you click out of it
+    self.tb_rect = (self.tb.get_rect(topleft = (50,20)))#makes the background hitbox so we know when you click out of it
 
+    self.buy = pygame.image.load("BUY.png")
+    self.buy_rect = (self.buy.get_rect(topleft = (300,60)))
     
-  
+    self.sold = pygame.image.load("SOLD.png")
+    self.sold_rect = (self.sold.get_rect(topleft = (300,60)))
+    self.is_sold = False
   def render(self):
-    screen.blit(self.tb,(50,20))#this is were the text is going to go
-
+    screen.blit(self.tb,self.tb_rect)#this is were the text is going to go
+    draw_text("Jumpboost",(255,255,255),screen,150,60)
+    
+    if self.is_sold:
+      screen.blit(self.sold,self.sold_rect)
+      
+    else:
+      screen.blit(self.buy,self.buy_rect)
+    
     
 
 
@@ -397,7 +409,6 @@ class Textbox:
     pass
 
 
-    
 
   
 
@@ -449,7 +460,6 @@ class Game:#actual game
       player.update()
       background.render()
       ground.render()
-      print(self.rendertb)
       if self.rendertb:#just checks if it wants to render the texbox then it renders it in the main loop
         textbox.render()
       objectload.render()
@@ -469,21 +479,26 @@ class Game:#actual game
     if player.level == 1:
       if objectload.crash_rect.collidepoint(mx,my): #seeing if it over the nouse when clicked, if it is over the crashsite or the
         self.rendertb = True
+        return
       
-      else:
+      
         
-        if self.rendertb:#if the mouse isnt over the crashsite it might be over the textbox and 
+      if self.rendertb:#if the mouse isnt over the crashsite it might be over the textbox and 
           #we don't want it to leave if it is over the textbox, seees if the textbox is allready up also because we 
           # don't want it making it so that when you click the area that the textbox is supposed to be but isnt htere you open the textbox
           
-          if textbox.tb_rect.collidepoint(mx,my):
+        if textbox.tb_rect.collidepoint(mx,my):#if it clicks inside the box, it will keep the box up
             self.rendertb = True
+        if not textbox.is_sold:#if the upgrade hasnt been purchased, this code will play
+          if textbox.buy_rect.collidepoint(mx,my):#User has bought an jump upgrade, will call jump upgrade method
+            player.jump_height += 20#adds the upgrade
+            textbox.is_sold = True #setting is_sold to true
+
           
-          else:#if it was there the first time but you are clicking off the text box it goes away
-            self.rendertb = False
-        
-        else:#if you click anywhere else it doesnt render in the textbox
-          self.rendertb = False
+          
+
+        else:
+          self.rendertb = False#in all other cases but there two it will return false
 
     
       
