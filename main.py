@@ -18,7 +18,7 @@ ani = 4
 black = (0,0,0)#tuple
 pygame.display.set_caption("Mars Rover")
 icon = pygame.image.load("logo.png")
-asteroid_image = pygame.image.load("asteroid.png")
+asteroid_image = pygame.image.load("greyAsteroid.png")
 big_asteroid = pygame.image.load("BigAsteroid.png")
 rocket_image = pygame.image.load("player.png")
 dababy = pygame.image.load("dababy.jpg")
@@ -55,7 +55,7 @@ class Rocket(pygame.sprite.Sprite):#using pygames sprite function for future ani
     self.movey = 0
     self.frame = 0
     self.images = []
-    img = rocket_image.convert()
+    img = rocket_image
     
     self.images.append(img)
     self.image = self.images[0]
@@ -89,7 +89,7 @@ class Main_menu:#this is the main menu and the dying screen on pygame #
       pygame.display.update()#updates the screen
       clock.tick(60)#make sthe menu run at 60fps
       screen.fill ((0,0,0))#makes the screen black
-      draw_text("main menu",myFont,(255,255,255), screen,20,20)#this draw text function makes the text main menu appear on the top left corner
+      draw_text("main menu",(255,255,255), screen,20,20)#this draw text function makes the text main menu appear on the top left corner
 
       mx, my = pygame.mouse.get_pos()#gets the mouse postion. mx is mouse x and mouse y is mouse y postion on the screen
       
@@ -98,11 +98,11 @@ class Main_menu:#this is the main menu and the dying screen on pygame #
     
       button_2 = pygame.Rect(50,200,200,50)
       pygame.draw.rect(screen,(255,0,0),button_1)
-      draw_text("Start",myFont,(255,255,255), screen, 75,105)#drawiing the start text
+      draw_text("Start",(255,255,255), screen, 75,105)#drawiing the start text
       pygame.draw.rect(screen,(255,0,0),button_2)
       if button_1.collidepoint((mx,my)):#if the mouse is collding with the boxes x and y
         pygame.draw.rect(screen,(100,100,100),button_1)#makes it grey
-        draw_text("Lets Go!",myFont,(255,255,255), screen, 75,105)#drawiing the start text
+        draw_text("Lets Go!",(255,255,255), screen, 75,105)#drawiing the start text
         
         if click:
           r = Rocketgame()
@@ -204,9 +204,9 @@ class Rocketgame:
 
         screen.blit(big_asteroid,(0,big_asteroid_posy))
         big_asteroid_posy -= 5
-        if big_asteroid_posy <= 0:
-          Game.game(2)
         
+        if big_asteroid_posy <= 0:
+          game.game()
 
       self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, rocket_image.get_width(), rocket_image.get_height())#this is used as the hitbox for the rocket collisons with asteroids
       
@@ -392,6 +392,7 @@ class Textbox:
     self.sold = pygame.image.load("SOLD.png")
     self.sold_rect = (self.sold.get_rect(topleft = (300,60)))
     self.is_sold = False
+  
   def render(self):
     screen.blit(self.tb,self.tb_rect)#this is were the text is going to go
     draw_text("Jumpboost",(255,255,255),screen,150,60)
@@ -523,7 +524,7 @@ objectload = Object_load()
 game = Game()
 
 menu = Main_menu()#starts the code
-#menu.menu()
+menu.menu()
 game.game()
 
 
