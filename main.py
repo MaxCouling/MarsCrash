@@ -1,33 +1,33 @@
 
-import pygame, sys, random
+import pygame
 
 import sys
 import random
 import time
 from pygame.locals import *
-from typing import Tuple
+
 
 
 pygame.init()#initates pygame
 clock = pygame.time.Clock()#imports the time
-WINDOW_SIZE = (600,400)
+w_width = 600#window width
+w_height = 400
+WINDOW_SIZE = (w_width,w_height)
 screen = pygame.display.set_mode((WINDOW_SIZE))#initate the 
-ALPHA = (0,255,0)
+
 #THIS WILL HOLD ALL THE OBJECTS
-ani = 4
-black = (0,0,0)#tuple
+
+BLACK = (0,0,0)#tuple
 pygame.display.set_caption("Mars Rover")
-icon = pygame.image.load("logo.png")
-asteroid_image = pygame.image.load("greyAsteroid.png")
-big_asteroid = pygame.image.load("BigAsteroid.png")
-rocket_image = pygame.image.load("player.png")
-dababy = pygame.image.load("dababy.jpg")
-front = pygame.image.load("mars front.png")
-pygame.display.set_icon(icon)
-atmosphere_colour = (252,116,53)
+ICON = pygame.image.load("logo.png")
+ASTEROID_IMAGE = pygame.image.load("greyAsteroid.png")
+ROCKET_IMAGE = pygame.image.load("player.png")
+BIG_ASTEROID  = pygame.image.load("BigAsteroid.png")
+pygame.display.set_icon(ICON)
+ATMOSPHERE_COLOUR = (252,116,53)
 #variables
-asteroids = []
-num_of_asteroids = 100
+
+num_of_asteroids = 100#the number of asteroids that the rocket will have to dodge on the way to mars
 
 vec = pygame.math.Vector2
 mars_floor = pygame.image.load("mars_floor.png")
@@ -37,15 +37,38 @@ bg = pygame.image.load("background.png")
 
 myFont = pygame.font.SysFont("Comic Sans MS", 24)
 
-
+"""
 class Asteroid:#asteroid class
   def __init__(self, pos_x, pos_y):#THE TWO THINGYS INSIDE THE OBJCET
     self.pos = [pos_x, pos_y]
-    
+    self.asteroids_list = []
+    self.asteroid_location = 0
   def update(self):
-    for i in range(self):#making all the 
-      asteroid_location = Asteroid(random.randint(0,568), random.randint(400,16000))#change this
-      asteroids.append(asteroid_location)
+    
+    self.asteroid_location = Asteroid(random.randint(0,568), random.randint(400,16000))#change this
+    self.asteroids_list.append(self.asteroid_location)
+    self.rect = ASTEROID_IMAGE.get_rect()
+    screen.blit(ASTEROID_IMAGE, self.rect)#astriod location
+"""
+class Asteroid:
+
+  def __init__(self):
+    self.recycle #set the position and size initially
+    self.asteroid_list = []
+  def recycle(self):
+
+    self.x = random.randint(400,16000)
+    self.y = random.randint(0,568)
+    self.rect = ASTEROID_IMAGE.get_rect(topleft = (self.x,self.y))
+
+  def create(self):
+    self.asteroid_list.append(asteroid)
+  
+  def draw(self):
+    screen.blit(ASTEROID_IMAGE, self.rect)
+  
+    
+
 
 
 class Rocket(pygame.sprite.Sprite):#using pygames sprite function for future aninmations
@@ -54,10 +77,10 @@ class Rocket(pygame.sprite.Sprite):#using pygames sprite function for future ani
     self.movex = 0
     self.movey = 0
     self.frame = 0
-    self.images = []
-    img = rocket_image
+    self.images = []#list is for animation
     
-    self.images.append(img)
+    
+    self.images.append(ROCKET_IMAGE)
     self.image = self.images[0]
     self.rect = self.image.get_rect()
   
@@ -88,7 +111,7 @@ class Main_menu:#this is the main menu and the dying screen on pygame #
     while True:
       pygame.display.update()#updates the screen
       clock.tick(60)#make sthe menu run at 60fps
-      screen.fill ((0,0,0))#makes the screen black
+      screen.fill (BLACK)#makes the screen black
       draw_text("main menu",(255,255,255), screen,20,20)#this draw text function makes the text main menu appear on the top left corner
 
       mx, my = pygame.mouse.get_pos()#gets the mouse postion. mx is mouse x and mouse y is mouse y postion on the screen
@@ -138,27 +161,27 @@ class Rocketgame:
     
     self.rocket_list = pygame.sprite.Group()
     self.rocket_list.add(self.rocket)
-    self.num_of_asteroids = 100#the number of asteroids that the rocket will have to dodge on the way to mars
+    
     self.minigame_bgY = 0#sets the backround images y value to 0
     self.damage = 0#sets the damge to 0
-    asteroids.clear()#makes it so that the list of asteroids is clear before adding more. So that the code doesn't keep adding more and more asteroids
-    Asteroid.update(num_of_asteroids)#this updates the class and makes asteroid objects
-    self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, rocket_image.get_width(), rocket_image.get_height())
+    for j in range(num_of_asteroids):
+      print(j)
+      asteroid.create()#this updates the class and makes asteroid objects
+      
+    self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, ROCKET_IMAGE.get_width(), ROCKET_IMAGE.get_height())
 
     self.steps = 4 
     
 
   def asteroid_collison(self):
-
-    for asteroid_location in asteroids:
-      asteroid_rect = pygame.Rect(asteroid_location.pos[0], asteroid_location.pos[1], asteroid_image.get_width(), asteroid_image.get_height())
-      screen.blit(asteroid_image, asteroid_location.pos)#astriod location
-      asteroid_location.pos[1] -= 6#IMPORTANT!!!!!!!! HOW TO GET THE X AND Y VARIABLES FROM OBJECT TYPE BEAT
-      asteroid_rect.x = asteroid_location.pos[0]
-      asteroid_rect.y = asteroid_location.pos[1]
+      
+      
+    for j in asteroid.asteroids_list:
+      
+      
       
         
-      if self.rocket_hitbox.colliderect(asteroid_rect):
+      if self.rocket_hitbox.colliderect(asteroid.rect):
         self.damage += 1
 
 
@@ -202,26 +225,26 @@ class Rocketgame:
 
       if end_time - start_time > 45:#when all the baby asteroids are gone
 
-        screen.blit(big_asteroid,(0,big_asteroid_posy))
+        screen.blit(BIG_ASTEROID,(0,big_asteroid_posy))
         big_asteroid_posy -= 5
         
         if big_asteroid_posy <= 0:
           game.game()
 
-      self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, rocket_image.get_width(), rocket_image.get_height())#this is used as the hitbox for the rocket collisons with asteroids
+      self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, ROCKET_IMAGE.get_width(), ROCKET_IMAGE.get_height())#this is used as the hitbox for the rocket collisons with asteroids
       
       pygame.display.update()
-      screen.fill(atmosphere_colour)#fills the screen with the atsmophere colour
+      screen.fill(ATMOSPHERE_COLOUR)#fills the screen with the atsmophere colour
       screen.blit(bg, (0, self.minigame_bgY))#this function is what makes the backround image move down in the rocket videogame
       self.rocket.update()#makes the rocket image move by x or y 
       self.rocket_list.draw(screen)#draws the rocket in the new x or y depending on if the player has pressed a new input
       
       self.minigame_bgY -= 5#makes the image move down by 5 pixes every time this loops over
-      self.asteroid_collison()
+      asteroid.draw
       self.button_input()
       
       length = self.damage *10
-      pygame.draw.rect(screen, (0,0,0),pygame.Rect(30,368,500,32))#this is healthbar code
+      pygame.draw.rect(screen, BLACK,pygame.Rect(30,368,500,32))#this is healthbar code
       pygame.draw.rect(screen, (255,0,0), pygame.Rect(30, 368, 500 - length,32))
       
       if self.rocket.rect.x <= 0:#boundries in the game for x axis
@@ -512,7 +535,7 @@ class Game:#actual game
 
 
     
-    
+asteroid = Asteroid(0,0)
 textbox = Textbox()
 ground = Ground()
 background = Background()
