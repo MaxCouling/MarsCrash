@@ -53,15 +53,17 @@ class Asteroid:#asteroid class
 class Asteroid:
 
   def __init__(self):
-    self.recycle #set the position and size initially
+    self.recycle() #set the position and size initially
     self.asteroid_list = []
+
   def recycle(self):
 
-    self.x = random.randint(400,16000)
-    self.y = random.randint(0,568)
+    self.x = random.randint(0,568)#400,16000
+    self.y = random.randint(0,300)#0,568
     self.rect = ASTEROID_IMAGE.get_rect(topleft = (self.x,self.y))
 
   def create(self):
+    asteroid = Asteroid()
     self.asteroid_list.append(asteroid)
   
   def draw(self):
@@ -164,23 +166,19 @@ class Rocketgame:
     
     self.minigame_bgY = 0#sets the backround images y value to 0
     self.damage = 0#sets the damge to 0
+    
     for j in range(num_of_asteroids):
       print(j)
       asteroid.create()#this updates the class and makes asteroid objects
       
     self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, ROCKET_IMAGE.get_width(), ROCKET_IMAGE.get_height())
-
-    self.steps = 4 
     
+    self.steps = 4 
 
   def asteroid_collison(self):
       
       
     for j in asteroid.asteroids_list:
-      
-      
-      
-        
       if self.rocket_hitbox.colliderect(asteroid.rect):
         self.damage += 1
 
@@ -217,11 +215,12 @@ class Rocketgame:
   def rocketGameRunning(self):
     start_time = time.time()
     big_asteroid_posy = 1000
+    asteroid = Asteroid()
+    
     while True:#loops the game 
       
       end_time = time.time()
       print(end_time - start_time)
-
 
       if end_time - start_time > 45:#when all the baby asteroids are gone
 
@@ -240,7 +239,14 @@ class Rocketgame:
       self.rocket_list.draw(screen)#draws the rocket in the new x or y depending on if the player has pressed a new input
       
       self.minigame_bgY -= 5#makes the image move down by 5 pixes every time this loops over
-      asteroid.draw
+      
+      
+      asteroid.create()
+      
+      for asteroid in asteroid.asteroid_list:
+        asteroid.draw()
+        
+      
       self.button_input()
       
       length = self.damage *10
@@ -262,6 +268,39 @@ class Rocketgame:
         menu.menu()#function of the menu
 
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class Background(pygame.sprite.Sprite):
   def __init__(self):
     super().__init__()
@@ -535,7 +574,7 @@ class Game:#actual game
 
 
     
-asteroid = Asteroid(0,0)
+asteroid = Asteroid()
 textbox = Textbox()
 ground = Ground()
 background = Background()
