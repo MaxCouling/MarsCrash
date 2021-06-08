@@ -4,8 +4,11 @@ import sys
 import time
 from files.rocket import Rocket
 from files.asteroid import Asteroid
+from files.game import Game
+
 ROCKET_IMAGE = pygame.image.load("player.png")
 BG = pygame.image.load("background.png")
+BIG_ASTEROID  = pygame.image.load("BigAsteroid.png")
 num_of_asteroids = 100#the number of asteroids that the rocket will have to dodge on the way to mars
 ATMOSPHERE_COLOUR = (252,116,53)
 asteroid_list = []
@@ -15,6 +18,7 @@ w_height = 400
 WINDOW_SIZE = (w_width,w_height)
 screen = pygame.display.set_mode((WINDOW_SIZE))#initate the screeb
 clock = pygame.time.Clock()#starts the pygame clock, helps with keeping the framerate at 60
+game = Game()
 
 class Rocketgame:
   def __init__(self):
@@ -86,7 +90,7 @@ class Rocketgame:
       end_time = time.time()
       #print(end_time - start_time)
 
-      if end_time - start_time > 45:#when all the baby asteroids are gone
+      if end_time - start_time > 5:#when all the baby asteroids are gone
 
         screen.blit(BIG_ASTEROID,(0,big_asteroid_posy))
         big_asteroid_posy -= 5
