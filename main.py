@@ -61,24 +61,9 @@ class Asteroid:#asteroid class
     screen.blit(ASTEROID_IMAGE, self.rect)#astriod location
 """
 
-
-
-
-
-
 #need to add sound
 
 
-
-    
-asteroid = Asteroid()
-textbox = Textbox()
-
-
-
-Playergroup = pygame.sprite.Group()
-
-game = Game()
 
 menu = Main_menu()#starts the code
 menu.menu()

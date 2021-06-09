@@ -1,4 +1,5 @@
 import pygame
+import sys
 from pygame import *
 from files.textbox import Textbox
 from files.player import Player
@@ -21,7 +22,7 @@ clock = pygame.time.Clock()
 class Game:#actual game
   def __init__(self):
     #variables and constants that need to be decleared
-    pass
+    self.level = 1
   def game(self):
     
     while True:#main game loop
@@ -66,7 +67,7 @@ class Game:#actual game
       ground.render()
       if textbox.rendertb:#just checks if it wants to render the texbox then it renders it in the main loop
         textbox.render()
-      objectload.render()
+      objectload.render()#renders the crashsite, water and mine
       screen.blit(player.image, player.rect)
       #need to draw mars floor/ make a tile system for that
       #need to make "nodes", which you can get reasources
@@ -83,17 +84,17 @@ class Game:#actual game
     if player.level == 1:
       
       if objectload.crash_rect.collidepoint(mx,my): #seeing if it over the nouse when clicked, if it is over the crashsite or the
-        self.rendertb = True#render the textbox
+        textbox.rendertb = True#render the textbox
         return#need this otherwise it will run the rest of the code and because this isnt in the textbox it will not bring it up
       
       
         
-      if self.rendertb:#if the mouse isnt over the crashsite it might be over the textbox and 
+      if textbox.rendertb:#if the mouse isnt over the crashsite it might be over the textbox and 
         #we don't want it to leave if it is over the textbox, seees if the textbox is allready up also because we 
         # don't want it making it so that when you click the area that the textbox is supposed to be but isnt htere you open the textbox
           
         if textbox.tb_rect.collidepoint(mx,my):#if it clicks inside the box, it will keep the box up
-          self.rendertb = True
+          textbox.rendertb = True
           
         
           if not textbox.is_sold:#if the upgrade hasnt been purchased, this code will play

@@ -1,7 +1,8 @@
 import pygame
 from files.player import Player
-player = Player()
 
+
+player = Player()
 w_width = 600#window width
 w_height = 400
 WINDOW_SIZE = (w_width,w_height)
@@ -24,9 +25,7 @@ class Object_load(pygame.sprite.Sprite):
     
 
   def render(self):
-    
-    
-    
+    print(player.level)
     if player.level == 1:#the crashsite is on level 1K_a
       
       screen.blit(self.crash_image,self.crash_rect)#loads the crashsite in
@@ -36,3 +35,5 @@ class Object_load(pygame.sprite.Sprite):
     elif player.level == -1:#the mine is on level -1
       
       screen.blit(self.mine_image,(400,220))#loads the thing in
+    else:
+      print("error")

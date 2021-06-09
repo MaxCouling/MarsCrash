@@ -3,13 +3,14 @@ from pygame import *
 vec = pygame.math.Vector2
 from files.ground import Ground
 from files.textbox import Textbox
-
+from files.game import Game
+game = Game()
 textbox = Textbox()
 
 ground = Ground()
 ground_group = pygame.sprite.Group()
 ground_group.add(ground)
-
+Playergroup = pygame.sprite.Group()
 w_width = 600#window width
 w_height = 400
 WINDOW_SIZE = (w_width,w_height)
@@ -71,6 +72,7 @@ class Player(pygame.sprite.Sprite):
       self.pos.x = 600#the player is then teleported to the right, giving the illusion of going to a different level
       textbox.rendertb = False#if there is a textbox rendered it will now be unrendered as we don't want this going across different screens
       self.level -= 1#makes the rest of the code know we are on a different level now
+      print("done")
     self.rect.midbottom = self.pos  # Update rect with new pos
   
   def update(self):#animation
