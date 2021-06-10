@@ -11,8 +11,7 @@ from files.textbox import Textbox
 
 
 from pygame import *
-import sys
-import random
+
 
 
 
