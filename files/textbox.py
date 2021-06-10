@@ -1,5 +1,5 @@
 import pygame
-from files.main_menu import Main_menu
+
 
 w_width = 600#window width
 w_height = 400

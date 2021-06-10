@@ -3,8 +3,7 @@ from pygame import *
 vec = pygame.math.Vector2
 from files.ground import Ground
 from files.textbox import Textbox
-from files.game import Game
-game = Game()
+
 textbox = Textbox()
 
 ground = Ground()

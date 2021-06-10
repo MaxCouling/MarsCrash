@@ -1,4 +1,5 @@
 import pygame
+import sys
 from pygame import *
 from files.Rocketgame import Rocketgame
 

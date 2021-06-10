@@ -37,7 +37,7 @@ pygame.display.set_icon(ICON)
 ATMOSPHERE_COLOUR = (252,116,53)
 #variables
 
-num_of_asteroids = 100#the number of asteroids that the rocket will have to dodge on the way to mars
+num_of_asteroids = 1#the number of asteroids that the rocket will have to dodge on the way to mars
 
 
 mars_floor = pygame.image.load("mars_floor.png")
@@ -47,26 +47,11 @@ mars_floor = pygame.image.load("mars_floor.png")
 
 myFont = pygame.font.SysFont("Comic Sans MS", 24)
 
-"""
-class Asteroid:#asteroid class
-  def __init__(self, pos_x, pos_y):#THE TWO THINGYS INSIDE THE OBJCET
-    self.pos = [pos_x, pos_y]
-    self.asteroids_list = []
-    self.asteroid_location = 0
-  def update(self):
-    
-    self.asteroid_location = Asteroid(random.randint(0,568), random.randint(400,16000))#change this
-    self.asteroids_list.append(self.asteroid_location)
-    self.rect = ASTEROID_IMAGE.get_rect()
-    screen.blit(ASTEROID_IMAGE, self.rect)#astriod location
-"""
-
-#need to add sound
-
-
 
 menu = Main_menu()#starts the code
+
 menu.menu()
+
 
 
 

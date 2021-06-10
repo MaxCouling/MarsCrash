@@ -19,7 +19,7 @@ WINDOW_SIZE = (w_width,w_height)
 screen = pygame.display.set_mode((WINDOW_SIZE))#initate the screeb
 clock = pygame.time.Clock()#starts the pygame clock, helps with keeping the framerate at 60
 game = Game()
-
+rocket = Rocket()
 class Rocketgame:
   def __init__(self):
     self.rocket = Rocket()
@@ -61,6 +61,7 @@ class Rocketgame:
             self.rocket.control(-self.steps, 0)
           if event.key == K_DOWN:
             self.rocket.control(0,self.steps)
+            
           if event.key == K_UP:
             self.rocket.control(0,-self.steps)
 
@@ -90,7 +91,7 @@ class Rocketgame:
       end_time = time.time()
       #print(end_time - start_time)
 
-      if end_time - start_time > 5:#when all the baby asteroids are gone
+      if end_time - start_time > 45:#when all the baby asteroids are gone
 
         screen.blit(BIG_ASTEROID,(0,big_asteroid_posy))
         big_asteroid_posy -= 5
@@ -108,15 +109,24 @@ class Rocketgame:
       
       self.minigame_bgY -= 5#makes the image move down by 5 pixes every time this loops over
       
-      asteroid.y -= 2
       
-      asteroid.draw()
+      
+      
       
       
       
       #for asteroid in asteroid.asteroid_list:
       #  asteroid.draw()
-        
+      
+      for asteroid in asteroid_list:
+        asteroid.rotate += asteroid.speed
+        asteroid.y -= abs(asteroid.speed)#gets the absolute speed
+        asteroid.draw()
+      
+      if pygame.Rect.colliderect(rocket.rect,asteroid.rect):
+        self.damage += 1
+      
+      
       
       self.button_input()
       
@@ -136,4 +146,4 @@ class Rocketgame:
       
       clock.tick(60)#making the game run at 60fps by limiting the amount of.0
       if self.damage >=50:#if the damge = 50, makes the player die and makes the player also go back to the starting menu
-        menu.menu()#function of the menu
+        return#function of the menu
