@@ -37,10 +37,7 @@ pygame.display.set_icon(ICON)
 ATMOSPHERE_COLOUR = (252,116,53)
 #variables
 
-num_of_asteroids = 1#the number of asteroids that the rocket will have to dodge on the way to mars
-
-
-mars_floor = pygame.image.load("mars_floor.png")
+s_floor = pygame.image.load("mars_floor.png")
 
 
 #playerhitbox

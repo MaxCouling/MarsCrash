@@ -9,13 +9,14 @@ from files.game import Game
 ROCKET_IMAGE = pygame.image.load("player.png")
 BG = pygame.image.load("background.png")
 BIG_ASTEROID  = pygame.image.load("BigAsteroid.png")
+HEALTHBAR_HEIGHT = 30
 num_of_asteroids = 100#the number of asteroids that the rocket will have to dodge on the way to mars
 ATMOSPHERE_COLOUR = (252,116,53)
 asteroid_list = []
 BLACK = (0,0,0)
-w_width = 600#window width
-w_height = 400
-WINDOW_SIZE = (w_width,w_height)
+WINDOW_WIDTH = 600#window width
+WINDOW_HEIGHT = 400
+WINDOW_SIZE = (WINDOW_WIDTH,WINDOW_HEIGHT)
 screen = pygame.display.set_mode((WINDOW_SIZE))#initate the screeb
 clock = pygame.time.Clock()#starts the pygame clock, helps with keeping the framerate at 60
 game = Game()
@@ -111,7 +112,10 @@ class Rocketgame:
       
       
       
-      
+      for asteroid in asteroid_list:
+        if pygame.Rect.colliderect(asteroid.rect, self.rocket_hitbox):
+          self.damage += 1
+          print("Ouch")
       
       
       
@@ -120,28 +124,27 @@ class Rocketgame:
       
       for asteroid in asteroid_list:
         asteroid.rotate += asteroid.speed
-        asteroid.y -= abs(asteroid.speed)#gets the absolute speed
+        asteroid.y -= abs(asteroid.speed * 10)#gets the absolute speed
         asteroid.draw()
       
-      if pygame.Rect.colliderect(rocket.rect,asteroid.rect):
-        self.damage += 1
+      
       
       
       
       self.button_input()
       
       length = self.damage *10
-      pygame.draw.rect(screen, BLACK,pygame.Rect(30,368,500,32))#this is healthbar code
-      pygame.draw.rect(screen, (255,0,0), pygame.Rect(30, 368, 500 - length,32))
+      pygame.draw.rect(screen, BLACK,pygame.Rect(0,WINDOW_HEIGHT-HEALTHBAR_HEIGHT,WINDOW_WIDTH,HEALTHBAR_HEIGHT))#this is healthbar code (X , Y , WIDTH, HRIGHT)
+      pygame.draw.rect(screen, (255,0,0), pygame.Rect(0, WINDOW_HEIGHT - HEALTHBAR_HEIGHT, WINDOW_WIDTH - length,HEALTHBAR_HEIGHT))
       
       if self.rocket.rect.x <= 0:#boundries in the game for x axis
         self.rocket.rect.x = 0
-      elif self.rocket.rect.x >= 568:
-        self.rocket.rect.x = 568
+      elif self.rocket.rect.x >= WINDOW_WIDTH - ROCKET_IMAGE.get_width():
+        self.rocket.rect.x = WINDOW_WIDTH - ROCKET_IMAGE.get_width()
       if self.rocket.rect.y <= 0:#boundries in the game for y axis
         self.rocket.rect.y = 0
-      elif self.rocket.rect.y >= 368:
-        self.rocket.rect.y = 368#makes the player cannot go past 368. Player image is 32px and width is 400, 400 - 32 = 368.
+      elif self.rocket.rect.y >= WINDOW_HEIGHT - ROCKET_IMAGE.get_height() - HEALTHBAR_HEIGHT:
+        self.rocket.rect.y = WINDOW_HEIGHT - ROCKET_IMAGE.get_height() - HEALTHBAR_HEIGHT#makes the player cannot go past 368. Player image is 32px and width is 400, 400 - 32 = 368.
       
       
       clock.tick(60)#making the game run at 60fps by limiting the amount of.0
