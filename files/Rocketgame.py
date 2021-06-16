@@ -12,7 +12,7 @@ BIG_ASTEROID  = pygame.image.load("BigAsteroid.png")
 HEALTHBAR_HEIGHT = 30
 num_of_asteroids = 100#the number of asteroids that the rocket will have to dodge on the way to mars
 ATMOSPHERE_COLOUR = (252,116,53)
-asteroid_list = []
+RED = (255,0,0)
 BLACK = (0,0,0)
 WINDOW_WIDTH = 600#window width
 WINDOW_HEIGHT = 400
@@ -21,6 +21,7 @@ screen = pygame.display.set_mode((WINDOW_SIZE))#initate the screeb
 clock = pygame.time.Clock()#starts the pygame clock, helps with keeping the framerate at 60
 game = Game()
 rocket = Rocket()
+
 class Rocketgame:
   def __init__(self):
     self.rocket = Rocket()
@@ -78,7 +79,7 @@ class Rocketgame:
 
 
   def rocketGameRunning(self):
-    
+    asteroid_list = []
     start_time = time.time()
     big_asteroid_posy = 1000
     
@@ -92,7 +93,7 @@ class Rocketgame:
       end_time = time.time()
       print(end_time - start_time)
 
-      if end_time - start_time > 30:#when all the baby asteroids are gone
+      if end_time - start_time > 25:#when all the baby asteroids are gone
 
         screen.blit(BIG_ASTEROID,(0,big_asteroid_posy))
         big_asteroid_posy -= 5
@@ -140,7 +141,7 @@ class Rocketgame:
       
       length = self.damage *5
       pygame.draw.rect(screen, BLACK,pygame.Rect(0,WINDOW_HEIGHT-HEALTHBAR_HEIGHT,WINDOW_WIDTH,HEALTHBAR_HEIGHT))#this is healthbar code (X , Y , WIDTH, HRIGHT)
-      pygame.draw.rect(screen, (255,0,0), pygame.Rect(0, WINDOW_HEIGHT - HEALTHBAR_HEIGHT, WINDOW_WIDTH - length,HEALTHBAR_HEIGHT))
+      pygame.draw.rect(screen, RED, pygame.Rect(0, WINDOW_HEIGHT - HEALTHBAR_HEIGHT, WINDOW_WIDTH - length,HEALTHBAR_HEIGHT))
       
       
       if self.rocket.rect.x <= 0:#boundries in the game for x axis
