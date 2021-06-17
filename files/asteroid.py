@@ -13,7 +13,7 @@ class Asteroid:
     self.x = random.randint(0,568)#0,568
     self.y = random.randint(400,16000)#400,16000
     self.rotate = random.randint(0,359)
-    self.speed = random.randint(-2,2)
+    self.speed = random.randint(-1,1)
     self.rect = ASTEROID_IMAGE.get_rect(topleft = (self.x,self.y))
 
   def recycle(self):

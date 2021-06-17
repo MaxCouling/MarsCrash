@@ -26,7 +26,7 @@ class Player(pygame.sprite.Sprite):
     self.ACC = 0.3
     self.FRIC = -0.10
 
-    
+    self.ground_y = 100
     #postion and direction
     self.vx = 0
     self.pos = vec((200, 200))
