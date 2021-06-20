@@ -19,7 +19,7 @@ WINDOW_HEIGHT = 400
 WINDOW_SIZE = (WINDOW_WIDTH,WINDOW_HEIGHT)
 screen = pygame.display.set_mode((WINDOW_SIZE))#initate the screeb
 clock = pygame.time.Clock()#starts the pygame clock, helps with keeping the framerate at 60
-game = Game()
+
 rocket = Rocket()
 
 class Rocketgame:
@@ -99,6 +99,7 @@ class Rocketgame:
         big_asteroid_posy -= 5
         
         if big_asteroid_posy <= 0:
+          game = Game()
           game.game()
 
       self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, ROCKET_IMAGE.get_width(), ROCKET_IMAGE.get_height())#this is used as the hitbox for the rocket collisons with asteroids
