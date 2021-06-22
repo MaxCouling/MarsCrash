@@ -9,6 +9,7 @@ textbox = Textbox()
 ground = Ground()
 ground_group = pygame.sprite.Group()
 ground_group.add(ground)
+
 Playergroup = pygame.sprite.Group()
 w_width = 600#window width
 w_height = 400
