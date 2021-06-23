@@ -27,7 +27,7 @@ class Player(pygame.sprite.Sprite):
     self.ACC = 0.3
     self.FRIC = -0.10
 
-    self.ground_y = 100
+    self.ground_y = 280
     #postion and direction
     self.vx = 0
     self.pos = vec((200, 200))
@@ -54,6 +54,9 @@ class Player(pygame.sprite.Sprite):
     
     if pressed_keys[K_RIGHT] or pressed_keys[K_d]:
       self.acc.x += self.ACC
+    
+    if pressed_keys[K_SPACE]:
+      self.jump
       
     # Formulas to calculate velocity while accounting for friction
     
@@ -63,16 +66,7 @@ class Player(pygame.sprite.Sprite):
     
     
     
-    if self.pos.x > 600:#this is stopping the player getting out
-      self.pos.x = 0
-      textbox.rendertb = False
-      self.level += 1#make sthe level plus one notifying the rest of the code that you are on a different level
     
-    if self.pos.x < 0:#if the player goes all the way to the left of the screen
-      self.pos.x = 600#the player is then teleported to the right, giving the illusion of going to a different level
-      textbox.rendertb = False#if there is a textbox rendered it will now be unrendered as we don't want this going across different screens
-      self.level -= 1#makes the rest of the code know we are on a different level now
-      print("done")
     self.rect.midbottom = self.pos  # Update rect with new pos
   
   def update(self):#animation
