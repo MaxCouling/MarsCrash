@@ -5,10 +5,10 @@ WINDOW_SIZE = (w_width,w_height)
 canvas = pygame.Surface((WINDOW_SIZE))#initate the screensize
 
 class Ground(pygame.sprite.Sprite):
-  def __init__(self):
+  def __init__(self,x,y):
     super().__init__()
+    self.x = x
+    self.y = y
     self.image = pygame.image.load("mars_floor.png")
-    self.rect = self.image.get_rect(center = (300, 360))
+    self.rect = self.image.get_rect(center = (self.x,self.y))
     
-  def render(self):
-    canvas.blit(self.image,(self.rect.x,self.rect.y))

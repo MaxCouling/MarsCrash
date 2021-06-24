@@ -6,9 +6,9 @@ from files.textbox import Textbox
 
 textbox = Textbox()
 
-ground = Ground()
-ground_group = pygame.sprite.Group()
-ground_group.add(ground)
+
+
+
 
 Playergroup = pygame.sprite.Group()
 w_width = 600#window width
@@ -47,16 +47,7 @@ class Player(pygame.sprite.Sprite):
       self.running = False
   
 
-    pressed_keys = pygame.key.get_pressed()
-    
-    if pressed_keys[K_LEFT] or pressed_keys[K_a]:
-      self.acc.x += -self.ACC#making it so when you press the left arrow key the acc goes down
-    
-    if pressed_keys[K_RIGHT] or pressed_keys[K_d]:
-      self.acc.x += self.ACC
-    
-    if pressed_keys[K_SPACE]:
-      self.jump
+
       
     # Formulas to calculate velocity while accounting for friction
     
@@ -75,16 +66,7 @@ class Player(pygame.sprite.Sprite):
     else:
       self.image = self.image_left
   
-  def gravity_check(self):
-    
-    hits = pygame.sprite.spritecollide(self , ground_group, False)
-    if self.vel.y > 0:
-      if hits:
-        lowest = hits[0]#the first one in the list is the lowest
-        if self.pos.y < lowest.rect.bottom:#if the player is touching the ground
-          self.pos.y = lowest.rect.top +1#add one so it is above the ground
-          self.vel.y = 0#set the verticle velocity to 0, it is on the ground now
-          self.jumping = False#if player is touching the ground, it cannot be in the state of jump (duh)
+  
   
   def jump(self):
     self.rect.x += 1
