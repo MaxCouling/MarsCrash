@@ -37,27 +37,26 @@ class Player(pygame.sprite.Sprite):
     self.jumping = False
     self.level = 1
     self.jump_height = 12
-  def move(self):#method to do the running
     
+  def move(self):#method to do the running
     self.acc = vec(0,0.5)#gravity, Force that constantly pulls the player down
     
     if abs(self.vel.x) > 0.3:
       self.running = True
     else:
       self.running = False
-  
-
-
-      
     # Formulas to calculate velocity while accounting for friction
+    pressed_keys = pygame.key.get_pressed()
+    if pressed_keys[K_LEFT] or pressed_keys[K_a]:
+      self.acc.x += -self.ACC#making it so when you press the left arrow key the acc goes down
     
+    if pressed_keys[K_RIGHT] or pressed_keys[K_d]:
+      self.acc.x += self.ACC
+
     self.acc.x += self.vel.x * self.FRIC #slows the player down
     self.vel += self.acc #adds the acceleration to the veloctiy
     self.pos += self.vel + 0.5 * self.acc  # Updates Position with new values
-    
-    
-    
-    
+
     self.rect.midbottom = self.pos  # Update rect with new pos
   
   def update(self):#animation
@@ -68,15 +67,4 @@ class Player(pygame.sprite.Sprite):
   
   
   
-  def jump(self):
-    self.rect.x += 1
- 
-    # Check to see if payer is in contact with the ground
-    hits = pygame.sprite.spritecollide(self, ground_group, False)
-     
-    self.rect.x -= 1
- 
-    # If touching the ground, and not currently jumping, cause the player to jump.
-    if hits and not self.jumping:
-       self.jumping = True
-       self.vel.y = -self.jump_height
+  
