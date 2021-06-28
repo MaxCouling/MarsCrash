@@ -1,109 +1,109 @@
 import pygame
-import sys
 from pygame import *
-from files.textbox import Textbox
 from files.player import Player
-from files.background import Background
 from files.ground import Ground
-from files.ObjectLoader import Object_load
-from files.textbox import Textbox
+from files.background import Background
+from files.camera import *
+import sys
 
-textbox = Textbox()
-objectload = Object_load()
-player = Player()
-ground = Ground()
-background = Background()
-w_width = 600#window width
-w_height = 400
-WINDOW_SIZE = (w_width,w_height)
-screen = pygame.display.set_mode((WINDOW_SIZE))#initate the screensize
-clock = pygame.time.Clock()
+#initating window and clocPlayergroup = pygame.sprite.Group()
 
-class Game:#actual game
+
+
+class Game:
   def __init__(self):
-    #variables and constants that need to be decleared
-    self.level = 1
+    pygame.init()
+    WINDOW_W, WINDOW_H = 600, 400
+    self.canvas = pygame.Surface((WINDOW_W*10,WINDOW_H))#setting the canvas
+    self.window = pygame.display.set_mode(((WINDOW_W,WINDOW_H)))#setting the window
+    self.clock = pygame.time.Clock()#pygame clock
+    self.dababy = pygame.image.load("dababy.jpg")
+    
+    
+    #loading player, scenes and self.
+    self.player = Player()
+    self.groundgroup = pygame.sprite.Group()
+
+    for i in range(0,4000, 600):#this is making the ground tile
+      g = Ground(i, 280)
+      self.groundgroup.add(g)
+
+    self.background = Background()
+    
+    self.camera = Camera(self.player)
+   # auto = Auto(self.camera,self.player)#its called borderself.
+    self.follow = Follow(self.camera, self.player)
+    
+    
+    
+  
   def game(self):
-    
-    while True:#main game loop
-      
-      player.gravity_check()
-      for event in pygame.event.get():
-
-        # Will run when the close window button is clicked    
-        if event.type == QUIT:
-          pygame.quit()
-          sys.exit() 
-             
-        # For events that occur upon clicking the mouse (left click) 
-        
-        if event.type == pygame.MOUSEBUTTONDOWN:
-          if event.button == 1:
-            
-            
-            self.handle_click()
-  
-
-            
-            
- 
-        # Event handling for a range of different key presses    
-        if event.type == pygame.KEYDOWN:
-          
-          if event.key == pygame.K_SPACE:
-            player.jump()
-        
-          
-
-
-
-      
-      
-      
-      
-      player.move()
-      player.update()
-      background.render()
-      ground.render()
-      if textbox.rendertb:#just checks if it wants to render the texbox then it renders it in the main loop
-        textbox.render()
-      objectload.render()#renders the crashsite, water and mine
-      screen.blit(player.image, player.rect)
-      #need to draw mars floor/ make a tile system for that
-      #need to make "nodes", which you can get reasources
-      #ice can be converted to water or hydrogen and oxegen, hydrogen to power rovers and oxegen to breathe
-      
+    self.camera.setmethod(self.follow)
+    while True:#main loop
+      self.clock.tick(60)
       pygame.display.update()
-      clock.tick(60)
-      #use https://pygame-gui.readthedocs.io/en/latest/theme_reference/theme_horizontal_scroll_bar.html
-  
-  
-  def handle_click(self):
-    mx, my = pygame.mouse.get_pos()#gets the mouse coords
+      #key inputs
+      for event in pygame.event.get():#exits the game 
+        if event.type == pygame.QUIT:
+          sys.exit()
+        if event.type == KEYDOWN:
+          if event.key == K_SPACE:
+            self.jump()
+          if event.key == K_j:
+            self.player.acc.x += -self.player.ACC#making it so when you press the left arrow key the acc goes down
+        
+
+      self.canvas.fill((255,169,120))#background colour
+      
+      #updating and animating sprites
+      self.player.move()#uses the player move funciton
+      self.player.update()
+      self.gravity_check()
+      self.camera.scroll()
+      
+      #updating window and display
+      #rendering the background
+      #self.canvas.blit(self.background.sky,(self.background.skyX - (self.camera.offset.x/5), self.background.skyY - (self.camera.offset.y/5)))
+      self.canvas.blit(self.background.mountains0, (self.background.mountains0X - (self.camera.offset.x/5), self.background.mountains0Y - (self.camera.offset.y/5)))
+      self.canvas.blit(self.background.mountains1, (self.background.mountains1X - (self.camera.offset.x/3), self.background.mountains1Y - (self.camera.offset.y/3)))
+      self.canvas.blit(self.background.mountains2, (self.background.mountains2X - (self.camera.offset.x/2), self.background.mountains2Y - (self.camera.offset.y/2)))
+      
+      
+      
+      self.canvas.blit(self.player.image,(self.player.rect.x- self.camera.offset.x, self.player.rect.y - self.camera.offset.y))
+      
+      for ground in self.groundgroup:
+        self.canvas.blit(ground.image,(ground.rect.x - self.camera.offset.x, ground.rect.y - self.camera.offset.y))
+      
+      self.window.blit(self.canvas, (0,0))
+      
+      
     
-    if player.level == 1:
       
-      if objectload.crash_rect.collidepoint(mx,my): #seeing if it over the nouse when clicked, if it is over the crashsite or the
-        textbox.rendertb = True#render the textbox
-        return#need this otherwise it will run the rest of the code and because this isnt in the textbox it will not bring it up
-      
-      
-        
-      if textbox.rendertb:#if the mouse isnt over the crashsite it might be over the textbox and 
-        #we don't want it to leave if it is over the textbox, seees if the textbox is allready up also because we 
-        # don't want it making it so that when you click the area that the textbox is supposed to be but isnt htere you open the textbox
-          
-        if textbox.tb_rect.collidepoint(mx,my):#if it clicks inside the box, it will keep the box up
-          textbox.rendertb = True
-          
-        
-          if not textbox.is_sold:#if the upgrade hasnt been purchased, this code will play
-            if textbox.buy_rect.collidepoint(mx,my):#User has bought an jump upgrade, will call jump upgrade method
-              player.jump_height += 20#adds the upgrade
-              textbox.is_sold = True #setting is_sold to true
+  
+  def gravity_check(self):
+    
+    hits = pygame.sprite.spritecollide(self.player ,self.groundgroup, False)
+    if self.player.vel.y > 0:
+      if hits:
+        lowest = hits[0]#the first one in the list is the lowest
+        if self.player.pos.y < lowest.rect.bottom:#if the player is touching the ground
+          self.player.pos.y = lowest.rect.top +1#add one so it is above the ground
+          self.player.vel.y = 0#set the verticle velocity to 0, it is on the ground now
+          self.player.jumping = False#if player is touching the ground, it cannot be in the state of jump (duh)
 
-          
-          
+  def jump(self):
+    self.player.rect.x += 1
+ 
+    # Check to see if payer is in contact with the ground
+    hits = pygame.sprite.spritecollide(self.player, self.groundgroup, False)
+     
+    self.player.rect.x -= 1
+ 
+    # If touching the ground, and not currently jumping, cause the player to jump.
+    if hits and not self.player.jumping:
+       self.player.jumping = True
+       self.player.vel.y = -self.player.jump_height
 
-        else:
-          self.rendertb = False#in all other cases but there two it will return false
+       
+      
