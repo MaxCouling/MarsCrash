@@ -33,6 +33,7 @@ class Game:
     self.camera = Camera(self.player)
    # auto = Auto(self.camera,self.player)#its called borderself.
     self.follow = Follow(self.camera, self.player)
+    self.animationspeed = 0
     
     
     
@@ -57,7 +58,13 @@ class Game:
       
       #updating and animating sprites
       self.player.move()#uses the player move funciton
-      self.player.update()
+      
+      self.animationspeed += 1
+      if self.animationspeed == 10:
+      
+      
+        self.player.update()#playeranimation
+        self.animationspeed = 0
       self.gravity_check()
       self.camera.scroll()
       
