@@ -7,7 +7,7 @@ from files.game import Game
 from files.background import Background
 from files.ground import Ground
 from files.player import Player
-from files.textbox import Textbox
+
 
 
 from pygame import *

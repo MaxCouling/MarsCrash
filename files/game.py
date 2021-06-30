@@ -6,7 +6,7 @@ from files.background import Background
 from files.camera import *
 import sys
 
-#initating window and clocPlayergroup = pygame.sprite.Group()
+
 
 
 
@@ -60,24 +60,27 @@ class Game:
       self.player.move()#uses the player move funciton
       
       self.animationspeed += 1
-      if self.animationspeed == 10:
-      
-      
+      if self.animationspeed == 10:#this is so every 10 frames that the game is run, one frame of animation will play. If not the animation will play at 60fps and be very fast
         self.player.update()#playeranimation
         self.animationspeed = 0
+      
       self.gravity_check()
       self.camera.scroll()
       
-      #updating window and display
+      #--updating window and display--
+      
       #rendering the background
-      #self.canvas.blit(self.background.sky,(self.background.skyX - (self.camera.offset.x/5), self.background.skyY - (self.camera.offset.y/5)))
+      
       self.canvas.blit(self.background.mountains0, (self.background.mountains0X - (self.camera.offset.x/5), self.background.mountains0Y - (self.camera.offset.y/5)))
       self.canvas.blit(self.background.mountains1, (self.background.mountains1X - (self.camera.offset.x/3), self.background.mountains1Y - (self.camera.offset.y/3)))
       self.canvas.blit(self.background.mountains2, (self.background.mountains2X - (self.camera.offset.x/2), self.background.mountains2Y - (self.camera.offset.y/2)))
       
       
-      
+      #blitting the player
       self.canvas.blit(self.player.image,(self.player.rect.x- self.camera.offset.x, self.player.rect.y - self.camera.offset.y))
+
+      #blitting the setting
+      
       
       for ground in self.groundgroup:
         self.canvas.blit(ground.image,(ground.rect.x - self.camera.offset.x, ground.rect.y - self.camera.offset.y))

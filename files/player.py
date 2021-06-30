@@ -2,9 +2,9 @@ import pygame
 from pygame import *
 vec = pygame.math.Vector2
 from files.ground import Ground
-from files.textbox import Textbox
 
-textbox = Textbox()
+
+
 
 
 
@@ -62,7 +62,7 @@ class Player(pygame.sprite.Sprite):
   def update(self):#animation
     
     
-    if self.move_frame > 3:
+    if self.move_frame > 3:#if it is the 4th frame, go and make it go back to the first one
       self.move_frame = 0#makes it go back to the standing frame
       
     
@@ -76,7 +76,7 @@ class Player(pygame.sprite.Sprite):
       self.move_frame += 1
 
     #This final section fixes the bug that makes it so when you try to stop, the sprite for moving shows
-    if abs(self.vel.x) <1 and self.move_frame != 0: #if the speed is below a certian point and the frame is not standing
+    if abs(self.vel.x) < 0.5 and self.move_frame != 0: #if the speed is below a certian point and the frame is not standing
       self.move_frame = 0#sets it to standing
       if self.vel.x > 0:#still a little bit of velocity, will use this to detrimine either left or right
         self.image = self.image_right[self.move_frame]
