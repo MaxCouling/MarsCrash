@@ -3,6 +3,7 @@ from pygame import *
 from files.player import Player
 from files.ground import Ground
 from files.background import Background
+from files.mine import Mine
 from files.camera import *
 import sys
 
@@ -34,6 +35,9 @@ class Game:
    # auto = Auto(self.camera,self.player)#its called borderself.
     self.follow = Follow(self.camera, self.player)
     self.animationspeed = 0
+
+    #setting up mine and other scene
+    self.mine = Mine(400,140)
     
     
     
@@ -41,8 +45,10 @@ class Game:
   def game(self):
     self.camera.setmethod(self.follow)
     while True:#main loop
+      #setting framerate
       self.clock.tick(60)
       pygame.display.update()
+     
       #key inputs
       for event in pygame.event.get():#exits the game 
         if event.type == pygame.QUIT:
@@ -52,6 +58,8 @@ class Game:
             self.jump()
           if event.key == K_j:
             self.player.acc.x += -self.player.ACC#making it so when you press the left arrow key the acc goes down
+
+        self.click(event)
         
 
       self.canvas.fill((255,169,120))#background colour
@@ -59,6 +67,7 @@ class Game:
       #updating and animating sprites
       self.player.move()#uses the player move funciton
       
+      #animation 
       self.animationspeed += 1
       if self.animationspeed == 10:#this is so every 10 frames that the game is run, one frame of animation will play. If not the animation will play at 60fps and be very fast
         self.player.update()#playeranimation
@@ -76,15 +85,18 @@ class Game:
       self.canvas.blit(self.background.mountains2, (self.background.mountains2X - (self.camera.offset.x/2), self.background.mountains2Y - (self.camera.offset.y/2)))
       
       
-      #blitting the player
-      self.canvas.blit(self.player.image,(self.player.rect.x- self.camera.offset.x, self.player.rect.y - self.camera.offset.y))
+      
 
       #blitting the setting
-      
-      
+      self.canvas.blit(self.mine.image,(self.mine.rect.x- self.camera.offset.x, self.mine.rect.y - self.camera.offset.y))
+
+      #blitting the player
+      self.canvas.blit(self.player.image,(self.player.rect.x- self.camera.offset.x, self.player.rect.y - self.camera.offset.y))
+      #blitiing the ground
       for ground in self.groundgroup:
         self.canvas.blit(ground.image,(ground.rect.x - self.camera.offset.x, ground.rect.y - self.camera.offset.y))
-      
+
+      #blitting the window
       self.window.blit(self.canvas, (0,0))
       
       
@@ -114,6 +126,15 @@ class Game:
     if hits and not self.player.jumping:
        self.player.jumping = True
        self.player.vel.y = -self.player.jump_height
+  def click(self, event):
+    #method that will keep track of what to do when the player clicks somewhere on the screen
+    mouse_x,mouse_y = pygame.mouse.get_pos()#getting the mouse position
+    
+    print((self.mine.x- self.camera.offset.x, self.mine.y - self.camera.offset.y))
+    if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0] and self.mine.rect.collidepoint(mouse_x,mouse_y):
+      print("clicked")
 
+      
+    
        
       

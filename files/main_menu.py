@@ -1,5 +1,6 @@
 import pygame
 import sys
+from files.game import Game
 from pygame import *
 from files.Rocketgame import Rocketgame
 
@@ -52,7 +53,8 @@ class Main_menu:#this is the main menu and the dying screen on pygame #
 
       if button_2.collidepoint((mx,my)):
         if click:
-          pass
+          game = Game()
+          game.game()
 
       click = False#sets self.click to false before the mouse button down event but after the 
       for event in pygame.event.get():#getting all the keyboard inputs from user
