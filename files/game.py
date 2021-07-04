@@ -127,20 +127,26 @@ class Game:
        self.player.jumping = True
        self.player.vel.y = -self.player.jump_height
 
-  def mouse_is_over(mouse_x, mouse_y, obj_x, obj_y, obj_width, obj_height):
-    pass #handle this later
+  def mouse_is_over(obj):
+    
+    mouse_x,mouse_y = pygame.mouse.get_pos()
+    if mouse_x >= obj.x and mouse_x <= (obj.x + obj.width) and mouse_y >= obj.y and mouse_y <= (obj.y + obj.height):
+      return True
+    else:
+      return False
+
 
 
   def click(self, event):
     #method that will keep track of what to do when the player clicks somewhere on the screen
-    mouse_x,mouse_y = pygame.mouse.get_pos()#getting the mouse position
+    #getting the mouse position
     
     print("mine pos",(self.mine.rect.x- self.camera.offset.x, self.mine.rect.y - self.camera.offset.y))
     print("mouse pos:",mouse_x,mouse_y)
     
   
-    # if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0] and .collidepoint(mouse_x,mouse_y):
-    #   print("clicked")
+    if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0] and .collidepoint(mouse_x,mouse_y):
+      print("clicked")
 
 
       
