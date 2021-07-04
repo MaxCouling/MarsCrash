@@ -80,9 +80,9 @@ class Game:
       
       #rendering the background
       
-      self.canvas.blit(self.background.mountains0, (self.background.mountains0X - (self.camera.offset.x/5), #self.background.mountains0Y - (self.camera.offset.y/5)))
-      self.canvas.blit(self.background.mountains1, (self.background.mountains1X - (self.camera.offset.x/3), #self.background.mountains1Y - (self.camera.offset.y/3)))
-      self.canvas.blit(self.background.mountains2, (self.background.mountains2X - (self.camera.offset.x/2), #self.background.mountains2Y - (self.camera.offset.y/2)))
+      self.canvas.blit(self.background.mountains0, (self.background.mountains0X - (self.camera.offset.x/5), self.background.mountains0Y - (self.camera.offset.y/5)))
+      self.canvas.blit(self.background.mountains1, (self.background.mountains1X - (self.camera.offset.x/3), self.background.mountains1Y - (self.camera.offset.y/3)))
+      self.canvas.blit(self.background.mountains2, (self.background.mountains2X - (self.camera.offset.x/2), self.background.mountains2Y - (self.camera.offset.y/2)))
       
       
       
@@ -94,14 +94,9 @@ class Game:
       self.canvas.blit(self.player.image,(self.player.rect.x- self.camera.offset.x, self.player.rect.y - self.camera.offset.y))
       #blitiing the ground
       for ground in self.groundgroup:
-<<<<<<< HEAD
-        self.canvas.blit(ground.image,(ground.rect.x - self.camera.offset.x, ground.rect.y))
-      
-=======
         self.canvas.blit(ground.image,(ground.rect.x - self.camera.offset.x, ground.rect.y - self.camera.offset.y))
 
       #blitting the window
->>>>>>> 0583b4147fba930448c9f8ffccea8826352ebe96
       self.window.blit(self.canvas, (0,0))
       
       
@@ -131,13 +126,22 @@ class Game:
     if hits and not self.player.jumping:
        self.player.jumping = True
        self.player.vel.y = -self.player.jump_height
+
+  def mouse_is_over(mouse_x, mouse_y, obj_x, obj_y, obj_width, obj_height):
+    pass #handle this later
+
+
   def click(self, event):
     #method that will keep track of what to do when the player clicks somewhere on the screen
     mouse_x,mouse_y = pygame.mouse.get_pos()#getting the mouse position
     
-    print((self.mine.x- self.camera.offset.x, self.mine.y - self.camera.offset.y))
-    if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0] and self.mine.rect.collidepoint(mouse_x,mouse_y):
-      print("clicked")
+    print("mine pos",(self.mine.rect.x- self.camera.offset.x, self.mine.rect.y - self.camera.offset.y))
+    print("mouse pos:",mouse_x,mouse_y)
+    
+  
+    # if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0] and .collidepoint(mouse_x,mouse_y):
+    #   print("clicked")
+
 
       
     
