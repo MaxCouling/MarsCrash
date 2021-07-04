@@ -71,9 +71,9 @@ class Game:
       
       #rendering the background
       
-      self.canvas.blit(self.background.mountains0, (self.background.mountains0X - (self.camera.offset.x/5), self.background.mountains0Y - (self.camera.offset.y/5)))
-      self.canvas.blit(self.background.mountains1, (self.background.mountains1X - (self.camera.offset.x/3), self.background.mountains1Y - (self.camera.offset.y/3)))
-      self.canvas.blit(self.background.mountains2, (self.background.mountains2X - (self.camera.offset.x/2), self.background.mountains2Y - (self.camera.offset.y/2)))
+      self.canvas.blit(self.background.mountains0, (self.background.mountains0X - (self.camera.offset.x/5), #self.background.mountains0Y - (self.camera.offset.y/5)))
+      self.canvas.blit(self.background.mountains1, (self.background.mountains1X - (self.camera.offset.x/3), #self.background.mountains1Y - (self.camera.offset.y/3)))
+      self.canvas.blit(self.background.mountains2, (self.background.mountains2X - (self.camera.offset.x/2), #self.background.mountains2Y - (self.camera.offset.y/2)))
       
       
       #blitting the player
@@ -83,7 +83,7 @@ class Game:
       
       
       for ground in self.groundgroup:
-        self.canvas.blit(ground.image,(ground.rect.x - self.camera.offset.x, ground.rect.y - self.camera.offset.y))
+        self.canvas.blit(ground.image,(ground.rect.x - self.camera.offset.x, ground.rect.y))
       
       self.window.blit(self.canvas, (0,0))
       
