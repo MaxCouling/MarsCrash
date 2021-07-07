@@ -9,6 +9,6 @@ class Mine:
         self.y = y
         self.rect = self.image.get_rect(topleft = (self.x, self.y))
 
-    def on_click():
+    def on_click(self):
         print("WOHOO IM CLICKED")
     

@@ -11,7 +11,7 @@ WINDOW_SIZE = (w_width,w_height)
 screen = pygame.display.set_mode((WINDOW_SIZE))#initate the screeb size
 clock = pygame.time.Clock()#imports the time
 BLACK = (0,0,0)#tuple
-myFont = pygame.font.SysFont("Comic Sans MS", 24)
+myFont = pygame.font.Font("fonts/visitor1.ttf",30)
 
 def draw_text(text,color,surface,x,y):
   textobj = myFont.render(text,1,color)

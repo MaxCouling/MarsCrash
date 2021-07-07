@@ -38,7 +38,7 @@ class Game:
 
     #setting up mine and other scene
     self.mine = Mine(400,140)
-    
+    self.click_list = [self.mine]#all the things in my game that can be clicked
     
     
   
@@ -59,7 +59,8 @@ class Game:
           if event.key == K_j:
             self.player.acc.x += -self.player.ACC#making it so when you press the left arrow key the acc goes down
 
-        self.click(event)
+        if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]:
+          self.click()
         
 
       self.canvas.fill((255,169,120))#background colour
@@ -127,26 +128,33 @@ class Game:
        self.player.jumping = True
        self.player.vel.y = -self.player.jump_height
 
-  def mouse_is_over(obj):
+  def mouse_is_over(self,obj):
     
     mouse_x,mouse_y = pygame.mouse.get_pos()
-    if mouse_x >= obj.x and mouse_x <= (obj.x + obj.width) and mouse_y >= obj.y and mouse_y <= (obj.y + obj.height):
+    print(mouse_x,mouse_y)
+    print(self.camera.offset.x)
+    obj_left = self.mine.rect.x- self.camera.offset.x
+    obj_right = self.mine.rect.x- self.camera.offset.x + obj.width
+    obj_top = self.mine.rect.y - self.camera.offset.y
+    obj_bottom = self.mine.rect.y - self.camera.offset.y + obj.height
+    if obj_left <= mouse_x <= obj_right and obj_top <= mouse_y <= obj_bottom:
       return True
     else:
       return False
 
 
-
-  def click(self, event):
+  
+  def click(self,):
     #method that will keep track of what to do when the player clicks somewhere on the screen
     #getting the mouse position
+    for obj in self.click_list:
+      if self.mouse_is_over(obj):
+        obj.on_click()
     
-    print("mine pos",(self.mine.rect.x- self.camera.offset.x, self.mine.rect.y - self.camera.offset.y))
-    print("mouse pos:",mouse_x,mouse_y)
     
-  
-    if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0] and .collidepoint(mouse_x,mouse_y):
-      print("clicked")
+    
+    
+        
 
 
       

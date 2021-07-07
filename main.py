@@ -41,7 +41,7 @@ s_floor = pygame.image.load("mars_floor.png")
 
 #playerhitbox
 
-myFont = pygame.font.SysFont("Comic Sans MS", 24)
+myFont = pygame.font.SysFont("Vistor", 24)
 
 
 menu = Main_menu()#starts the code
