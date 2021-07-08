@@ -6,7 +6,7 @@ from files.rocket import Rocket
 from files.asteroid import Asteroid
 from files.game import Game
 
-ROCKET_IMAGE = pygame.image.load("player.png")
+
 BG = pygame.image.load("Space.png")
 BIG_ASTEROID  = pygame.image.load("BigAsteroid.png")
 HEALTHBAR_HEIGHT = 30
@@ -18,7 +18,7 @@ WINDOW_WIDTH = 600#window width
 WINDOW_HEIGHT = 400
 WINDOW_SIZE = (WINDOW_WIDTH,WINDOW_HEIGHT)
 screen = pygame.display.set_mode((WINDOW_SIZE))#initate the screeb
-clock = pygame.time.Clock()#starts the pygame clock, helps with keeping the framerate at 60
+clock = pygame.time.Clock()#starts the pygame clock, helps with keeping the uprate at 60
 
 rocket = Rocket()
 
@@ -36,7 +36,7 @@ class Rocketgame:
     
     
       
-    self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, ROCKET_IMAGE.get_width(), ROCKET_IMAGE.get_height())
+    self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, self.rocket.image.get_width(), self.rocket.image.get_height())
     
     self.steps = 4 
 
@@ -81,7 +81,7 @@ class Rocketgame:
     for i in range(num_of_asteroids):
       asteroid = Asteroid()
       asteroid_list.append(asteroid)
-    
+    counter = 0
     
     while True:#loops the game 
       
@@ -97,15 +97,19 @@ class Rocketgame:
           game = Game()
           game.game()
 
-      self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, ROCKET_IMAGE.get_width(), ROCKET_IMAGE.get_height())#this is used as the hitbox for the rocket collisons with asteroids
+      
       
       pygame.display.update()
       screen.fill(BLACK)#fills the screen with black
       screen.blit(BG, (0, self.minigame_bgY))#this function is what makes the backround image move down in the rocket videogame
 
       
-      self.rocket.update()#makes the rocket image move by x or y 
-      self.rocket_list.draw(screen)#draws the rocket in the new x or y depending on if the player has pressed a new input
+      
+      
+      self.rocket.update()#makes the rocket image move by x or y and animates it
+      
+      #self.rocket_list.draw(screen)#draws the rocket in the new x or y depending on if the player has pressed a new input
+      screen.blit(self.rocket.image,(self.rocket.rect.x,self.rocket.rect.y))#blitting the rocket on the 
       print(self.minigame_bgY)
       if self.minigame_bgY <= -BG.get_height():
         self.minigame_bgY = 0
@@ -142,12 +146,12 @@ class Rocketgame:
       
       if self.rocket.rect.x <= 0:#boundries in the game for x axis
         self.rocket.rect.x = 0
-      elif self.rocket.rect.x >= WINDOW_WIDTH - ROCKET_IMAGE.get_width():
-        self.rocket.rect.x = WINDOW_WIDTH - ROCKET_IMAGE.get_width()
+      elif self.rocket.rect.x >= WINDOW_WIDTH - self.rocket.image.get_width():
+        self.rocket.rect.x = WINDOW_WIDTH - self.rocket.image.get_width()
       if self.rocket.rect.y <= 0:#boundries in the game for y axis
         self.rocket.rect.y = 0
-      elif self.rocket.rect.y >= WINDOW_HEIGHT - ROCKET_IMAGE.get_height() - HEALTHBAR_HEIGHT:
-        self.rocket.rect.y = WINDOW_HEIGHT - ROCKET_IMAGE.get_height() - HEALTHBAR_HEIGHT#makes the player cannot go past 368. Player image is 32px and width is 400, 400 - 32 = 368.
+      elif self.rocket.rect.y >= WINDOW_HEIGHT - self.rocket.image.get_height() - HEALTHBAR_HEIGHT:
+        self.rocket.rect.y = WINDOW_HEIGHT - self.rocket.image.get_height() - HEALTHBAR_HEIGHT#makes the player cannot go past 368. Player image is 32px and width is 400, 400 - 32 = 368.
       
       
       clock.tick(60)#making the game run at 60fps by limiting the amount of.0
