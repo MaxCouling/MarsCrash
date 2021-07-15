@@ -29,7 +29,7 @@ screen = pygame.display.set_mode((WINDOW_SIZE))#initate the
 
 pygame.display.set_caption("Mars Rover")
 ICON = pygame.image.load("logo.png")
-ASTEROID_IMAGE = pygame.image.load("greyAsteroid.png")
+ASTEROID_IMAGE = pygame.image.load("greyAsteroid.png")s
 ROCKET_IMAGE = pygame.image.load("player.png")
 
 pygame.display.set_icon(ICON)

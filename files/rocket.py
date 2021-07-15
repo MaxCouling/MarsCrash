@@ -23,8 +23,7 @@ class Rocket(pygame.sprite.Sprite):#using pygames sprite function for future ani
   def update(self):
     
     self.image = self.images[self.frame]#animating the rocket falling to mars
-    print("frame",self.frame)
-    print("framenum",self.framenum)
+    
     if self.frame == self.framenum:#resetting the amount of frames
       self.frame = 0
     else:
