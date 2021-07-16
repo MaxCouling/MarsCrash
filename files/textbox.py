@@ -5,32 +5,30 @@ w_width = 600#window width
 w_height = 400
 WINDOW_SIZE = (w_width,w_height)
 screen = pygame.display.set_mode((WINDOW_SIZE))#initate the screensize
-
+title_font = pygame.font.Font("fonts/visitor1.ttf",30)
+text_font = pygame.font.Font("fonts/visitor2.ttf",20)
+clock = pygame.time.Clock()
 class Textbox:
   def __init__(self):
     
     
     
     self.tb = pygame.image.load("tb little.png")#loads in the background picture
-    self.tb_rect = (self.tb.get_rect(topleft = (50,20)))#makes the background hitbox so we know when you click out of it
+    self.tb_rect = (self.tb.get_rect(topleft = (100,15)))#makes the backgroud a rect
 
-    self.buy = pygame.image.load("BUY.png")
-    self.buy_rect = (self.buy.get_rect(topleft = (300,60)))
     
-    self.sold = pygame.image.load("SOLD.png")
-    self.sold_rect = (self.sold.get_rect(topleft = (300,60)))
-    self.is_sold = False
-    self.rendertb = False
+    
+   
+    
+    
   
-  def render(self):
-    screen.blit(self.tb,self.tb_rect)#this is were the text is going to go
-    draw_text("Jumpboost",(255,255,255),screen,150,60)
+  def render(self,title,title_pos,title_colour,text,text_pos,text_colour,avatar):
     
-    if self.is_sold:
-      screen.blit(self.sold,self.sold_rect)
-      
-    else:
-      screen.blit(self.buy,self.buy_rect)
+    screen.blit(self.tb,self.tb_rect)#drawing the background, the textbox which is then going to be used for the text to be put on
+    print("hey")
+    screen.blit( pygame.font.Font.render(title_font, str(title),1,title_colour),title_pos)#The title of the text going onto the screen
+    screen.blit(pygame.font.Font.render(text_font, str(text),1,text_colour),text_pos)#the text under it
+    screen.blit(avatar,(450,50))
     
     
 
