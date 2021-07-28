@@ -178,6 +178,8 @@ class Game:
     for obj in self.click_list:
       if self.mouse_is_over(obj):
         obj.on_click()
+  
+  
     
     
     
