@@ -6,6 +6,7 @@ from files.background import Background
 from files.mine import Mine
 from files.water import Water
 from files.textbox import Textbox
+from files.crash import Crash
 from files.camera import *
 import sys
 
@@ -44,9 +45,10 @@ class Game:
     self.animationspeed = 0
 
     #setting up mine and other scene
-    self.mine = Mine(400,155)
-    self.water = Water(1400,235)
-    self.click_list = [self.mine,self.water]#all the things in my game that can be clicked
+    self.mine = Mine(1400,155)
+    self.water = Water(2400,235)
+    self.crash = Crash(400,155)
+    self.click_list = [self.mine,self.water,self.crash]#all the things in my game that can be clicked
     
     
     
@@ -100,11 +102,15 @@ class Game:
       for ground in self.groundgroup:
         self.canvas.blit(ground.image,(ground.rect.x - self.camera.offset.x, ground.rect.y - self.camera.offset.y))
 
-      #blitting the setting
+      #--blitting the setting--
+      #The mine
       self.canvas.blit(self.mine.image,(self.mine.rect.x- self.camera.offset.x, self.mine.rect.y - self.camera.offset.y))
+      #The ice
       self.canvas.blit(self.water.image,(self.water.rect.x - self.camera.offset.x, self.water.rect.y - self.camera.offset.y))
+      #The crashsite
+      self.canvas.blit(self.crash.image,(self.crash.rect.x - self.camera.offset.x, self.crash.rect.y - self.camera.offset.y))
 
-      #blitting the player
+      #--blitting the player--
       self.canvas.blit(self.player.image,(self.player.rect.x- self.camera.offset.x, self.player.rect.y - self.camera.offset.y))
       
       
@@ -160,12 +166,12 @@ class Game:
   def mouse_is_over(self,obj):
     
     mouse_x,mouse_y = pygame.mouse.get_pos()
-    
+    #this is to deterimine if the mouse is over the object or not
     obj_left = obj.rect.x- self.camera.offset.x
     obj_right = obj.rect.x- self.camera.offset.x + obj.width
     obj_top = obj.rect.y - self.camera.offset.y
     obj_bottom = obj.rect.y - self.camera.offset.y + obj.height
-    if obj_left <= mouse_x <= obj_right and obj_top <= mouse_y <= obj_bottom:#basically saying if the mouse is within the 
+    if obj_left <= mouse_x <= obj_right and obj_top <= mouse_y <= obj_bottom:#basically saying if the mouse is within the object, return true
       return True
     else:
       return False

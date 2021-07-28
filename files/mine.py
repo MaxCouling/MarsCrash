@@ -17,7 +17,7 @@ class Mine:
     def on_click(self):
         self.ore += 1
         if self.ore == 1:
-            self.textbox.render("MINE",(120,25),(255,255,255),"This is the mine, click on it\n to get martian ore!",(120,125),(155,0,155),self.rock_for_tutorial,150)
+            self.textbox.render("MINE",(120,25),(255,255,255),"This is the mine, click on it to get martian ore!",(120,125),(155,0,155),self.rock_for_tutorial,150)
     
     
         
