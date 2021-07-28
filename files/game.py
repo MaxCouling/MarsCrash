@@ -73,7 +73,7 @@ class Game:
           self.click()
         
 
-      #self.canvas.fill((255,169,120))#background colour
+      self.canvas.fill((255,169,120))#background colour
       
       #updating and animating sprites
       self.player.move()#uses the player move funciton

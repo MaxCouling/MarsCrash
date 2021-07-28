@@ -1,6 +1,6 @@
 import pygame
 
-
+pygame.init()
 w_width = 600#window width
 w_height = 400
 WINDOW_SIZE = (w_width,w_height)
