@@ -5,9 +5,12 @@ from files.ground import Ground
 from files.background import Background
 from files.mine import Mine
 from files.water import Water
+from files.textbox import Textbox
 from files.camera import *
 import sys
+
 pygame.init()
+
 myFont = pygame.font.Font("fonts/visitor1.ttf",30)
 
 
@@ -34,7 +37,7 @@ class Game:
       self.groundgroup.add(g)
 
     self.background = Background()
-    
+    self.textbox = Textbox()
     self.camera = Camera(self.player)
    # auto = Auto(self.camera,self.player)#its called borderself.
     self.follow = Follow(self.camera, self.player)
@@ -108,8 +111,11 @@ class Game:
       
       #blitting the game to window
       self.window.blit(self.canvas, (0,0))
+
+      #textbox blitting/rendering
       
-      #blitting Icons, this is after the stuff in the game as the icons for health and stuff won't move inside the game
+      
+      #--blitting Icons, this is after the stuff in the game as the icons for health and stuff won't move inside the game--
       
       #mine icon
       self.window.blit( pygame.font.Font.render(myFont, str(self.mine.ore),1,(150,150,150)),(70,25))#the number blitting the screen
