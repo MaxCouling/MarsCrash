@@ -88,7 +88,7 @@ class Rocketgame:
       end_time = time.time()
       print(end_time - start_time)
 
-      if end_time - start_time > 35:#when all the baby asteroids are gone
+      if end_time - start_time > 25:#when all the baby asteroids are gone
 
         screen.blit(BIG_ASTEROID,(0,big_asteroid_posy))
         big_asteroid_posy -= 5
