@@ -43,7 +43,6 @@ s_floor = pygame.image.load("mars_floor.png")
 
 myFont = pygame.font.SysFont("Vistor", 24)
 
-
 menu = Main_menu()#starts the code
 
 menu.menu()
