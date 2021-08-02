@@ -1,5 +1,5 @@
 import pygame
-from files.textbox import Textbox
+from textbox import Textbox
 class Mine:
     def __init__(self,x,y):
         self.image = pygame.image.load('mine.png')

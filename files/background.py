@@ -16,16 +16,16 @@ class Background(pygame.sprite.Sprite):
     self.mountains0 = pygame.image.load("mars_background_outer.png").convert()
     self.mountains0.set_colorkey(BLACK)
     self.mountains0Y = 0
-    self.mountains0X = 0
+    self.mountains0X = -100
     #mountains 1
     self.mountains1 = pygame.image.load("mars_mountains.png").convert()
     self.mountains1.set_colorkey(BLACK)
     self.mountains1Y = 0
-    self.mountains1X = 0
+    self.mountains1X = -200
     #mountains 2
     self.mountains2 = pygame.image.load("mars_background_inner.png").convert()
     self.mountains2.set_colorkey(BLACK)
     self.mountains2Y = 0
-    self.mountains2X = 0
+    self.mountains2X = -200
   def render(self):
     screen.blit(self.bgimage,(self.bgY,self.bgX))

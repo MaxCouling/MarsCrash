@@ -3,7 +3,7 @@ from pygame import *
 pygame.init()
 
 
-title_font = pygame.font.Font("fonts/visitor1.ttf",30)
+title_font = pygame.font.Font("fonts/visitor1.ttf",40)
 text_font = pygame.font.Font("fonts/visitor2.ttf",20)
 
 class Textbox:

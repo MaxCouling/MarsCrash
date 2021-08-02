@@ -1,7 +1,7 @@
 import pygame
 from pygame import *
 import sys
-from files.textbox import Textbox
+from textbox import Textbox
 
 class Crash:
     def __init__(self,x,y):
@@ -36,7 +36,7 @@ class Crash:
     def on_click(self):
         #gives the textbox to show the player what is going to happen next, go into the computer terminal to be able to smelt items and stuff
         if self.tutorial:
-            self.textbox.render("COMPUTER",(120,25),(255,255,255),"HI, I am the ships computer! This is the terminal where you can smelt and use electroysis to use electricity to split water into hydrogen and oxygen",(120,50),(255,255,255),self.avatar,200)
+            self.textbox.render("COMPUTER",(120,25),(255,255,255),"HI, I am the ships computer!",(120,50),(255,255,255),self.avatar,200)
             self.tutorial = False
         self.terminal()#opens the terminal
     

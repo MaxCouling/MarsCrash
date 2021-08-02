@@ -2,9 +2,9 @@ import pygame
 from pygame import *
 import sys
 import time
-from files.rocket import Rocket
-from files.asteroid import Asteroid
-from files.game import Game
+from rocket import Rocket
+from asteroid import Asteroid
+from game import Game
 
 
 BG = pygame.image.load("Space.png")

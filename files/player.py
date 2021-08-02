@@ -1,7 +1,7 @@
 import pygame
 from pygame import *
 vec = pygame.math.Vector2
-from files.ground import Ground
+
 
 
 
@@ -27,6 +27,10 @@ class Player(pygame.sprite.Sprite):
     self.ACC = 0.3
     self.FRIC = -0.10
 
+    #these are for the border that the player cannot get past
+    self.left_border = -200
+    self.right_border = 3900
+
     self.ground_y = 280
     #postion and direction
     self.vx = 0
@@ -40,7 +44,13 @@ class Player(pygame.sprite.Sprite):
     
   def move(self):#method to do the running
     self.acc = vec(0,0.5)#gravity, Force that constantly pulls the player down
-    
+    #if at the border
+    if self.rect.x >= self.right_border -50:
+      self.acc.x -= 10
+    if self.rect.x <= self.left_border:
+      print("ay")
+      self.acc.x +=10# the reason why im changing the acceleration of the player rather than just making it stop is because it makes a funny bounce
+
     if abs(self.vel.x) > 0.3:
       self.running = True
     else:
@@ -58,13 +68,16 @@ class Player(pygame.sprite.Sprite):
     self.pos += self.vel + 0.5 * self.acc  # Updates Position with new values
 
     self.rect.midbottom = self.pos  # Update rect with new pos
+
+    
+    
   
   def update(self):#animation
     
-    
+    self.move_frame +=1
     if self.move_frame > 3:#if it is the 4th frame, go and make it go back to the first one
       self.move_frame = 0#makes it go back to the standing frame
-      
+    print(self.move_frame)
     
     #if player is not jumping and they ARE running do this code below
     if not self.jumping and self.running:
@@ -73,8 +86,7 @@ class Player(pygame.sprite.Sprite):
       else:
         self.image = self.image_left[self.move_frame]
       #makes it so it moves the frame by one everytime this goes over
-      self.move_frame += 1
-
+      self.move_frame
     #This final section fixes the bug that makes it so when you try to stop, the sprite for moving shows
     if abs(self.vel.x) < 0.5 and self.move_frame != 0: #if the speed is below a certian point and the frame is not standing
       self.move_frame = 0#sets it to standing

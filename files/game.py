@@ -1,13 +1,13 @@
 import pygame
 from pygame import *
-from files.player import Player
-from files.ground import Ground
-from files.background import Background
-from files.mine import Mine
-from files.water import Water
-from files.textbox import Textbox
-from files.crash import Crash
-from files.camera import *
+from player import Player
+from ground import Ground
+from background import Background
+from mine import Mine
+from water import Water
+from textbox import Textbox
+from crash import Crash
+from camera import *
 import sys
 
 pygame.init()
@@ -41,7 +41,7 @@ class Game:
     self.textbox = Textbox()
     self.camera = Camera(self.player)
    # auto = Auto(self.camera,self.player)#its called borderself.
-    self.follow = Follow(self.camera, self.player)
+    self.border = Border(self.camera, self.player)
     self.animationspeed = 0
 
     #setting up mine and other scene
@@ -55,7 +55,7 @@ class Game:
     
   
   def game(self):
-    self.camera.setmethod(self.follow)
+    self.camera.setmethod(self.border)
     while True:#main loop
       #setting framerate
       pygame.display.update()

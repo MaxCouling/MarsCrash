@@ -1,8 +1,8 @@
 import pygame
 import sys
-from files.game import Game
+from game import Game
 from pygame import *
-from files.Rocketgame import Rocketgame
+from Rocketgame import Rocketgame
 
 pygame.init()#inititlising pygame
 w_width = 600#window width
@@ -12,6 +12,18 @@ screen = pygame.display.set_mode((WINDOW_SIZE))#initate the screeb size
 clock = pygame.time.Clock()#imports the time
 BLACK = (0,0,0)#tuple
 myFont = pygame.font.Font("fonts/visitor1.ttf",30)
+
+pygame.display.set_caption("Mars Rover")
+ICON = pygame.image.load("logo.png")
+ASTEROID_IMAGE = pygame.image.load("greyAsteroid.png")
+ROCKET_IMAGE = pygame.image.load("player.png")
+
+pygame.display.set_icon(ICON)
+
+
+
+
+
 
 def draw_text(text,color,surface,x,y):
   textobj = myFont.render(text,1,color)
@@ -68,3 +80,9 @@ class Main_menu:#this is the main menu and the dying screen on pygame #
         if event.type == MOUSEBUTTONDOWN:
           if event.button == 1:
             click = True
+
+
+
+#runs the main menu
+main = Main_menu()
+main.menu()
