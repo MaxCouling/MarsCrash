@@ -45,9 +45,9 @@ class Game:
     self.animationspeed = 0
 
     #setting up mine and other scene
-    self.mine = Mine(1400,155)
-    self.water = Water(2400,235)
-    self.crash = Crash(400,155)
+    self.mine = Mine()
+    self.water = Water()
+    self.crash = Crash()
     self.click_list = [self.mine,self.water,self.crash]#all the things in my game that can be clicked
     
     
