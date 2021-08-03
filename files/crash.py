@@ -4,20 +4,23 @@ import sys
 from textbox import Textbox
 from mine import Mine
 from water import Water
-
 Font = pygame.font.Font("fonts/visitor1.ttf",30)
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 class Crash:
-    def __init__(self):
+    def __init__(self,mine,water):
         #terminal screen setup
         w_width = 600#window width
         w_height = 400
         WINDOW_SIZE = (w_width,w_height)
         self.screen = pygame.display.set_mode((WINDOW_SIZE))#initate the screensize
         
-        self.mine = Mine()
-        self.water = Water()
+        self.ore = mine.ore
+        self.ore_icon = mine.icon
+
+        self.water = water.water
+        self.water_icon = water.icon
+        self.player
         
         
         
@@ -72,11 +75,11 @@ class Crash:
             #inventory display
             pygame.draw.rect(self.screen,WHITE,self.whitebox)
             #ore
-            self.screen.blit( pygame.font.Font.render(Font, str(self.mine.ore),1,BLACK),(120,40))#ore number
-            self.screen.blit(self.mine.icon,(83,40))
+            self.screen.blit( pygame.font.Font.render(Font, str(self.ore),1,BLACK),(120,40))#ore number
+            self.screen.blit(self.ore_icon,(83,40))
             #water
-            self.screen.blit(pygame.font.Font.render(Font, str(self.water.water),1,BLACK),(183,40))
-            self.screen.blit(self.water.icon,(150,40))
+            self.screen.blit(pygame.font.Font.render(Font, str(self.water),1,BLACK),(183,40))
+            self.screen.blit(self.water_icon,(150,40))
             
 
             click = False

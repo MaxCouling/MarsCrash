@@ -47,7 +47,7 @@ class Game:
     #setting up mine and other scene
     self.mine = Mine()
     self.water = Water()
-    self.crash = Crash()
+    self.crash = Crash(self.mine,self.water)#self.mine
     self.click_list = [self.mine,self.water,self.crash]#all the things in my game that can be clicked
     
     
@@ -60,7 +60,7 @@ class Game:
       #setting framerate
       pygame.display.update()
       self.clock.tick(60)
-     
+      
       #key inputs
       for event in pygame.event.get():#exits the game 
         if event.type == pygame.QUIT:
