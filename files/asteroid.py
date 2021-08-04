@@ -15,6 +15,7 @@ class Asteroid:
     self.rotate = random.randint(0,359)
     self.speed = random.randint(-1,1)
     self.rect = ASTEROID_IMAGE.get_rect(topleft = (self.x,self.y))
+    
 
   def recycle(self):
     pass
@@ -24,8 +25,9 @@ class Asteroid:
   
   
   def draw(self):
-    rotated_asteroid_image = pygame.transform.rotate(ASTEROID_IMAGE, self.rotate)
-    self.rect = rotated_asteroid_image.get_rect(topleft = (self.x,self.y))
-    screen.blit(rotated_asteroid_image, self.rect)
+    self.rotated_asteroid_image = pygame.transform.rotate(ASTEROID_IMAGE, self.rotate)
+    self.rect = self.rotated_asteroid_image.get_rect(topleft = (self.x,self.y))
+    
+    screen.blit(self.rotated_asteroid_image, self.rect)
   
     

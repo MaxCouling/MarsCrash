@@ -10,7 +10,7 @@ from game import Game
 BG = pygame.image.load("Space.png")
 BIG_ASTEROID  = pygame.image.load("BigAsteroid.png")
 HEALTHBAR_HEIGHT = 30
-num_of_asteroids = 100#the number of asteroids that the rocket will have to dodge on the way to mars
+num_of_asteroids = 50#the number of asteroids that the rocket will have to dodge on the way to mars
 ATMOSPHERE_COLOUR = (252,116,53)
 RED = (255,0,0)
 BLACK = (0,0,0)
@@ -39,7 +39,7 @@ class Rocketgame:
     self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, self.rocket.image.get_width(), self.rocket.image.get_height())
     
     self.steps = 4 
-
+    self.title = pygame.image.load("mars_crash_title.png")
   
 
 
@@ -47,7 +47,7 @@ class Rocketgame:
     
     for event in pygame.event.get():#getting all the keyboard inputs from user
         if event.type == QUIT:#if one of those inputs is the user pressing the quit button
-          print("Exited")#prints ecited into the console
+          
           pygame.quit()#it will terminate ptgame
           sys.exit()
         
@@ -78,7 +78,7 @@ class Rocketgame:
     start_time = time.time()
     big_asteroid_posy = 1000
     
-    for i in range(num_of_asteroids):
+    for asteroid in range(num_of_asteroids):
       asteroid = Asteroid()
       asteroid_list.append(asteroid)
     
@@ -93,9 +93,9 @@ class Rocketgame:
         big_asteroid_posy -= 5
         
         if big_asteroid_posy <= 0:
-          game = Game()
-          pygame.mixer.music.stop()#stops the music
-          game.game()
+          
+          self.mini_title_screen()
+          
 
       
       
@@ -110,10 +110,10 @@ class Rocketgame:
       
       #self.rocket_list.draw(screen)#draws the rocket in the new x or y depending on if the player has pressed a new input
       screen.blit(self.rocket.image,(self.rocket.rect.x,self.rocket.rect.y))#blitting the rocket on the 
-      print(self.minigame_bgY)
+      
       if self.minigame_bgY <= -BG.get_height():
         self.minigame_bgY = 0
-        print("yeah")
+        
       else:
         self.minigame_bgY -= 5#makes the image move down by 5 pixes every time this loops over
       
@@ -158,3 +158,24 @@ class Rocketgame:
       if self.damage >=120:#if the damge = 50, makes the player die and makes the player also go back to the starting menu
         pygame.mixer.music.stop()#stops the music
         return#function of the menu
+
+  def mini_title_screen(self):
+    """This Code fades from the rocket level and makes the player go into the real level"""
+    fade = pygame.Surface(WINDOW_SIZE)#sets the window size for the fade
+    fade.fill(BLACK)#what colour the fade is going to be
+    for alpha in range(0,300):#for loop that fades the screen
+      fade.set_alpha(alpha)
+      screen.blit(fade, (0,0))
+      pygame.display.update()
+      pygame.time.delay(23)
+    while True:
+      pygame.time.delay(100)
+      screen.blit(self.title,(0,0))#title will be a png saying press any key to continue
+      pygame.display.update()
+      
+      for event in pygame.event.get():#this code will exucute once the user has pressed any key
+        if event.type == KEYDOWN:
+
+          pygame.mixer.music.stop()#stops the music
+          game = Game()
+          game.game()

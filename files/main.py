@@ -13,7 +13,7 @@ clock = pygame.time.Clock()#imports the time
 BLACK = (0,0,0)#tuple
 myFont = pygame.font.Font("fonts/visitor1.ttf",30)
 
-pygame.display.set_caption("Mars Rover")
+pygame.display.set_caption("Mars Crash")
 ICON = pygame.image.load("logo.png")
 ASTEROID_IMAGE = pygame.image.load("greyAsteroid.png")
 ROCKET_IMAGE = pygame.image.load("player.png")

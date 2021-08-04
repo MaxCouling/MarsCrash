@@ -48,7 +48,6 @@ class Player(pygame.sprite.Sprite):
     if self.rect.x >= self.right_border -50:
       self.acc.x -= 10
     if self.rect.x <= self.left_border:
-      print("ay")
       self.acc.x +=10# the reason why im changing the acceleration of the player rather than just making it stop is because it makes a funny bounce
 
     if abs(self.vel.x) > 0.3:
@@ -77,7 +76,7 @@ class Player(pygame.sprite.Sprite):
     self.move_frame +=1
     if self.move_frame > 3:#if it is the 4th frame, go and make it go back to the first one
       self.move_frame = 0#makes it go back to the standing frame
-    print(self.move_frame)
+    
     
     #if player is not jumping and they ARE running do this code below
     if not self.jumping and self.running:
