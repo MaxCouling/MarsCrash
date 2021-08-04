@@ -52,24 +52,24 @@ class Rocketgame:
           sys.exit()
         
         if event.type == KEYDOWN:#movemtnt code
-          if event.key == K_RIGHT:
+          if event.key == K_RIGHT or event.key == K_d:
             self.rocket.control(self.steps, 0)
-          if event.key == K_LEFT:
+          if event.key == K_LEFT or event.key == K_a:
             self.rocket.control(-self.steps, 0)
-          if event.key == K_DOWN:
+          if event.key == K_DOWN or event.key == K_s:
             self.rocket.control(0,self.steps)
             
-          if event.key == K_UP:
+          if event.key == K_UP or event.key == K_w:
             self.rocket.control(0,-self.steps)
 
         if event.type == KEYUP:
-          if event.key == K_RIGHT:
+          if event.key == K_RIGHT or event.key == K_d:
             self.rocket.control(-self.steps, 0)
-          if event.key == K_LEFT:
+          if event.key == K_LEFT or event.key == K_a:
             self.rocket.control(self.steps, 0)
-          if event.key == K_DOWN:
+          if event.key == K_DOWN or event.key == K_s:
             self.rocket.control(0, -self.steps)
-          if event.key == K_UP:
+          if event.key == K_UP or event.key == K_w:
             self.rocket.control(0, self.steps)
 
 
@@ -81,13 +81,12 @@ class Rocketgame:
     for i in range(num_of_asteroids):
       asteroid = Asteroid()
       asteroid_list.append(asteroid)
-    counter = 0
+    
     pygame.mixer.music.play(1)
     while True:#loops the game 
       
       end_time = time.time()
-      print(end_time - start_time)
-
+      
       if end_time - start_time > 25:#when all the baby asteroids are gone
 
         screen.blit(BIG_ASTEROID,(0,big_asteroid_posy))
@@ -95,6 +94,7 @@ class Rocketgame:
         
         if big_asteroid_posy <= 0:
           game = Game()
+          pygame.mixer.music.stop()#stops the music
           game.game()
 
       
@@ -156,4 +156,5 @@ class Rocketgame:
       
       clock.tick(60)#making the game run at 60fps by limiting the amount of.0
       if self.damage >=120:#if the damge = 50, makes the player die and makes the player also go back to the starting menu
+        pygame.mixer.music.stop()#stops the music
         return#function of the menu
