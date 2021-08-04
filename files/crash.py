@@ -83,8 +83,8 @@ class Crash:
             self.screen.blit( pygame.font.Font.render(Font, str(self.ore_amount),1,BLACK),(120,40))#ore number
             self.screen.blit(self.ore_icon,(83,40))
             #water
-            self.screen.blit(pygame.font.Font.render(Font, str(self.water_amount),1,BLACK),(183,40))
-            self.screen.blit(self.water_icon,(150,40))
+            self.screen.blit(pygame.font.Font.render(Font, str(self.water_amount),1,BLACK),(193,40))
+            self.screen.blit(self.water_icon,(160,40))
             
 
             click = False
