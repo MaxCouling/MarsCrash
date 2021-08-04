@@ -15,12 +15,15 @@ class Crash:
         WINDOW_SIZE = (w_width,w_height)
         self.screen = pygame.display.set_mode((WINDOW_SIZE))#initate the screensize
         
-        self.ore = mine.ore
+        self.mine = mine
+        self.water = water
+
+        self.ore_amount = 0
         self.ore_icon = mine.icon
 
-        self.water = water.water
+        self.water_amount = 0
         self.water_icon = water.icon
-        self.player
+        
         
         
         
@@ -60,6 +63,8 @@ class Crash:
     
     def terminal(self):
         running =  True
+        self.ore_amount = self.mine.ore
+        self.water_amount = self.water.water
         while running:
             pygame.display.update()
             self.clock.tick(60)
@@ -75,10 +80,10 @@ class Crash:
             #inventory display
             pygame.draw.rect(self.screen,WHITE,self.whitebox)
             #ore
-            self.screen.blit( pygame.font.Font.render(Font, str(self.ore),1,BLACK),(120,40))#ore number
+            self.screen.blit( pygame.font.Font.render(Font, str(self.ore_amount),1,BLACK),(120,40))#ore number
             self.screen.blit(self.ore_icon,(83,40))
             #water
-            self.screen.blit(pygame.font.Font.render(Font, str(self.water),1,BLACK),(183,40))
+            self.screen.blit(pygame.font.Font.render(Font, str(self.water_amount),1,BLACK),(183,40))
             self.screen.blit(self.water_icon,(150,40))
             
 
