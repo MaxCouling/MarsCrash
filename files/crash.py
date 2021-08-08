@@ -48,6 +48,7 @@ class Crash:
         self.hydrogen = 0
         self.oxygen = 0
         self.iron = 0
+        self.clicked = False
         
         
         
@@ -58,10 +59,12 @@ class Crash:
         if self.tutorial:
             self.textbox.render("COMPUTER",(120,25),(255,255,255),"HI, This is where you craft!",(120,70),(255,255,255),self.avatar,200)
             self.tutorial = False
-        self.terminal()#opens the terminal
+        #self.terminal()#opens the terminal
+        self.clicked = True
+
         
     
-    def terminal(self):
+    """def terminal(self):
         running =  True
         self.ore_amount = self.mine.ore
         self.water_amount = self.water.water
@@ -79,6 +82,7 @@ class Crash:
                     running = False
             #inventory display
             pygame.draw.rect(self.screen,WHITE,self.whitebox)
+            
             #ore
             self.screen.blit( pygame.font.Font.render(Font, str(self.ore_amount),1,BLACK),(120,40))#ore number
             self.screen.blit(self.ore_icon,(83,40))
@@ -99,7 +103,7 @@ class Crash:
                 if event.type == MOUSEBUTTONDOWN:
                     if event.button == 1:
                         click = True
-
+"""
 
 
 

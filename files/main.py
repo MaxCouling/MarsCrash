@@ -11,6 +11,7 @@ WINDOW_SIZE = (w_width,w_height)
 screen = pygame.display.set_mode((WINDOW_SIZE))#initate the screeb size
 clock = pygame.time.Clock()#imports the time
 BLACK = (0,0,0)#tuple
+WHITE = (255,255,255)
 myFont = pygame.font.Font("fonts/visitor1.ttf",30)
 
 pygame.display.set_caption("Mars Crash")

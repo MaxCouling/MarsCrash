@@ -12,9 +12,10 @@ import sys
 
 pygame.init()
 
-myFont = pygame.font.Font("fonts/visitor1.ttf",30)
-
-
+Font = pygame.font.Font("fonts/visitor1.ttf",30)
+WHITE = (255,255,255)
+BLACK = (0,0,0)
+ROCKET_PRICE = 20
 
 
 
@@ -50,6 +51,22 @@ class Game:
     self.crash = Crash(self.mine,self.water)#self.mine
     self.click_list = [self.mine,self.water,self.crash]#all the things in my game that can be clicked
     
+    #terminal varibales
+    #exit button
+    self.exitbutton = pygame.Rect(30,30,50,50)
+
+    #grey box on the inside
+    self.whitebox = pygame.Rect(80,30,490,50)
+
+
+    self.upgrade_box = pygame.Rect(50,300,240,60)
+    #items
+    self.hydrogen = 0
+    self.oxygen = 0
+    self.iron = 0
+    self.clicked = False
+
+    self.rocket_rebuilt = False
     
     
     
@@ -124,16 +141,20 @@ class Game:
       #--blitting Icons, this is after the stuff in the game as the icons for health and stuff won't move inside the game--
       
       #mine icon
-      self.window.blit( pygame.font.Font.render(myFont, str(self.mine.ore),1,(150,150,150)),(70,25))#the number blitting the screen
+      self.window.blit( pygame.font.Font.render(Font, str(self.mine.ore),1,(150,150,150)),(70,25))#the number blitting the screen
       self.window.blit(self.mine.icon,(25,25))#the icnon next to it
       
       #water icon
-      self.window.blit( pygame.font.Font.render(myFont, str(self.water.water),1,(150,150,150)),(70,75))#the number blitting onto the screen
+      self.window.blit( pygame.font.Font.render(Font, str(self.water.water),1,(150,150,150)),(70,75))#the number blitting onto the screen
       self.window.blit(self.water.icon,(25,75))
       
         
-
+      if self.crash.clicked:
+        print("clicked")
+        self.terminal()
       
+      if self.rocket_rebuilt:
+        self.window.blit( pygame.font.Font.render(Font, str("YOU WIN"),1,BLACK),(300,200))#the number blitting onto the screen
       
       
     
@@ -178,12 +199,67 @@ class Game:
 
 
   
-  def click(self,):
+  def click(self):
     #method that will keep track of what to do when the player clicks somewhere on the screen
     #getting the mouse position
     for obj in self.click_list:
       if self.mouse_is_over(obj):
         obj.on_click()
+  
+  def terminal(self):
+    """This method is used when the player clicks the crashsite, 
+    this will be able to regenerate his power and he will be able 
+    to make upgrades to his suit, drilling and eventually fix his ship"""
+    running =  True
+    click = False
+    while running:
+        pygame.display.update()
+        
+        self.clock.tick(60)
+        self.window.fill((0,0,0))#background colour
+        mx, my = pygame.mouse.get_pos()#gets the mouse postion. mx is mouse x and mouse y is mouse y postion on the screen
+            
+        #EXIT BUTTON
+        pygame.draw.rect(self.window,(70,70,70),pygame.Rect(30,30,540,340))
+        pygame.draw.rect(self.window,(255,0,0),self.exitbutton)
+        
+        #inventory display
+        pygame.draw.rect(self.window,WHITE,self.whitebox)
+        
+        #ore
+        self.window.blit( pygame.font.Font.render(Font, str(self.mine.ore),1,BLACK),(120,40))#ore number
+        self.window.blit(self.mine.icon,(83,40))
+        #water
+        self.window.blit(pygame.font.Font.render(Font, str(self.water.water),1,BLACK),(193,40))
+        self.window.blit(self.water.icon,(160,40))
+
+        """Below are the boxes for the upgrades, you will not be able to purchase them if you do not have the right materials"""
+        pygame.draw.rect(self.window,(0,255,0),self.upgrade_box)
+        self.window.blit(pygame.font.Font.render(Font,"BUILD ROCKET",2,BLACK),(self.upgrade_box.x+15,self.upgrade_box.y))
+        self.window.blit(pygame.font.Font.render(Font, str(ROCKET_PRICE),1 ,BLACK),(self.upgrade_box.x + 15,self.upgrade_box.y + 25))
+        if self.exitbutton.collidepoint((mx,my)):#if the player's mouse is over the exit button
+          if click:#and then they click
+            self.crash.clicked = False#exit the terminal
+            running = False
+        if self.upgrade_box.collidepoint((mx,my)):
+          if click and self.mine.ore >= ROCKET_PRICE:#if the person clicking has enough ore and has clicked the upgrade
+            self.rocket_rebuilt = True
+            self.mine.ore -= ROCKET_PRICE
+
+
+        #setting click back to false
+        click = False
+        for event in pygame.event.get():#getting all the keyboard inputs from user
+          if event.type == QUIT:#if one of those inputs is the user pressing the quit button
+            pygame.quit()#it will terminate ptgame
+            sys.exit()
+          if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+              pygame.quit()#it will terminate ptgame
+              sys.exit()
+          if event.type == MOUSEBUTTONDOWN:
+            if event.button == 1:
+              click = True
   
   
     
