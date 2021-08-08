@@ -174,8 +174,13 @@ class Rocketgame:
       pygame.display.update()
       
       for event in pygame.event.get():#this code will exucute once the user has pressed any key
-        if event.type == KEYDOWN:
+        if event.type == KEYDOWN or MOUSEBUTTONDOWN:
 
           pygame.mixer.music.stop()#stops the music
           game = Game()
           game.game()
+        if event.type == QUIT:#if one of those inputs is the user pressing the quit button
+          
+          pygame.quit()#it will terminate ptgame
+          sys.exit()
+        
