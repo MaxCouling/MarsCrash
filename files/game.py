@@ -15,8 +15,9 @@ pygame.init()
 Font = pygame.font.Font("fonts/visitor1.ttf",30)
 WHITE = (255,255,255)
 BLACK = (0,0,0)
+YELLOW = (255,255,0)
 ROCKET_PRICE = 20
-
+X_POWER,Y_POWER = 0,120
 
 
 
@@ -65,6 +66,19 @@ class Game:
     self.oxygen = 0
     self.iron = 0
     self.clicked = False
+
+    #power
+    self.power_amount = 150
+    self.power_outline = pygame.Rect(X_POWER,Y_POWER,200,50)
+    self.power_icon = pygame.image.load("assets/power_symbol.png")
+    self.power_level = pygame.Rect(X_POWER + 40 ,Y_POWER+12,self.power_amount,25)
+
+    #upgrades
+    self.drill_eff = 10 #drill efficenty, goes down as you upgrade it
+    self.walking_eff = 0.001 #walking eff when you walk it takes power, so use it wisely!
+
+
+    #winning condition
 
     self.rocket_rebuilt = False
     
@@ -147,14 +161,26 @@ class Game:
       #water icon
       self.window.blit( pygame.font.Font.render(Font, str(self.water.water),1,(150,150,150)),(70,75))#the number blitting onto the screen
       self.window.blit(self.water.icon,(25,75))
+
+      #power bar
+      pygame.draw.rect(self.window,BLACK,self.power_outline)
+      pygame.draw.rect(self.window,YELLOW,self.power_level)
+      self.window.blit(self.power_icon,(X_POWER,Y_POWER+5))#adding 5 to make th power symbol to go downa little on the screen as it was a bit too high before on the screen
       
+      #losing power when walking
+      self.power_level = pygame.Rect(X_POWER + 40 ,Y_POWER+12,self.power_amount,25)
+      if self.player.running:
+        self.power_amount -= 0.1
         
-      if self.crash.clicked:
+      if self.crash.clicked:#takes the player to the terminal
         print("clicked")
         self.terminal()
       
-      if self.rocket_rebuilt:
+      if self.rocket_rebuilt:#winning condition
         self.window.blit( pygame.font.Font.render(Font, str("YOU WIN"),1,BLACK),(300,200))#the number blitting onto the screen
+
+      if self.power_level.width <= 0:
+        self.window.blit( pygame.font.Font.render(Font, str("OUT OF POWER"),1,BLACK),(300,200))
       
       
     
@@ -204,12 +230,14 @@ class Game:
     #getting the mouse position
     for obj in self.click_list:
       if self.mouse_is_over(obj):
+        self.power_amount -= self.drill_eff
         obj.on_click()
   
   def terminal(self):
     """This method is used when the player clicks the crashsite, 
     this will be able to regenerate his power and he will be able 
     to make upgrades to his suit, drilling and eventually fix his ship"""
+    self.power_amount = 145
     running =  True
     click = False
     while running:
