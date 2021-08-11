@@ -1,5 +1,6 @@
 import pygame
 from pygame import *
+import time
 from player import Player
 from ground import Ground
 from background import Background
@@ -59,8 +60,13 @@ class Game:
     #grey box on the inside
     self.whitebox = pygame.Rect(80,30,490,50)
 
+    #different upgrade boxes
+    self.rocket_upgrade_box = pygame.Rect(50,300,240,60)
+    self.walking_upgrade_box = pygame.Rect(50,220,240,60)
+    self.mining_upgrade_box = pygame.Rect(50,140,240,60)
 
-    self.upgrade_box = pygame.Rect(50,300,240,60)
+    self.walking_price = 1
+    self.mining_price = 1
     #items
     self.hydrogen = 0
     self.oxygen = 0
@@ -74,13 +80,14 @@ class Game:
     self.power_level = pygame.Rect(X_POWER + 40 ,Y_POWER+12,self.power_amount,25)
 
     #upgrades
-    self.drill_eff = 10 #drill efficenty, goes down as you upgrade it
-    self.walking_eff = 0.001 #walking eff when you walk it takes power, so use it wisely!
+    self.mine_eff = 10 #drill efficenty, goes down as you upgrade it
+    self.walking_eff = 0.1 #walking eff when you walk it takes power, so use it wisely!
 
 
     #winning condition
 
     self.rocket_rebuilt = False
+    self.out_of_power = False
     
     
     
@@ -92,6 +99,12 @@ class Game:
       pygame.display.update()
       self.clock.tick(60)
       
+      if self.out_of_power:#if you run out of power
+        time.sleep(1)
+        return#return to the main menu
+
+
+
       #key inputs
       for event in pygame.event.get():#exits the game 
         if event.type == pygame.QUIT:
@@ -170,7 +183,7 @@ class Game:
       #losing power when walking
       self.power_level = pygame.Rect(X_POWER + 40 ,Y_POWER+12,self.power_amount,25)
       if self.player.running:
-        self.power_amount -= 0.1
+        self.power_amount -= self.walking_eff
         
       if self.crash.clicked:#takes the player to the terminal
         print("clicked")
@@ -181,6 +194,8 @@ class Game:
 
       if self.power_level.width <= 0:
         self.window.blit( pygame.font.Font.render(Font, str("OUT OF POWER"),1,BLACK),(300,200))
+        self.out_of_power = True
+        
       
       
     
@@ -230,7 +245,9 @@ class Game:
     #getting the mouse position
     for obj in self.click_list:
       if self.mouse_is_over(obj):
-        self.power_amount -= self.drill_eff
+        
+        if obj != self.click_list[2]:
+          self.power_amount -= self.mine_eff
         obj.on_click()
   
   def terminal(self):
@@ -262,17 +279,47 @@ class Game:
         self.window.blit(self.water.icon,(160,40))
 
         """Below are the boxes for the upgrades, you will not be able to purchase them if you do not have the right materials"""
-        pygame.draw.rect(self.window,(0,255,0),self.upgrade_box)
-        self.window.blit(pygame.font.Font.render(Font,"BUILD ROCKET",2,BLACK),(self.upgrade_box.x+15,self.upgrade_box.y))
-        self.window.blit(pygame.font.Font.render(Font, str(ROCKET_PRICE),1 ,BLACK),(self.upgrade_box.x + 15,self.upgrade_box.y + 25))
+        #Rcoket upgrade
+        pygame.draw.rect(self.window,(0,255,0),self.rocket_upgrade_box)
+        self.window.blit(pygame.font.Font.render(Font,"BUILD ROCKET",2,BLACK),(self.rocket_upgrade_box.x+15,self.rocket_upgrade_box.y))
+        self.window.blit(pygame.font.Font.render(Font, str(ROCKET_PRICE),1 ,BLACK),(self.rocket_upgrade_box.x + 15,self.rocket_upgrade_box.y + 25))
+        #walking upgrade
+        pygame.draw.rect(self.window,(0,255,0),self.mining_upgrade_box)
+        self.window.blit(pygame.font.Font.render(Font,"MINE EFF",2,BLACK),(self.mining_upgrade_box.x+15,self.mining_upgrade_box.y))
+        self.window.blit(pygame.font.Font.render(Font, str(self.mining_price),1 ,BLACK),(self.mining_upgrade_box.x + 15,self.mining_upgrade_box.y + 25))
+        #mining upgrade
+        pygame.draw.rect(self.window,(0,255,0),self.walking_upgrade_box)
+        self.window.blit(pygame.font.Font.render(Font,"WALKING EFF",2,BLACK),(self.walking_upgrade_box.x+15,self.walking_upgrade_box.y))
+        self.window.blit(pygame.font.Font.render(Font, str(self.walking_price),1 ,BLACK),(self.walking_upgrade_box.x + 15,self.walking_upgrade_box.y + 25))
+
+        
+        
+        
+        
+        """Pricing system, logic to checck if the player has the right materials fot the upgrade, then gives the upgrade and takes away the materials after"""
         if self.exitbutton.collidepoint((mx,my)):#if the player's mouse is over the exit button
           if click:#and then they click
             self.crash.clicked = False#exit the terminal
             running = False
-        if self.upgrade_box.collidepoint((mx,my)):
-          if click and self.mine.ore >= ROCKET_PRICE:#if the person clicking has enough ore and has clicked the upgrade
+        
+        if self.rocket_upgrade_box.collidepoint((mx,my)) and click:
+          if self.mine.ore >= ROCKET_PRICE:#if the person clicking has enough ore and has clicked the upgrade
             self.rocket_rebuilt = True
             self.mine.ore -= ROCKET_PRICE
+        
+        if self.mining_upgrade_box.collidepoint((mx,my)) and click and self.mine.ore >= self.mining_price: 
+          self.mine.ore -= self.mining_price
+          self.mining_price *= 2#increasese the price by two
+          self.mine_eff /=2#increases the efficency by two
+          
+          
+          
+        if self.walking_upgrade_box.collidepoint((mx,my)) and click and self.mine.ore >= self.walking_price:
+          self.mine.ore -= self.mining_price
+          self.walking_price *= 3 #times the price by three
+          self.walking_eff /= 2 #increase the effeicency by double
+
+          
 
 
         #setting click back to false
