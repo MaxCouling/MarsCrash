@@ -64,14 +64,17 @@ class Game:
     self.rocket_upgrade_box = pygame.Rect(50,300,240,60)
     self.walking_upgrade_box = pygame.Rect(50,220,240,60)
     self.mining_upgrade_box = pygame.Rect(50,140,240,60)
+    self.smelting_box = pygame.Rect(300,140,250,150)
 
     self.walking_price = 1
     self.mining_price = 1
     #items
-    self.hydrogen = 0
-    self.oxygen = 0
+    
     self.iron = 0
+    self.iron_icon = pygame.image.load("assets\Iron.png")
     self.clicked = False
+    self.smelting_price_ore = 10
+    self.smelting_price_water = 10
 
     #power
     self.power_amount = 150
@@ -81,7 +84,7 @@ class Game:
 
     #upgrades
     self.mine_eff = 10 #drill efficenty, goes down as you upgrade it
-    self.walking_eff = 0.1 #walking eff when you walk it takes power, so use it wisely!
+    self.walking_eff = 0.05 #walking eff when you walk it takes power, so use it wisely!
 
 
     #winning condition
@@ -202,7 +205,7 @@ class Game:
       
   
   def gravity_check(self):
-    
+    """If the player y velocity is more than 0, it """
     hits = pygame.sprite.spritecollide(self.player ,self.groundgroup, False)
     if self.player.vel.y > 0:
       if hits:
@@ -213,6 +216,8 @@ class Game:
           self.player.jumping = False#if player is touching the ground, it cannot be in the state of jump (duh)
 
   def jump(self):
+    """First this function checks if the player is in contact with the cround, if hits = True and the player is
+    not already jumping it sets self.player.jumping = True and moves the player vel up to the self.player.jump_height"""
     self.player.rect.x += 1
  
     # Check to see if payer is in contact with the ground
@@ -226,7 +231,10 @@ class Game:
        self.player.vel.y = -self.player.jump_height
 
   def mouse_is_over(self,obj):
-    
+    """This function was created as the inbuilt pygame .collidepoint was not working for some objects
+    what it does is sees if the mouse is after the left most of the object, mouse before the right most part
+    of the object, checks if the mouse is above the bottom of the image but below the top, this function works
+    as I also have the camera offset in the function."""
     mouse_x,mouse_y = pygame.mouse.get_pos()
     #this is to deterimine if the mouse is over the object or not
     obj_left = obj.rect.x- self.camera.offset.x
@@ -267,16 +275,19 @@ class Game:
         #EXIT BUTTON
         pygame.draw.rect(self.window,(70,70,70),pygame.Rect(30,30,540,340))
         pygame.draw.rect(self.window,(255,0,0),self.exitbutton)
-        
+        self.window.blit(pygame.font.Font.render(Font, "X",1,WHITE),(47,40))
         #inventory display
         pygame.draw.rect(self.window,WHITE,self.whitebox)
-        
+        """Icons at the top of the screen"""
         #ore
         self.window.blit( pygame.font.Font.render(Font, str(self.mine.ore),1,BLACK),(120,40))#ore number
         self.window.blit(self.mine.icon,(83,40))
         #water
         self.window.blit(pygame.font.Font.render(Font, str(self.water.water),1,BLACK),(193,40))
         self.window.blit(self.water.icon,(160,40))
+        #Iron
+        self.window.blit(pygame.font.Font.render(Font, str(self.iron),1,BLACK),(266,40))
+        self.window.blit(self.iron_icon,(225,37))
 
         """Below are the boxes for the upgrades, you will not be able to purchase them if you do not have the right materials"""
         #Rcoket upgrade
@@ -291,6 +302,21 @@ class Game:
         pygame.draw.rect(self.window,(0,255,0),self.walking_upgrade_box)
         self.window.blit(pygame.font.Font.render(Font,"WALKING EFF",2,BLACK),(self.walking_upgrade_box.x+15,self.walking_upgrade_box.y))
         self.window.blit(pygame.font.Font.render(Font, str(self.walking_price),1 ,BLACK),(self.walking_upgrade_box.x + 15,self.walking_upgrade_box.y + 25))
+
+        """Smelting, turning rock and water into iron which you use for the upgrades and building the rocket"""
+        pygame.draw.rect(self.window,(0,0,255),self.smelting_box)
+        #the title
+        self.window.blit(pygame.font.Font.render(Font,"SMELTING ORE",2,WHITE),(self.smelting_box.x+15,self.smelting_box.y))
+        #rock price to smelt
+        self.window.blit(self.mine.icon,(self.smelting_box.x + 15,self.smelting_box.y + 25))
+        self.window.blit(pygame.font.Font.render(Font, str(self.smelting_price_ore),1 ,BLACK),(self.smelting_box.x + 55,self.smelting_box.y + 25))
+        #water price to smelt
+        self.window.blit(self.water.icon,(self.smelting_box.x + 15,self.smelting_box.y + 65))
+        self.window.blit(pygame.font.Font.render(Font, str(self.smelting_price_water),1 ,BLACK),(self.smelting_box.x + 55,self.smelting_box.y + 65))
+        #equals sign
+        self.window.blit(pygame.font.Font.render(Font, "=",1 ,WHITE),(self.smelting_box.x + 95,self.smelting_box.y + 40))
+
+
 
         
         
@@ -315,9 +341,15 @@ class Game:
           
           
         if self.walking_upgrade_box.collidepoint((mx,my)) and click and self.mine.ore >= self.walking_price:
-          self.mine.ore -= self.mining_price
+          self.mine.ore -= self.walking_price
           self.walking_price *= 3 #times the price by three
           self.walking_eff /= 2 #increase the effeicency by double
+
+
+        if self.smelting_box.collidepoint((mx,my)) and click and self.mine.ore >= self.smelting_price_ore and self.water.water >= self.smelting_price_water:
+          self.mine.ore -= self.smelting_price_ore
+          self.water.water -= self.smelting_price_ore
+          self.iron +=1
 
           
 
