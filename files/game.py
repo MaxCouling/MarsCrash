@@ -293,7 +293,8 @@ class Game:
         #Rcoket upgrade
         pygame.draw.rect(self.window,(0,255,0),self.rocket_upgrade_box)
         self.window.blit(pygame.font.Font.render(Font,"BUILD ROCKET",2,BLACK),(self.rocket_upgrade_box.x+15,self.rocket_upgrade_box.y))
-        self.window.blit(pygame.font.Font.render(Font, str(ROCKET_PRICE),1 ,BLACK),(self.rocket_upgrade_box.x + 15,self.rocket_upgrade_box.y + 25))
+        self.window.blit(pygame.font.Font.render(Font, str(ROCKET_PRICE),1 ,BLACK),(self.rocket_upgrade_box.x + 55,self.rocket_upgrade_box.y + 25))
+        self.window.blit(self.water.icon,(self.rocket_upgrade_box.x + 15,self.rocket_upgrade_box.y + 25))
         #walking upgrade
         pygame.draw.rect(self.window,(0,255,0),self.mining_upgrade_box)
         self.window.blit(pygame.font.Font.render(Font,"MINE EFF",2,BLACK),(self.mining_upgrade_box.x+15,self.mining_upgrade_box.y))
@@ -331,10 +332,10 @@ class Game:
         if self.rocket_upgrade_box.collidepoint((mx,my)) and click:
           if self.mine.ore >= ROCKET_PRICE:#if the person clicking has enough ore and has clicked the upgrade
             self.rocket_rebuilt = True
-            self.mine.ore -= ROCKET_PRICE
+            self.iron -= ROCKET_PRICE
         
         if self.mining_upgrade_box.collidepoint((mx,my)) and click and self.mine.ore >= self.mining_price: 
-          self.mine.ore -= self.mining_price
+          self.water.water -= self.mining_price
           self.mining_price *= 2#increasese the price by two
           self.mine_eff /=2#increases the efficency by two
           
