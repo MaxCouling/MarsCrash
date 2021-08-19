@@ -84,7 +84,7 @@ class Game:
 
     #upgrades
     self.mine_eff = 10 #drill efficenty, goes down as you upgrade it
-    self.walking_eff = 0.05 #walking eff when you walk it takes power, so use it wisely!
+    self.walking_eff = 0.08 #walking eff when you walk it takes power, so use it wisely!
 
 
     #winning condition
@@ -294,15 +294,17 @@ class Game:
         pygame.draw.rect(self.window,(0,255,0),self.rocket_upgrade_box)
         self.window.blit(pygame.font.Font.render(Font,"BUILD ROCKET",2,BLACK),(self.rocket_upgrade_box.x+15,self.rocket_upgrade_box.y))
         self.window.blit(pygame.font.Font.render(Font, str(ROCKET_PRICE),1 ,BLACK),(self.rocket_upgrade_box.x + 55,self.rocket_upgrade_box.y + 25))
-        self.window.blit(self.water.icon,(self.rocket_upgrade_box.x + 15,self.rocket_upgrade_box.y + 25))
+        self.window.blit(self.iron_icon,(self.rocket_upgrade_box.x + 15,self.rocket_upgrade_box.y + 25))
         #walking upgrade
         pygame.draw.rect(self.window,(0,255,0),self.mining_upgrade_box)
-        self.window.blit(pygame.font.Font.render(Font,"MINE EFF",2,BLACK),(self.mining_upgrade_box.x+15,self.mining_upgrade_box.y))
-        self.window.blit(pygame.font.Font.render(Font, str(self.mining_price),1 ,BLACK),(self.mining_upgrade_box.x + 15,self.mining_upgrade_box.y + 25))
+        self.window.blit(pygame.font.Font.render(Font,"MINE EFF",2,BLACK),(self.mining_upgrade_box.x+15,self.mining_upgrade_box.y))#name of upgrade
+        self.window.blit(pygame.font.Font.render(Font, str(self.mining_price),1 ,BLACK),(self.mining_upgrade_box.x + 55,self.mining_upgrade_box.y + 25))#price of upgrade
+        self.window.blit(self.water.icon,(self.mining_upgrade_box.x + 15,self.mining_upgrade_box.y + 25))#icon next to price
         #mining upgrade
         pygame.draw.rect(self.window,(0,255,0),self.walking_upgrade_box)
         self.window.blit(pygame.font.Font.render(Font,"WALKING EFF",2,BLACK),(self.walking_upgrade_box.x+15,self.walking_upgrade_box.y))
-        self.window.blit(pygame.font.Font.render(Font, str(self.walking_price),1 ,BLACK),(self.walking_upgrade_box.x + 15,self.walking_upgrade_box.y + 25))
+        self.window.blit(pygame.font.Font.render(Font, str(self.walking_price),1 ,BLACK),(self.walking_upgrade_box.x + 55,self.walking_upgrade_box.y + 25))
+        self.window.blit(self.mine.icon,(self.walking_upgrade_box.x + 15,self.walking_upgrade_box.y + 25))
 
         """Smelting, turning rock and water into iron which you use for the upgrades and building the rocket"""
         pygame.draw.rect(self.window,(0,0,255),self.smelting_box)
@@ -310,12 +312,15 @@ class Game:
         self.window.blit(pygame.font.Font.render(Font,"SMELTING ORE",2,WHITE),(self.smelting_box.x+15,self.smelting_box.y))
         #rock price to smelt
         self.window.blit(self.mine.icon,(self.smelting_box.x + 15,self.smelting_box.y + 25))
-        self.window.blit(pygame.font.Font.render(Font, str(self.smelting_price_ore),1 ,BLACK),(self.smelting_box.x + 55,self.smelting_box.y + 25))
+        self.window.blit(pygame.font.Font.render(Font, str(self.smelting_price_ore),1 ,WHITE),(self.smelting_box.x + 55,self.smelting_box.y + 25))
         #water price to smelt
         self.window.blit(self.water.icon,(self.smelting_box.x + 15,self.smelting_box.y + 65))
-        self.window.blit(pygame.font.Font.render(Font, str(self.smelting_price_water),1 ,BLACK),(self.smelting_box.x + 55,self.smelting_box.y + 65))
+        self.window.blit(pygame.font.Font.render(Font, str(self.smelting_price_water),1 ,WHITE),(self.smelting_box.x + 55,self.smelting_box.y + 65))
         #equals sign
         self.window.blit(pygame.font.Font.render(Font, "=",1 ,WHITE),(self.smelting_box.x + 95,self.smelting_box.y + 40))
+        #how much iron you will get per smelt
+        self.window.blit(self.iron_icon,(self.smelting_box.x + 120,self.smelting_box.y + 35))
+        self.window.blit(pygame.font.Font.render(Font, "1",1,WHITE),(self.smelting_box.x + 160,self.smelting_box.y + 40))
 
 
 
@@ -329,12 +334,12 @@ class Game:
             self.crash.clicked = False#exit the terminal
             running = False
         
-        if self.rocket_upgrade_box.collidepoint((mx,my)) and click:
-          if self.mine.ore >= ROCKET_PRICE:#if the person clicking has enough ore and has clicked the upgrade
+        if self.rocket_upgrade_box.collidepoint((mx,my)) and click and self.iron >= ROCKET_PRICE:
+        
             self.rocket_rebuilt = True
             self.iron -= ROCKET_PRICE
         
-        if self.mining_upgrade_box.collidepoint((mx,my)) and click and self.mine.ore >= self.mining_price: 
+        if self.mining_upgrade_box.collidepoint((mx,my)) and click and self.water.water >= self.mining_price: 
           self.water.water -= self.mining_price
           self.mining_price *= 2#increasese the price by two
           self.mine_eff /=2#increases the efficency by two
