@@ -25,7 +25,7 @@ pygame.display.set_icon(ICON)
 
 
 
-
+#little function used to make drawing text easier
 def draw_text(text,color,surface,x,y):
   textobj = myFont.render(text,1,color)
   textrect = textobj.get_rect()

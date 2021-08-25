@@ -44,7 +44,7 @@ class Rocketgame:
 
 
   def button_input(self):
-    
+    """This method gets the inputs of the player and translates it to the movement of the sprite"""
     for event in pygame.event.get():#getting all the keyboard inputs from user
         if event.type == QUIT:#if one of those inputs is the user pressing the quit button
           
@@ -77,12 +77,13 @@ class Rocketgame:
     asteroid_list = []
     start_time = time.time()
     big_asteroid_posy = 1000
-    
+    #spawning the asteroids in a list
     for asteroid in range(num_of_asteroids):
       asteroid = Asteroid()
       asteroid_list.append(asteroid)
     
-    pygame.mixer.music.play(1)
+    pygame.mixer.music.play(1)#starts the music
+    """Main loop where the asteroid minigame plays in"""
     while True:#loops the game 
       
       end_time = time.time()
@@ -112,22 +113,19 @@ class Rocketgame:
       screen.blit(self.rocket.image,(self.rocket.rect.x,self.rocket.rect.y))#blitting the rocket on the 
       
       if self.minigame_bgY <= -BG.get_height():
-        self.minigame_bgY = 0
-        
+        self.minigame_bgY = 0 
       else:
-        self.minigame_bgY -= 5#makes the image move down by 5 pixes every time this loops over
+        self.minigame_bgY -= 5#makes the image move down by 5 pixels every time this loops over
       
       
-      
+      #asteroid collison code, if any of the asteroids in the astroid lists hitbox hits the rockets hit box damage += 1 
       for asteroid in asteroid_list:
         if pygame.Rect.colliderect(asteroid.rect, self.rocket_hitbox):
           self.damage += 1
           
       
       
-      #for asteroid in asteroid.asteroid_list:
-      #  asteroid.draw()
-      
+      #this draws the asteroid onto the screen
       for asteroid in asteroid_list:
         asteroid.rotate += asteroid.speed
         asteroid.y -= abs(asteroid.speed * 10)#gets the absolute speed, doesn't care for negatives
@@ -137,11 +135,11 @@ class Rocketgame:
       
       
       
-      self.button_input()
+      self.button_input()#calls the method for the player movement of the rocket
       
-      length = self.damage *5
-      pygame.draw.rect(screen, BLACK,pygame.Rect(0,WINDOW_HEIGHT-HEALTHBAR_HEIGHT,WINDOW_WIDTH,HEALTHBAR_HEIGHT))#this is healthbar code (X , Y , WIDTH, HRIGHT)
-      pygame.draw.rect(screen, RED, pygame.Rect(0, WINDOW_HEIGHT - HEALTHBAR_HEIGHT, WINDOW_WIDTH - length,HEALTHBAR_HEIGHT))
+      length = self.damage *5#button length is properinatial to the damage 
+      pygame.draw.rect(screen, BLACK,pygame.Rect(0,WINDOW_HEIGHT-HEALTHBAR_HEIGHT,WINDOW_WIDTH,HEALTHBAR_HEIGHT))#the black behind the healthbar to show the player how much damage he has lost
+      pygame.draw.rect(screen, RED, pygame.Rect(0, WINDOW_HEIGHT - HEALTHBAR_HEIGHT, WINDOW_WIDTH - length,HEALTHBAR_HEIGHT))#this is healthbar code (X , Y , WIDTH, HEIGHT),
       
       
       if self.rocket.rect.x <= 0:#boundries in the game for x axis
@@ -170,12 +168,12 @@ class Rocketgame:
       pygame.time.delay(23)#delay per frame 
     
     while True:
-      
+      screen.fill(BLACK)
       screen.blit(self.title,(0,0))#title will be a png saying press any key to continue
       pygame.display.update()
       
       for event in pygame.event.get():#this code will exucute once the user has pressed any key
-        if event.type == KEYDOWN:
+        if event.type == KEYDOWN or event.type == MOUSEBUTTONDOWN:
 
           pygame.mixer.music.stop()#stops the music
           game = Game()

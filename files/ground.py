@@ -5,6 +5,7 @@ WINDOW_SIZE = (w_width,w_height)
 canvas = pygame.Surface((WINDOW_SIZE))#initate the screensize
 
 class Ground(pygame.sprite.Sprite):
+  """Setting the groudn tiles x and y and the imaage used for it"""
   def __init__(self,x,y):
     super().__init__()
     self.x = x

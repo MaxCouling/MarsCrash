@@ -42,7 +42,9 @@ class Player(pygame.sprite.Sprite):
     self.jump_height = 12
     self.move_frame = 0 #tracking the current frame of the character
     
-  def move(self):#method to do the running
+  def move(self):#method to do the running\
+    """This method is what makes the player move, they acceleate up or down by what button you press (A or D) (Up or Down) and
+    takes all this into consideration when moving the player"""
     self.acc = vec(0,0.5)#gravity, Force that constantly pulls the player down
     #if at the border
     if self.rect.x >= self.right_border -50:
@@ -72,7 +74,8 @@ class Player(pygame.sprite.Sprite):
     
   
   def update(self):#animation
-    
+    """The update method does the animation of the player, it checks if the player is jumping, on the ground or moving left or
+    right and figures out what frame to play next."""
     self.move_frame +=1
     if self.move_frame > 3:#if it is the 4th frame, go and make it go back to the first one
       self.move_frame = 0#makes it go back to the standing frame

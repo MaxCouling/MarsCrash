@@ -43,7 +43,7 @@ class Game:
     self.background = Background()
     self.textbox = Textbox()
     self.camera = Camera(self.player)
-   # auto = Auto(self.camera,self.player)#its called borderself.
+   
     self.border = Border(self.camera, self.player)
     self.animationspeed = 0
 
@@ -97,8 +97,10 @@ class Game:
   
   def game(self):
     #starting sequence with the basic instructions
+    """Intro is the basic tutorial for the player, gives instructions and briefs them on power usage and the wearabouts of
+    the ore and the water and tells them to come back to the crashsite if they want to fill back up with power"""
     intro = 0
-    while intro < 5:
+    while intro < 6:
       self.canvas.fill(BLACK)
       if intro == 0:
         self.textbox.render("COMPUTER",(120,25),(255,255,255),"You have crash landed on MARS!",(120,65),(255,255,255),self.crash.avatar,1)
@@ -107,21 +109,22 @@ class Game:
       if intro == 2:
         self.textbox.render("COMPUTER",(120,25),(255,255,255),"You have a limited amount of power in \nyour suit, explore the surface of\nMars and find out what is out there.",(120,65),(255,255,255),self.crash.avatar,1)
       if intro == 3:
-        self.textbox.render("COMPUTER",(120,25),(255,255,255),"My sources say that there is martian \nore and an ice deposit east of the \ncrash site",(120,65),(255,255,255),self.crash.avatar,1)
+        self.textbox.render("COMPUTER",(120,25),(255,255,255),"My sources say that there is martian \nore and an ice deposit east of the \ncrash site.",(120,65),(255,255,255),self.crash.avatar,1)
       if intro == 4:
-        self.textbox.render("COMPUTER",(120,25),(255,255,255),"Good luck astronaut!\n\nCome back to the crashed ship to fill \nyour battery up",(120,65),(255,255,255),self.crash.avatar,1)
-      
+        self.textbox.render("COMPUTER",(120,25),(255,255,255),"Walking drains your battery, so does\nmining ore or extracting water\nfrom the ice.",(120,65),(255,255,255),self.crash.avatar,1)
+      if intro == 5:
+        self.textbox.render("COMPUTER",(120,25),(255,255,255),"Good luck astronaut!\n\nCome back to the crashed ship to fill \nyour battery up.",(120,65),(255,255,255),self.crash.avatar,1)
       
       
       
       for event in pygame.event.get():#exits the intro and moves onto the game
         if event.type == pygame.QUIT:
           sys.exit()
-        if event.type == KEYDOWN or event.type == MOUSEBUTTONDOWN:
+        if event.type == KEYDOWN or event.type == MOUSEBUTTONDOWN:#if the player clicks or presses any button on the keyboard it skips to the next slide
           intro +=1#goes onto the next textbox
     
     self.camera.setmethod(self.border)
-    
+    """Main loop where everything is drawn/blitted onto the screen, also holds the win and lose conditions."""
     while True:#main loop
       #setting framerate
       pygame.display.update()
@@ -214,7 +217,6 @@ class Game:
         self.power_amount -= self.walking_eff
         
       if self.crash.clicked:#takes the player to the terminal
-        print("clicked")
         self.terminal()
       
       if self.rocket_rebuilt:#winning condition
@@ -274,7 +276,7 @@ class Game:
 
   
   def click(self):
-    #method that will keep track of what to do when the player clicks somewhere on the screen
+    """method that will keep track of what to do when the player clicks somewhere on the screen"""
     #getting the mouse position
     for obj in self.click_list:
       if self.mouse_is_over(obj):

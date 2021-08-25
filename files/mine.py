@@ -17,6 +17,7 @@ class Mine:
         self.tutorial = True
 
     def on_click(self):
+        """When clicked it adds one to the score o"""
         self.ore += 1
         
         if self.tutorial:

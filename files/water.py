@@ -16,6 +16,7 @@ class Water:
         self.tutorial = True
 
     def on_click(self):
+        """When the water is clicked this function happens. It adds one to the water counter and if it is the players first time clicking on the water they get a tutorial"""
         self.water +=1 
         
         if self.tutorial:
