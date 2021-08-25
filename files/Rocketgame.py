@@ -167,7 +167,7 @@ class Rocketgame:
       fade.set_alpha(alpha)
       screen.blit(fade, (0,0))
       pygame.display.update()
-      pygame.time.delay(23)#delay per frame
+      pygame.time.delay(23)#delay per frame 
     
     while True:
       
