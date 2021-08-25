@@ -14,13 +14,14 @@ class Mine:
         self.ore = 0#the amount of ore that the mine has produced
         
         self.textbox = Textbox()
-        
+        self.tutorial = True
 
     def on_click(self):
         self.ore += 1
         
-        if self.ore == 1:
-            self.textbox.render("MINE",(120,25),(255,255,255),"This is the mine, click on it to get martian ore!",(120,125),(155,0,155),self.rock_for_tutorial,150)
+        if self.tutorial:
+            self.textbox.render("MINE",(120,25),(255,255,255),"This is the mine, click on it to get \nthe martian ore!\n\n\nUse the ore to increase the distance your battery\ncan take you! ",(120,65),(255,255,255),self.rock_for_tutorial,250)
+            self.tutorial = False
     
     
         
