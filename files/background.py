@@ -7,6 +7,9 @@ BLACK = (0,0,0)
 
 class Background(pygame.sprite.Sprite):
   def __init__(self):
+    """I found that adding multiple mountains caused my game to lag. This is because the PNG's i was constantly loading was taking up
+    alot of the machines power, what i did to fix it was convert it into a png, the transparent parts of the picture is now black,
+    then i took the black away, this made it preform alot better."""
     super().__init__()
     #sky
     self.sky = pygame.image.load("mars_bg.png").convert()
@@ -27,5 +30,3 @@ class Background(pygame.sprite.Sprite):
     self.mountains2.set_colorkey(BLACK)
     self.mountains2Y = 0
     self.mountains2X = -200
-  def render(self):
-    screen.blit(self.bgimage,(self.bgY,self.bgX))

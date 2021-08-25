@@ -2,8 +2,7 @@ import pygame
 from pygame import *
 import sys
 from textbox import Textbox
-from mine import Mine
-from water import Water
+
 Font = pygame.font.Font("fonts/visitor1.ttf",30)
 WHITE = (255,255,255)
 BLACK = (0,0,0)
@@ -57,53 +56,12 @@ class Crash:
     def on_click(self):
         #gives the textbox to show the player what is going to happen next, go into the computer terminal to be able to smelt items and stuff
         if self.tutorial:
-            self.textbox.render("COMPUTER",(120,25),(255,255,255),"HI, This is where you craft!",(120,70),(255,255,255),self.avatar,200)
+            self.textbox.render("COMPUTER",(120,25),(255,255,255),"HI, This is where you craft and fill\nyour battery up to go on the trips to\nthe deposits",(120,70),(255,255,255),self.avatar,200)
             self.tutorial = False
         #self.terminal()#opens the terminal
         self.clicked = True
 
-        
     
-    """def terminal(self):
-        running =  True
-        self.ore_amount = self.mine.ore
-        self.water_amount = self.water.water
-        while running:
-            pygame.display.update()
-            self.clock.tick(60)
-            self.screen.fill((0,0,0))#background colour
-            mx, my = pygame.mouse.get_pos()#gets the mouse postion. mx is mouse x and mouse y is mouse y postion on the screen
-            
-            #EXIT BUTTON
-            pygame.draw.rect(self.screen,(70,70,70),pygame.Rect(30,30,540,340))
-            pygame.draw.rect(self.screen,(255,0,0),self.exitbutton)
-            if self.exitbutton.collidepoint((mx,my)):
-                if click:
-                    running = False
-            #inventory display
-            pygame.draw.rect(self.screen,WHITE,self.whitebox)
-            
-            #ore
-            self.screen.blit( pygame.font.Font.render(Font, str(self.ore_amount),1,BLACK),(120,40))#ore number
-            self.screen.blit(self.ore_icon,(83,40))
-            #water
-            self.screen.blit(pygame.font.Font.render(Font, str(self.water_amount),1,BLACK),(193,40))
-            self.screen.blit(self.water_icon,(160,40))
-            
-
-            click = False
-            for event in pygame.event.get():#getting all the keyboard inputs from user
-                if event.type == QUIT:#if one of those inputs is the user pressing the quit button
-                    pygame.quit()#it will terminate ptgame
-                    sys.exit()
-                if event.type == KEYDOWN:
-                    if event.key == K_ESCAPE:
-                        pygame.quit()#it will terminate ptgame
-                        sys.exit()
-                if event.type == MOUSEBUTTONDOWN:
-                    if event.button == 1:
-                        click = True
-"""
 
 
 

@@ -5,7 +5,7 @@ pygame.init()
 
 title_font = pygame.font.Font("fonts/visitor1.ttf",40)
 text_font = pygame.font.Font("fonts/visitor2.ttf",20)
-
+WHITE = (0,0,0)
 class Textbox:
   def __init__(self):
     w_width = 600#window width
@@ -32,15 +32,30 @@ class Textbox:
       self.screen.blit(self.tb,self.tb_rect)#drawing the background, the textbox which is then going to be used for the text to be put on
       
       self.screen.blit( pygame.font.Font.render(title_font, str(title),1,title_colour),title_pos)#The title of the text going onto the screen
-      self.screen.blit(pygame.font.Font.render(text_font, str(text),1,text_colour),text_pos)#the text under it
+      self.blit_text(self.screen,text,text_pos,text_font,text_colour)
       self.screen.blit(avatar,(450,12))
     
     
 
 
       
-  def bigtextbox_render(self):#future proofing
-    pass
+  
+  def blit_text(self, surface, text, pos, font,colour):
+    words = [word.split(' ') for word in text.splitlines()]  # 2D array where each row is a list of words.
+    space = font.size(' ')[0]  # The width of a space.
+    max_width, max_height = surface.get_size()
+    x, y = pos
+    for line in words:
+        for word in line:
+            word_surface = font.render(word, 0, colour)
+            word_width, word_height = word_surface.get_size()
+            if x + word_width >= max_width:
+                x = pos[0]  # Reset the x.
+                y += word_height  # Start on new row.
+            surface.blit(word_surface, (x, y))
+            x += word_width + space
+        x = pos[0]  # Reset the x.
+        y += word_height  # Start on new row.
 
 
 

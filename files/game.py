@@ -96,7 +96,32 @@ class Game:
     
   
   def game(self):
+    #starting sequence with the basic instructions
+    intro = 0
+    while intro < 5:
+      self.canvas.fill(BLACK)
+      if intro == 0:
+        self.textbox.render("COMPUTER",(120,25),(255,255,255),"You have crash landed on MARS!",(120,65),(255,255,255),self.crash.avatar,1)
+      if intro == 1:
+        self.textbox.render("COMPUTER",(120,25),(255,255,255),"Lucky enough the ship has more than\nenough power to last until we can\nget out of here. \n\nBut how would we get out of this \ndesert planet?",(120,65),(255,255,255),self.crash.avatar,1)
+      if intro == 2:
+        self.textbox.render("COMPUTER",(120,25),(255,255,255),"You have a limited amount of power in \nyour suit, explore the surface of\nMars and find out what is out there.",(120,65),(255,255,255),self.crash.avatar,1)
+      if intro == 3:
+        self.textbox.render("COMPUTER",(120,25),(255,255,255),"My sources say that there is martian \nore and an ice deposit east of the \ncrash site",(120,65),(255,255,255),self.crash.avatar,1)
+      if intro == 4:
+        self.textbox.render("COMPUTER",(120,25),(255,255,255),"Good luck astronaut!\n\nCome back to the crashed ship to fill \nyour battery up",(120,65),(255,255,255),self.crash.avatar,1)
+      
+      
+      
+      
+      for event in pygame.event.get():#exits the intro and moves onto the game
+        if event.type == pygame.QUIT:
+          sys.exit()
+        if event.type == KEYDOWN or event.type == MOUSEBUTTONDOWN:
+          intro +=1#goes onto the next textbox
+    
     self.camera.setmethod(self.border)
+    
     while True:#main loop
       #setting framerate
       pygame.display.update()

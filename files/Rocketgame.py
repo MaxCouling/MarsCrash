@@ -167,14 +167,15 @@ class Rocketgame:
       fade.set_alpha(alpha)
       screen.blit(fade, (0,0))
       pygame.display.update()
-      pygame.time.delay(23)
+      pygame.time.delay(23)#delay per frame
+    
     while True:
-      pygame.time.delay(100)
+      
       screen.blit(self.title,(0,0))#title will be a png saying press any key to continue
       pygame.display.update()
       
       for event in pygame.event.get():#this code will exucute once the user has pressed any key
-        if event.type == KEYDOWN or MOUSEBUTTONUP:
+        if event.type == KEYDOWN:
 
           pygame.mixer.music.stop()#stops the music
           game = Game()

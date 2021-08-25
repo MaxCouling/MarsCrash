@@ -13,12 +13,14 @@ class Water:
         self.rect = self.image.get_rect(topleft = (self.x, self.y))
         self.water = 0#the amount of ore that the mine has produced
         self.textbox = Textbox()
+        self.tutorial = True
 
     def on_click(self):
-        self.water += 1
+        self.water +=1 
         
-        if self.water == 1:
-            self.textbox.render("WATER",(120,25),(255,255,255),"This is ice, click on it to get water!",(120,125),(155,0,155),self.water_for_tutorial,150)
+        if self.tutorial:
+            self.textbox.render("WATER",(120,25),(255,255,255),"This is ice, click on it to get water!\nwater can be used for upgrades\nand smelting ore!",(120,65),(255,255,255),self.water_for_tutorial,150)
+            self.tutorial = False
         
     
     
