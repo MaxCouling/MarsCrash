@@ -443,12 +443,12 @@ class Game:
         self.window.blit(self.iron_icon,(self.rocket_upgrade_box.x + 15,self.rocket_upgrade_box.y + 25))
         #walking upgrade
         pygame.draw.rect(self.window,self.mining_colour,self.mining_upgrade_box)
-        self.window.blit(pygame.font.Font.render(Font,"MINE EFF",2,BLACK),(self.mining_upgrade_box.x+15,self.mining_upgrade_box.y))#name of upgrade
+        self.window.blit(pygame.font.Font.render(Font,"MINE SKILL",2,BLACK),(self.mining_upgrade_box.x+15,self.mining_upgrade_box.y))#name of upgrade
         self.window.blit(pygame.font.Font.render(Font, str(self.mining_price),1 ,BLACK),(self.mining_upgrade_box.x + 55,self.mining_upgrade_box.y + 25))#price of upgrade
         self.window.blit(self.water.icon,(self.mining_upgrade_box.x + 15,self.mining_upgrade_box.y + 25))#icon next to price
         #mining upgrade
         pygame.draw.rect(self.window,self.walking_colour,self.walking_upgrade_box)
-        self.window.blit(pygame.font.Font.render(Font,"WALKING EFF",2,BLACK),(self.walking_upgrade_box.x+15,self.walking_upgrade_box.y))
+        self.window.blit(pygame.font.Font.render(Font,"WALK SKILL",2,BLACK),(self.walking_upgrade_box.x+15,self.walking_upgrade_box.y))
         self.window.blit(pygame.font.Font.render(Font, str(self.walking_price),1 ,BLACK),(self.walking_upgrade_box.x + 55,self.walking_upgrade_box.y + 25))
         self.window.blit(self.mine.icon,(self.walking_upgrade_box.x + 15,self.walking_upgrade_box.y + 25))
 

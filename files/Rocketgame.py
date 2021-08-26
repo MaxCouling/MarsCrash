@@ -90,14 +90,7 @@ class Rocketgame:
       
       end_time = time.time()
       
-      if end_time - start_time > 25:#when all the baby asteroids are gone
-
-        screen.blit(MARS,(0,mars_y))
-        mars_y -= 5
-        
-        if mars_y <= 0:
-          
-          self.mini_title_screen()
+      
           
 
       
@@ -105,7 +98,14 @@ class Rocketgame:
       pygame.display.update()
       screen.fill(BLACK)#fills the screen with black
       screen.blit(BG, (0, self.minigame_bgY))#this function is what makes the backround image move down in the rocket videogame
+      if end_time - start_time > 25:#when all the baby asteroids are gone
 
+        screen.blit(MARS,(0,mars_y))
+        mars_y -= 5
+        
+        if mars_y <= 100:
+          
+          self.mini_title_screen()
       
       
       
@@ -168,6 +168,9 @@ class Rocketgame:
       screen.blit(fade, (0,0))
       pygame.display.update()
       pygame.time.delay(23)#delay per frame 
+      for event in pygame.event.get():#this code will exucute once the user has pressed any key
+        if event.type == QUIT:#if one of those inputs is the user pressing the quit button
+          sys.exit()
     
     while True:
       screen.fill(BLACK)
