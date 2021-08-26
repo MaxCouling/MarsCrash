@@ -11,6 +11,7 @@ from game import WHITE
 
 BG = pygame.image.load("Space.png")
 BIG_ASTEROID  = pygame.image.load("BigAsteroid.png")
+MARS = pygame.transform.scale(pygame.image.load("Mars_picture.png"), (600, 600))
 HEALTHBAR_HEIGHT = 30
 num_of_asteroids = 50#the number of asteroids that the rocket will have to dodge on the way to mars
 ATMOSPHERE_COLOUR = (252,116,53)
@@ -78,7 +79,7 @@ class Rocketgame:
   def rocketGameRunning(self):
     asteroid_list = []
     start_time = time.time()
-    big_asteroid_posy = 1000
+    mars_y = 1000
     #spawning the asteroids in a list
     for asteroid in range(num_of_asteroids):
       asteroid = Asteroid()
@@ -92,10 +93,10 @@ class Rocketgame:
       
       if end_time - start_time > 25:#when all the baby asteroids are gone
 
-        screen.blit(BIG_ASTEROID,(0,big_asteroid_posy))
-        big_asteroid_posy -= 5
+        screen.blit(MARS,(0,mars_y))
+        mars_y -= 5
         
-        if big_asteroid_posy <= 0:
+        if mars_y <= 0:
           
           self.mini_title_screen()
           
