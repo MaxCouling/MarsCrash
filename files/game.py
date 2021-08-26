@@ -1,3 +1,4 @@
+
 import pygame
 from pygame import *
 import time
@@ -17,17 +18,18 @@ Font = pygame.font.Font("fonts/visitor1.ttf",30)
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 YELLOW = (255,255,0)
+RED = (255,0,0)
 ROCKET_PRICE = 20
 X_POWER,Y_POWER = 0,120
-
-
+WINDOW_W, WINDOW_H = 600, 400
+WINDOW_SIZE = WINDOW_W, WINDOW_H
 
 class Game:
   def __init__(self):
     
-    WINDOW_W, WINDOW_H = 600, 400
+    
     self.canvas = pygame.Surface((WINDOW_W*10,WINDOW_H))#setting the canvas
-    self.window = pygame.display.set_mode(((WINDOW_W,WINDOW_H)))#setting the window
+    self.window = pygame.display.set_mode(((WINDOW_SIZE)))#setting the window
     self.clock = pygame.time.Clock()#pygame clock
     
     
@@ -50,7 +52,7 @@ class Game:
     #setting up mine and other scene
     self.mine = Mine()
     self.water = Water()
-    self.crash = Crash(self.mine,self.water)#self.mine
+    self.crash = Crash()#self.mine
     self.click_list = [self.mine,self.water,self.crash]#all the things in my game that can be clicked
     
     #terminal varibales
@@ -131,8 +133,8 @@ class Game:
       self.clock.tick(60)
       
       if self.out_of_power:#if you run out of power
-        time.sleep(1)
-        return#return to the main menu
+        time.sleep(2)
+        return#return to the 'Mars Crash'
 
 
 
@@ -220,10 +222,18 @@ class Game:
         self.terminal()
       
       if self.rocket_rebuilt:#winning condition
-        self.window.blit( pygame.font.Font.render(Font, str("YOU WIN"),1,BLACK),(300,200))#the number blitting onto the screen
+        self.window.blit( pygame.font.Font.render(Font, str("YOU WIN!"),1,BLACK),(200,200))#the number blitting onto the screen
 
-      if self.power_level.width <= 0:
-        self.window.blit( pygame.font.Font.render(Font, str("OUT OF POWER"),1,BLACK),(300,200))
+      if self.power_level.width <= 0:#if the power is 0 the player is out of power
+        fade = pygame.Surface(WINDOW_SIZE)#sets the window size for the fade
+        fade.fill(RED)#what colour the fade is going to be
+        for alpha in range(0,100):#for loop that fades the screen
+          fade.set_alpha(alpha)
+          self.window.blit(fade, (0,0))
+          pygame.display.update()
+          pygame.time.delay(10)#delay per frame 
+        
+        self.window.blit( pygame.font.Font.render(Font, str("OUT OF POWER"),1,BLACK),(180,180))
         self.out_of_power = True
         
       
@@ -280,7 +290,7 @@ class Game:
     #getting the mouse position
     for obj in self.click_list:
       if self.mouse_is_over(obj):
-        
+        #if the object isn't the crashsite take power away 
         if obj != self.click_list[2]:
           self.power_amount -= self.mine_eff
         obj.on_click()
@@ -376,7 +386,7 @@ class Game:
         if self.walking_upgrade_box.collidepoint((mx,my)) and click and self.mine.ore >= self.walking_price:
           self.mine.ore -= self.walking_price
           self.walking_price *= 3 #times the price by three
-          self.walking_eff /= 2 #increase the effeicency by double
+          self.walking_eff /= 1.5 #increase the effeicency by 1.5
 
 
         if self.smelting_box.collidepoint((mx,my)) and click and self.mine.ore >= self.smelting_price_ore and self.water.water >= self.smelting_price_water:

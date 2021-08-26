@@ -5,6 +5,8 @@ import time
 from rocket import Rocket
 from asteroid import Asteroid
 from game import Game
+from game import Font
+from game import WHITE
 
 
 BG = pygame.image.load("Space.png")
@@ -170,6 +172,7 @@ class Rocketgame:
     while True:
       screen.fill(BLACK)
       screen.blit(self.title,(0,0))#title will be a png saying press any key to continue
+      screen.blit( pygame.font.Font.render(Font, "PRESS ANY KEY TO CONTINUE",1,WHITE),(70,250))
       pygame.display.update()
       
       for event in pygame.event.get():#this code will exucute once the user has pressed any key

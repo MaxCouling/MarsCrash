@@ -18,7 +18,7 @@ pygame.display.set_caption("Mars Crash")
 ICON = pygame.image.load("logo.png")
 ASTEROID_IMAGE = pygame.image.load("greyAsteroid.png")
 ROCKET_IMAGE = pygame.image.load("player.png")
-
+TITLE_IMAGE = pygame.image.load("mars_crash_title.png")
 pygame.display.set_icon(ICON)
 
 
@@ -43,22 +43,22 @@ class Main_menu:#this is the main menu and the dying screen on pygame #
       pygame.display.update()#updates the screen
       clock.tick(60)#make sthe menu run at 60fps
       screen.fill (BLACK)#makes the screen black
-      draw_text("main menu",(255,255,255), screen,20,20)#this draw text function makes the text main menu appear on the top left corner
+      screen.blit(TITLE_IMAGE,(0,0))
 
       mx, my = pygame.mouse.get_pos()#gets the mouse postion. mx is mouse x and mouse y is mouse y postion on the screen
       
 
-      button_1 = pygame.Rect(50,100,200,50)#postion of the mouse 1
+      button_1 = pygame.Rect(200,270,200,50)#postion of the mouse 1
     
-      button_2 = pygame.Rect(50,200,200,50)
+      button_2 = pygame.Rect(200,330,200,50)
       pygame.draw.rect(screen,(255,0,0),button_1)
-      draw_text("Start",(255,255,255), screen, 75,105)#drawiing the start text
+      draw_text("Start",(255,255,255), screen, button_1.x +25,button_1.y + 5)#drawiing the start text
      
       if self.straight_to_mars:
         pygame.draw.rect(screen,(255,0,0),button_2)
       if button_1.collidepoint((mx,my)):#if the mouse is collding with the boxes x and y
         pygame.draw.rect(screen,(100,100,100),button_1)#makes it grey
-        draw_text("Lets Go!",(255,255,255), screen, 75,105)#drawiing the start text
+        draw_text("Lets Go!",(255,255,255), screen, button_1.x +25,button_1.y + 5)#drawiing the start text
         
         if click:
           self.straight_to_mars = True
