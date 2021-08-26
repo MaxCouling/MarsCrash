@@ -7,7 +7,7 @@ WINDOW_SIZE = (w_width,w_height)
 screen = pygame.display.set_mode((WINDOW_SIZE))#initate the 
 
 class Asteroid:
-  """Puts the asteroid in a random spot in a grid 600x16000 and then moves all of them up at the same time,
+  """Puts the asteroid in a random spot in a grid 400x16000 and then moves all of them up at the same time,
   the speed determines the direction of spin that the asteroid has"""
   def __init__(self):
     
