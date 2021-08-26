@@ -11,9 +11,9 @@ from textbox import Textbox
 from crash import Crash
 from camera import *
 import sys
-
+from pygame import mixer
 pygame.init()
-
+mixer.init()
 Font = pygame.font.Font("fonts/visitor1.ttf",30)
 WHITE = (255,255,255)
 BLACK = (0,0,0)
@@ -131,6 +131,8 @@ class Game:
     
     self.camera.setmethod(self.border)
     """Main loop where everything is drawn/blitted onto the screen, also holds the win and lose conditions."""
+    mixer.music.load('assets/MainGameSongLoop.mp3')#music
+    mixer.music.play(-1)
     while True:#main loop
       #setting framerate
       pygame.display.update()
@@ -139,7 +141,7 @@ class Game:
         
         return#return to the 'Mars Crash'
       
-
+      
 
 
       #key inputs
@@ -149,7 +151,6 @@ class Game:
         if event.type == KEYDOWN:
           if event.key == K_SPACE:
             self.jump()
-            self.rocket_rebuilt = True
             
           
           

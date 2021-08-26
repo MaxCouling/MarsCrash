@@ -22,7 +22,6 @@ WINDOW_HEIGHT = 400
 WINDOW_SIZE = (WINDOW_WIDTH,WINDOW_HEIGHT)
 screen = pygame.display.set_mode((WINDOW_SIZE))#initate the screeb
 clock = pygame.time.Clock()#starts the pygame clock, helps with keeping the uprate at 60
-music = pygame.mixer.music.load('assets/game_music.mp3')
 rocket = Rocket()
 
 class Rocketgame:
@@ -84,8 +83,8 @@ class Rocketgame:
     for asteroid in range(num_of_asteroids):
       asteroid = Asteroid()
       asteroid_list.append(asteroid)
-    
-    pygame.mixer.music.play(1)#starts the music
+    pygame.mixer.music.load('assets/game_music.mp3')#music
+    pygame.mixer.music.play()
     """Main loop where the asteroid minigame plays in"""
     while True:#loops the game 
       
