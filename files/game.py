@@ -19,7 +19,7 @@ WHITE = (255,255,255)
 BLACK = (0,0,0)
 YELLOW = (255,255,0)
 RED = (255,0,0)
-ROCKET_PRICE = 20
+ROCKET_PRICE = 1
 X_POWER,Y_POWER = 0,120
 WINDOW_W, WINDOW_H = 600, 400
 WINDOW_SIZE = WINDOW_W, WINDOW_H
@@ -93,6 +93,10 @@ class Game:
 
     self.rocket_rebuilt = False
     self.out_of_power = False
+
+    #rocket
+    self.rocket_image_rebuilt = pygame.transform.scale(pygame.image.load('final_rocket.png'),(100,320))
+    self.rebuilt_rocket_x,self.rebuilt_rocket_y = 300,0
     
     
     
@@ -131,10 +135,10 @@ class Game:
       #setting framerate
       pygame.display.update()
       self.clock.tick(60)
-      
       if self.out_of_power:#if you run out of power
-        time.sleep(2)
+        
         return#return to the 'Mars Crash'
+      
 
 
 
@@ -145,6 +149,8 @@ class Game:
         if event.type == KEYDOWN:
           if event.key == K_SPACE:
             self.jump()
+            self.rocket_rebuilt = True
+            
           
           
 
@@ -158,13 +164,10 @@ class Game:
       self.player.move()#uses the player move funciton
       
       #animation 
-      self.animationspeed += 1
-      if self.animationspeed == 10:#this is so every 10 frames that the game is run, one frame of animation will play. If not the animation will play at 60fps and be very fast
-        self.player.update()#playeranimation
-        self.animationspeed = 0
+      
       
       self.gravity_check()
-      self.camera.scroll()
+      
       
       #--updating window and display--
       
@@ -222,7 +225,32 @@ class Game:
         self.terminal()
       
       if self.rocket_rebuilt:#winning condition
-        self.window.blit( pygame.font.Font.render(Font, str("YOU WIN!"),1,BLACK),(200,200))#the number blitting onto the screen
+        self.crash.image = pygame.image.load('nothing.png')
+        self.player.image = pygame.image.load('nothing.png')
+        self.window.blit(self.rocket_image_rebuilt,(self.rebuilt_rocket_x,self.rebuilt_rocket_y))
+        self.rebuilt_rocket_y -= 1
+        self.window.blit( pygame.font.Font.render(Font, ("YOU WIN!"),1,WHITE),(200,200))#the number blitting onto the screen
+        if self.rebuilt_rocket_y == -320:#when the rocket has left the screen
+          fade = pygame.Surface(WINDOW_SIZE)#sets the window size for the fade
+          fade.fill(BLACK)#what colour the fade is going to be
+          for alpha in range(0,100):#for loop that fades the screen
+            fade.set_alpha(alpha)
+            self.window.blit(fade, (0,0))
+            pygame.display.update()
+            pygame.time.delay(30)#delay per frame 
+          sys.exit()
+          
+          
+      else:#if the rocket is not gone, make the player go through its animation cycle and i dont want the camera to be able to move either
+        #animation
+        self.animationspeed += 1
+        if self.animationspeed == 10:#this is so every 10 frames that the game is run, one frame of animation will play. If not the animation will play at 60fps and be very fast
+          self.player.update()#playeranimation
+          self.animationspeed = 0
+        #camera scrolling function
+        self.camera.scroll()
+      
+        
 
       if self.power_level.width <= 0:#if the power is 0 the player is out of power
         fade = pygame.Surface(WINDOW_SIZE)#sets the window size for the fade
@@ -233,8 +261,11 @@ class Game:
           pygame.display.update()
           pygame.time.delay(10)#delay per frame 
         
-        self.window.blit( pygame.font.Font.render(Font, str("OUT OF POWER"),1,BLACK),(180,180))
+        
+        
         self.out_of_power = True
+      
+      
         
       
       
@@ -306,7 +337,7 @@ class Game:
         pygame.display.update()
         
         self.clock.tick(60)
-        self.window.fill((0,0,0))#background colour
+        self.window.fill(BLACK)#background colour
         mx, my = pygame.mouse.get_pos()#gets the mouse postion. mx is mouse x and mouse y is mouse y postion on the screen
             
         #EXIT BUTTON
@@ -410,16 +441,11 @@ class Game:
           if event.type == MOUSEBUTTONDOWN:
             if event.button == 1:
               click = True
-  
-  
-    
-    
-    
-    
-        
+      
+      
 
 
-      
     
-       
-      
+    
+    
+  
