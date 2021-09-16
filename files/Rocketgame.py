@@ -83,7 +83,7 @@ class Rocketgame:
     for asteroid in range(num_of_asteroids):
       asteroid = Asteroid()
       asteroid_list.append(asteroid)
-    pygame.mixer.music.load('assets/game_music.mp3')#music
+    pygame.mixer.music.load('assets/asteroid_music.mp3')#music
     pygame.mixer.music.play()
     """Main loop where the asteroid minigame plays in"""
     while True:#loops the game 
