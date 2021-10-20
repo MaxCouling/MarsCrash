@@ -35,7 +35,7 @@ def draw_text(text,color,surface,x,y):
 class Main_menu:#this is the main menu and the dying screen on pygame # 
   
   def __init__(self):
-    self.straight_to_mars = True#debugger that skips the first sequence and intro to the game
+    self.straight_to_mars = False#debugger that skips the first sequence and intro to the game
   
   def menu(self):
     click = False
