@@ -35,7 +35,7 @@ def draw_text(text,color,surface,x,y):
 class Main_menu:#this is the main menu and the dying screen on pygame # 
   
   def __init__(self):
-    self.straight_to_mars = True#debugger that skips the first sequence and intro to the game
+    self.straight_to_mars = False#debugger that skips the first sequence and intro to the game
   
   def menu(self):
     click = False
@@ -60,7 +60,7 @@ class Main_menu:#this is the main menu and the dying screen on pygame #
         pygame.draw.rect(screen,(100,100,100),button_1)#makes it grey
         draw_text("Lets Go!",(255,255,255), screen, button_1.x +25,button_1.y + 5)#drawiing the start text
         
-        if click:
+        if click:#when clicked sends you to rocket minigame
           self.straight_to_mars = True
           r = Rocketgame()
           r.rocketGameRunning()
