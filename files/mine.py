@@ -1,5 +1,5 @@
 import pygame
-from textbox import Textbox
+from files.textbox import Textbox
 
 class Mine:
     def __init__(self):
@@ -17,7 +17,7 @@ class Mine:
         self.tutorial = True
 
     def on_click(self):
-        """When clicked it adds one to the score o"""
+        """When clicked it adds one to the score"""
         self.ore += 1
         
         if self.tutorial:

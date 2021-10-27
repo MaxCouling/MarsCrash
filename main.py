@@ -1,8 +1,8 @@
 import pygame
 import sys
-from game import Game
+from files.game import Game
 from pygame import *
-from Rocketgame import Rocketgame
+from files.Rocketgame import Rocketgame
 
 pygame.init()#inititlising pygame
 w_width = 600#window width

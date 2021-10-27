@@ -2,14 +2,14 @@
 import pygame
 from pygame import *
 import time
-from player import Player
-from ground import Ground
-from background import Background
-from mine import Mine
-from water import Water
-from textbox import Textbox
-from crash import Crash
-from camera import *
+from files.player import Player
+from files.ground import Ground
+from files.background import Background
+from files.mine import Mine
+from files.water import Water
+from files.textbox import Textbox
+from files.crash import Crash
+from files.camera import *
 import sys
 from pygame import mixer
 pygame.init()

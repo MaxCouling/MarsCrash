@@ -1,7 +1,7 @@
 import pygame
 from pygame import *
 import sys
-from textbox import Textbox
+from files.textbox import Textbox
 
 Font = pygame.font.Font("fonts/visitor1.ttf",30)
 WHITE = (255,255,255)

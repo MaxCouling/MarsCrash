@@ -1,5 +1,5 @@
 import pygame
-from textbox import Textbox
+from files.textbox import Textbox
 
 
 class Water:
