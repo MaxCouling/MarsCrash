@@ -4,9 +4,9 @@ from files.textbox import Textbox
 
 class Water:
     def __init__(self):
-        self.image = pygame.image.load('water.png')
-        self.icon = pygame.transform.scale(pygame.image.load("watericon.png"), (32, 32))
-        self.water_for_tutorial = pygame.transform.scale(pygame.image.load('watericon.png'),(125,125))
+        self.image = pygame.image.load('assets/water.png')
+        self.icon = pygame.transform.scale(pygame.image.load("assets/watericon.png"), (32, 32))
+        self.water_for_tutorial = pygame.transform.scale(pygame.image.load('assets/watericon.png'),(125,125))
         self.width = self.image.get_width()
         self.height = self.image.get_height()
         self.x,self.y = 2400,235

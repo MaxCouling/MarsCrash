@@ -102,7 +102,7 @@ class Game:
     self.out_of_power = False
 
     #rocket
-    self.rocket_image_rebuilt = pygame.transform.scale(pygame.image.load('final_rocket.png'),(100,320))
+    self.rocket_image_rebuilt = pygame.transform.scale(pygame.image.load('assets/final_rocket.png'),(100,320))
     self.rebuilt_rocket_x,self.rebuilt_rocket_y = 300,0
     
     self.mouse_over_mine = False
@@ -236,8 +236,8 @@ class Game:
         self.terminal()
       
       if self.rocket_rebuilt:#winning condition
-        self.crash.image = pygame.image.load('nothing.png')
-        self.player.image = pygame.image.load('nothing.png')
+        self.crash.image = pygame.image.load('assets/nothing.png')
+        self.player.image = pygame.image.load('assets/nothing.png')
         self.window.blit(self.rocket_image_rebuilt,(self.rebuilt_rocket_x,self.rebuilt_rocket_y))
         self.rebuilt_rocket_y -= 1
         self.window.blit( pygame.font.Font.render(Font, ("YOU WIN!"),1,WHITE),(200,200))#the number blitting onto the screen

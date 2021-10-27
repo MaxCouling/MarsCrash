@@ -11,7 +11,7 @@ class Rocket(pygame.sprite.Sprite):#using pygames sprite function for future ani
     self.movex = 0
     self.movey = 0
     self.frame = 0
-    self.images = [pygame.image.load("rocket1.png"),pygame.image.load("rocket2.png")]#list is for animation
+    self.images = [pygame.image.load("assets/rocket1.png"),pygame.image.load("assets/rocket2.png")]#list is for animation
     self.framenum = 1
     
     

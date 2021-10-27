@@ -3,9 +3,9 @@ from files.textbox import Textbox
 
 class Mine:
     def __init__(self):
-        self.image = pygame.image.load('mine.png')
-        self.icon =pygame.transform.scale(pygame.image.load("mineicon.png"), (32, 32))
-        self.rock_for_tutorial = pygame.transform.scale(pygame.image.load('mineicon.png'),(125,125))
+        self.image = pygame.image.load('assets/mine.png')
+        self.icon =pygame.transform.scale(pygame.image.load("assets/mineicon.png"), (32, 32))
+        self.rock_for_tutorial = pygame.transform.scale(pygame.image.load('assets/mineicon.png'),(125,125))
         self.width = self.image.get_width()
         self.height = self.image.get_height()
         self.x,self.y = 1400,155

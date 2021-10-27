@@ -19,8 +19,8 @@ screen = pygame.display.set_mode((WINDOW_SIZE))#initate the screensize
 class Player(pygame.sprite.Sprite):
   def __init__(self):
     super().__init__()
-    self.image_right = [pygame.image.load("right1.png"), pygame.image.load("right2.png"), pygame.image.load("right1.png"), pygame.image.load("right3.png")]#loading the player in
-    self.image_left = [pygame.image.load("left1.png"), pygame.image.load("left2.png"), pygame.image.load("left1.png"), pygame.image.load("left3.png")]
+    self.image_right = [pygame.image.load("assets/right1.png"), pygame.image.load("assets/right2.png"), pygame.image.load("assets/right1.png"), pygame.image.load("assets/right3.png")]#loading the player in
+    self.image_left = [pygame.image.load("assets/left1.png"), pygame.image.load("assets/left2.png"), pygame.image.load("assets/left1.png"), pygame.image.load("assets/left3.png")]
     self.image = self.image_right[1]
     self.rect = self.image.get_rect()#getting the hitbox for the player
     

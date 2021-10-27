@@ -14,7 +14,7 @@ class Textbox:
     self.screen = pygame.display.set_mode((WINDOW_SIZE))#initate the screensize
     self.clock = pygame.time.Clock()
     
-    self.tb = pygame.image.load("tb little.png")#loads in the background picture
+    self.tb = pygame.image.load("assets/tb little.png")#loads in the background picture
     self.tb_rect = (self.tb.get_rect(topleft = (100,15)))#makes the backgroud a rect
 
     

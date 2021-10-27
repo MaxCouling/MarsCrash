@@ -16,9 +16,9 @@ class Crash:
         
         
         
-        self.image = pygame.transform.rotate(pygame.transform.scale(pygame.image.load('rocket1.png'),(100,100)),110)
+        self.image = pygame.transform.rotate(pygame.transform.scale(pygame.image.load('assets/rocket1.png'),(100,100)),110)
         
-        self.avatar = pygame.transform.scale(pygame.image.load('computer.png'), (125,125))
+        self.avatar = pygame.transform.scale(pygame.image.load('assets/computer.png'), (125,125))
        
         self.width = self.image.get_width()
         self.height = self.image.get_height()
