@@ -14,7 +14,7 @@ BLACK = (0,0,0)#tuple
 WHITE = (255,255,255)
 myFont = pygame.font.Font("fonts/visitor1.ttf",30)
 
-pygame.display.set_caption("assets/Mars Crash")
+pygame.display.set_caption("Mars Crash")
 ICON = pygame.image.load("assets/logo.png")
 ASTEROID_IMAGE = pygame.image.load("assets/greyAsteroid.png")
 ROCKET_IMAGE = pygame.image.load("assets/player.png")
