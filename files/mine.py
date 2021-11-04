@@ -5,10 +5,8 @@ from files.textbox import Textbox
 class Mine:
     def __init__(self):
         self.image = pygame.image.load('assets/mine.png')
-        self.icon = pygame.transform.scale(
-            pygame.image.load("assets/mineicon.png"), (32, 32))
-        self.rock_for_tutorial = pygame.transform.scale(
-            pygame.image.load('assets/mineicon.png'), (125, 125))
+        self.icon = pygame.transform.scale(pygame.image.load("assets/mineicon.png"), (32, 32))
+        self.rock_for_tutorial = pygame.transform.scale(pygame.image.load('assets/mineicon.png'), (125, 125))
         self.width = self.image.get_width()
         self.height = self.image.get_height()
         self.x, self.y = 1400, 155
@@ -24,19 +22,5 @@ class Mine:
         self.ore += 1
 
         if self.tutorial:
-            self.textbox.render(
-                "MINE",
-                (120,
-                 25),
-                (255,
-                 255,
-                 255),
-                "This is the mine, click on it to get \nthe martian ore!\n\n\nUse the ore to increase the distance your battery\ncan take you! ",
-                (120,
-                 65),
-                (255,
-                 255,
-                 255),
-                self.rock_for_tutorial,
-                250)
+            self.textbox.render("MINE", (120, 25), (255, 255, 255), "This is the mine, click on it to get \nthe martian ore!\n\n\nUse the ore to increase the distance your battery\ncan take you! ", (120, 65), (255, 255, 255), self.rock_for_tutorial, 250)
             self.tutorial = False

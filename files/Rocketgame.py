@@ -11,8 +11,7 @@ from files.game import WHITE
 
 BG = pygame.image.load("assets/Space.png")
 BIG_ASTEROID = pygame.image.load("assets/BigAsteroid.png")
-MARS = pygame.transform.scale(pygame.image.load(
-    "assets/Mars_picture.png"), (600, 600))
+MARS = pygame.transform.scale(pygame.image.load("assets/Mars_picture.png"), (600, 600))
 HEALTHBAR_HEIGHT = 30
 # the number of asteroids that the rocket will have to dodge on the way to mars
 num_of_asteroids = 50
@@ -40,11 +39,7 @@ class Rocketgame:
         self.minigame_bgY = 0  # sets the backround images y value to 0
         self.damage = 0  # sets the damge to 0
 
-        self.rocket_hitbox = pygame.Rect(
-            self.rocket.rect.x,
-            self.rocket.rect.y,
-            self.rocket.image.get_width(),
-            self.rocket.image.get_height())
+        self.rocket_hitbox = pygame.Rect(self.rocket.rect.x, self.rocket.rect.y, self.rocket.image.get_width(), self.rocket.image.get_height())
 
         self.steps = 4
         self.title = pygame.image.load("assets/mars_crash_title.png")

@@ -1,6 +1,5 @@
 import pygame
 from pygame import *
-import sys
 from files.textbox import Textbox
 
 Font = pygame.font.Font("fonts/visitor1.ttf", 30)
@@ -14,14 +13,11 @@ class Crash:
         w_width = 600  # window width
         w_height = 400
         WINDOW_SIZE = (w_width, w_height)
-        self.screen = pygame.display.set_mode(
-            (WINDOW_SIZE))  # initate the screensize
+        self.screen = pygame.display.set_mode((WINDOW_SIZE))  # initate the screensize
 
-        self.image = pygame.transform.rotate(pygame.transform.scale(
-            pygame.image.load('assets/rocket1.png'), (100, 100)), 110)
+        self.image = pygame.transform.rotate(pygame.transform.scale(pygame.image.load('assets/rocket1.png'), (100, 100)), 110)
 
-        self.avatar = pygame.transform.scale(
-            pygame.image.load('assets/computer.png'), (125, 125))
+        self.avatar = pygame.transform.scale(pygame.image.load('assets/computer.png'), (125, 125))
 
         self.width = self.image.get_width()
         self.height = self.image.get_height()
@@ -39,21 +35,7 @@ class Crash:
         # gives the textbox to show the player what is going to happen next, go
         # into the computer terminal to be able to smelt items and stuff
         if self.tutorial:
-            self.textbox.render(
-                "COMPUTER",
-                (120,
-                 25),
-                (255,
-                 255,
-                 255),
-                "HI, This is where you upgrade and fill\nyour battery up to go on the trips to\nthe deposits",
-                (120,
-                 70),
-                (255,
-                 255,
-                 255),
-                self.avatar,
-                200)
+            self.textbox.render("COMPUTER", (120, 25), (255, 255, 255), "HI, This is where you upgrade and fill\nyour battery up to go on the trips to\nthe deposits", (120, 70), (255, 255, 255), self.avatar, 200)
             self.tutorial = False
         # self.terminal()#opens the terminal
         self.clicked = True

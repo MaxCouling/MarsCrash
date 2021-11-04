@@ -26,12 +26,12 @@ WINDOW_SIZE = WINDOW_W, WINDOW_H
 
 
 class Game:
+    """This class is where the game takes place, this is where I draw/blit the objects and images into the screen, open up terminal
+    that the player can operate to play the game and also call the player movement and most things that are happen in the game."""
     def __init__(self):
 
-        self.canvas = pygame.Surface(
-            (WINDOW_W * 10, WINDOW_H))  # setting the canvas
-        self.window = pygame.display.set_mode(
-            ((WINDOW_SIZE)))  # setting the window
+        self.canvas = pygame.Surface((WINDOW_W * 10, WINDOW_H))  # setting the canvas
+        self.window = pygame.display.set_mode(((WINDOW_SIZE)))  # setting the window
         self.clock = pygame.time.Clock()  # pygame clock
 
         # loading player, scenes and self.
@@ -103,8 +103,7 @@ class Game:
         self.out_of_power = False
 
         # rocket
-        self.rocket_image_rebuilt = pygame.transform.scale(
-            pygame.image.load('assets/final_rocket.png'), (100, 320))
+        self.rocket_image_rebuilt = pygame.transform.scale(pygame.image.load('assets/final_rocket.png'), (100, 320))
         self.rebuilt_rocket_x, self.rebuilt_rocket_y = 300, 0
 
         self.mouse_over_mine = False
@@ -120,104 +119,25 @@ class Game:
         while intro < 6:
             self.canvas.fill(BLACK)
             if intro == 0:
-                self.textbox.render(
-                    "COMPUTER",
-                    (120,
-                     25),
-                    (255,
-                     255,
-                     255),
-                    "You have crash landed on MARS!",
-                    (120,
-                     65),
-                    (255,
-                     255,
-                     255),
-                    self.crash.avatar,
-                    1)
-            if intro == 1:
-                self.textbox.render(
-                    "COMPUTER",
-                    (120,
-                     25),
-                    (255,
-                     255,
-                     255),
-                    "Lucky enough the ship has more than\nenough power to last until we can\nget out of here. \n\nBut how would we get out of this \ndesert planet?",
-                    (120,
-                     65),
-                    (255,
-                     255,
-                     255),
-                    self.crash.avatar,
-                    1)
-            if intro == 2:
-                self.textbox.render(
-                    "COMPUTER",
-                    (120,
-                     25),
-                    (255,
-                     255,
-                     255),
-                    "You have a limited amount of power in \nyour suit, explore the surface of\nMars and find out what is out there.",
-                    (120,
-                     65),
-                    (255,
-                     255,
-                     255),
-                    self.crash.avatar,
-                    1)
-            if intro == 3:
-                self.textbox.render(
-                    "COMPUTER",
-                    (120,
-                     25),
-                    (255,
-                     255,
-                     255),
-                    "My sources say that there is martian \nore and an ice deposit east of the \ncrash site.",
-                    (120,
-                     65),
-                    (255,
-                     255,
-                     255),
-                    self.crash.avatar,
-                    1)
-            if intro == 4:
-                self.textbox.render(
-                    "COMPUTER",
-                    (120,
-                     25),
-                    (255,
-                     255,
-                     255),
-                    "Walking drains your battery, so does\nmining ore or extracting water\nfrom the ice.",
-                    (120,
-                     65),
-                    (255,
-                     255,
-                     255),
-                    self.crash.avatar,
-                    1)
-            if intro == 5:
-                self.textbox.render(
-                    "COMPUTER",
-                    (120,
-                     25),
-                    (255,
-                     255,
-                     255),
-                    "Good luck astronaut!\n\nCome back to the crashed ship to fill \nyour battery up.",
-                    (120,
-                     65),
-                    (255,
-                     255,
-                     255),
-                    self.crash.avatar,
-                    1)
+                """self.textbox.render(title, title_pos, title_colour,text,text_pos, text_colour, avatar, time)"""
 
-            for event in pygame.event.get(
-            ):  # exits the intro and moves onto the game
+                self.textbox.render("COMPUTER", (120, 25), (255, 255, 255), "You have crash landed on MARS!", (120, 65), (255, 255, 255), self.crash.avatar, 1)
+            if intro == 1:
+                self.textbox.render("COMPUTER", (120, 25), (255, 255, 255), "Lucky enough the ship has more than\nenough power to last until we can\nget out of here. \n\nBut how would we get out of this \ndesert planet?", (120, 65), (255, 255, 255), self.crash.avatar, 1)
+
+            if intro == 2:
+                self.textbox.render("COMPUTER", (120, 25), (255, 255, 255), "You have a limited amount of power in \nyour suit, explore the surface of\nMars and find out what is out there.", (120, 65), (255, 255, 255), self.crash.avatar, 1)
+
+            if intro == 3:
+                self.textbox.render("COMPUTER", (120, 25), (255, 255, 255), "My sources say that there is martian \nore and an ice deposit east of the \ncrash site.", (120, 65), (255, 255, 255), self.crash.avatar, 1)
+
+            if intro == 4:
+                self.textbox.render("COMPUTER", (120, 25), (255, 255, 255), "Walking drains your battery, so does\nmining ore or extracting water\nfrom the ice.", (120, 65), (255, 255, 255), self.crash.avatar, 1)
+
+            if intro == 5:
+                self.textbox.render("COMPUTER", (120, 25), (255, 255, 255), "Good luck astronaut!\n\nCome back to the crashed ship to fill \nyour battery up.", (120, 65), (255, 255, 255), self.crash.avatar, 1)
+
+            for event in pygame.event.get():  # exits the intro and moves onto the game
                 if event.type == pygame.QUIT:
                     sys.exit()
                 # if the player clicks or presses any button on the keyboard it
@@ -245,8 +165,7 @@ class Game:
                     if event.key == K_SPACE:
                         self.jump()
 
-                if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[
-                        0]:
+                if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]:
                     self.click()
 
             self.canvas.fill((255, 169, 120))  # background colour
@@ -261,56 +180,24 @@ class Game:
             # --updating window and display--
 
             # rendering the background
-
-            self.canvas.blit(self.background.mountains0,
-                             (self.background.mountains0X - (self.camera.offset.x / 5),
-                              self.background.mountains0Y - (self.camera.offset.y / 5)))
-            self.canvas.blit(self.background.mountains1,
-                             (self.background.mountains1X - (self.camera.offset.x / 3),
-                              self.background.mountains1Y - (self.camera.offset.y / 3)))
-            self.canvas.blit(self.background.mountains2,
-                             (self.background.mountains2X - (self.camera.offset.x / 2),
-                              self.background.mountains2Y - (self.camera.offset.y / 2)))
+            self.canvas.blit(self.background.mountains0, (self.background.mountains0X - (self.camera.offset.x / 5), self.background.mountains0Y - (self.camera.offset.y / 5)))
+            self.canvas.blit(self.background.mountains1, (self.background.mountains1X - (self.camera.offset.x / 3), self.background.mountains1Y - (self.camera.offset.y / 3)))
+            self.canvas.blit(self.background.mountains2, (self.background.mountains2X - (self.camera.offset.x / 2), self.background.mountains2Y - (self.camera.offset.y / 2)))
 
             # blitiing the ground
             for ground in self.groundgroup:
-                self.canvas.blit(
-                    ground.image,
-                    (ground.rect.x -
-                     self.camera.offset.x,
-                     ground.rect.y -
-                     self.camera.offset.y))
+                self.canvas.blit(ground.image, (ground.rect.x - self.camera.offset.x, ground.rect.y - self.camera.offset.y))
 
             # --blitting the setting--
             # The mine
-            self.canvas.blit(
-                self.mine.image,
-                (self.mine.rect.x -
-                 self.camera.offset.x,
-                 self.mine.rect.y -
-                 self.camera.offset.y))
+            self.canvas.blit(self.mine.image, (self.mine.rect.x - self.camera.offset.x, self.mine.rect.y - self.camera.offset.y))
             # The ice
-            self.canvas.blit(
-                self.water.image,
-                (self.water.rect.x -
-                 self.camera.offset.x,
-                 self.water.rect.y -
-                 self.camera.offset.y))
+            self.canvas.blit(self.water.image, (self.water.rect.x - self.camera.offset.x, self.water.rect.y - self.camera.offset.y))
             # The crashsite
-            self.canvas.blit(
-                self.crash.image,
-                (self.crash.rect.x -
-                 self.camera.offset.x,
-                 self.crash.rect.y -
-                 self.camera.offset.y))
+            self.canvas.blit(self.crash.image, (self.crash.rect.x - self.camera.offset.x, self.crash.rect.y - self.camera.offset.y))
 
             # --blitting the player--
-            self.canvas.blit(
-                self.player.image,
-                (self.player.rect.x -
-                 self.camera.offset.x,
-                 self.player.rect.y -
-                 self.camera.offset.y))
+            self.canvas.blit(self.player.image, (self.player.rect.x - self.camera.offset.x, self.player.rect.y - self.camera.offset.y))
 
             # blitting the game to window
             self.window.blit(self.canvas, (0, 0))
@@ -320,17 +207,11 @@ class Game:
             # --blitting Icons, this is after the stuff in the game as the icons for health and stuff won't move inside the game--
 
             # mine icon
-            self.window.blit(
-                pygame.font.Font.render(
-                    Font, str(
-                        self.mine.ore), 1, (150, 150, 150)), (70, 25))  # the number blitting the screen
+            self.window.blit(pygame.font.Font.render(Font, str(self.mine.ore), 1, (150, 150, 150)), (70, 25))  # the number blitting the screen
             self.window.blit(self.mine.icon, (25, 25))  # the icnon next to it
 
             # water icon
-            self.window.blit(
-                pygame.font.Font.render(
-                    Font, str(
-                        self.water.water), 1, (150, 150, 150)), (70, 75))  # the number blitting onto the screen
+            self.window.blit(pygame.font.Font.render(Font, str(self.water.water), 1, (150, 150, 150)), (70, 75))  # the number blitting onto the screen
             self.window.blit(self.water.icon, (25, 75))
 
             # power bar
@@ -352,25 +233,14 @@ class Game:
             if self.rocket_rebuilt:  # winning condition
                 self.crash.image = pygame.image.load('assets/nothing.png')
                 self.player.image = pygame.image.load('assets/nothing.png')
-                self.window.blit(
-                    self.rocket_image_rebuilt,
-                    (self.rebuilt_rocket_x,
-                     self.rebuilt_rocket_y))
+                self.window.blit(self.rocket_image_rebuilt, (self.rebuilt_rocket_x, self.rebuilt_rocket_y))
                 self.rebuilt_rocket_y -= 1
-                self.window.blit(
-                    pygame.font.Font.render(
-                        Font,
-                        ("YOU WIN!"),
-                        1,
-                        WHITE),
-                    (200,
-                     200))  # the number blitting onto the screen
+                self.window.blit(pygame.font.Font.render(Font, ("YOU WIN!"), 1, WHITE), (200, 200))  # the number blitting onto the screen
                 if self.rebuilt_rocket_y == -320:  # when the rocket has left the screen
                     # sets the window size for the fade
                     fade = pygame.Surface(WINDOW_SIZE)
                     fade.fill(BLACK)  # what colour the fade is going to be
-                    for alpha in range(
-                            0, 100):  # for loop that fades the screen
+                    for alpha in range(0, 100):  # for loop that fades the screen
                         fade.set_alpha(alpha)
                         self.window.blit(fade, (0, 0))
                         pygame.display.update()
@@ -477,13 +347,9 @@ class Game:
             self.mouse_over_rocket = False
             self.mouse_over_smelt = False
             # EXIT BUTTON
-            pygame.draw.rect(
-                self.window, (70, 70, 70), pygame.Rect(
-                    30, 30, 540, 340))
+            pygame.draw.rect(self.window, (70, 70, 70), pygame.Rect(30, 30, 540, 340))
             pygame.draw.rect(self.window, (255, 0, 0), self.exitbutton)
-            self.window.blit(
-                pygame.font.Font.render(
-                    Font, "X", 1, WHITE), (47, 40))
+            self.window.blit(pygame.font.Font.render(Font, "X", 1, WHITE), (47, 40))
             # inventory display
             pygame.draw.rect(self.window, WHITE, self.whitebox)
             """Pricing system, logic to checck if the player has the right materials fot the upgrade, then gives the upgrade and takes away the materials after"""
@@ -544,22 +410,13 @@ class Game:
 
             """Icons at the top of the screen"""
             # ore
-            self.window.blit(
-                pygame.font.Font.render(
-                    Font, str(
-                        self.mine.ore), 1, BLACK), (120, 40))  # ore number
+            self.window.blit(pygame.font.Font.render(Font, str(self.mine.ore), 1, BLACK), (120, 40))  # ore number
             self.window.blit(self.mine.icon, (83, 40))
             # water
-            self.window.blit(
-                pygame.font.Font.render(
-                    Font, str(
-                        self.water.water), 1, BLACK), (193, 40))
+            self.window.blit(pygame.font.Font.render(Font, str(self.water.water), 1, BLACK), (193, 40))
             self.window.blit(self.water.icon, (160, 40))
             # Iron
-            self.window.blit(
-                pygame.font.Font.render(
-                    Font, str(
-                        self.iron), 1, BLACK), (266, 40))
+            self.window.blit(pygame.font.Font.render(Font, str(self.iron), 1, BLACK), (266, 40))
             self.window.blit(self.iron_icon, (225, 37))
 
             """Below are the boxes for the upgrades, you will not be able to purchase them if you do not have the right materials"""
@@ -568,141 +425,39 @@ class Game:
                 self.window,
                 self.rocket_colour,
                 self.rocket_upgrade_box)
-            self.window.blit(
-                pygame.font.Font.render(
-                    Font,
-                    "BUILD ROCKET",
-                    2,
-                    BLACK),
-                (self.rocket_upgrade_box.x + 15,
-                 self.rocket_upgrade_box.y))
-            self.window.blit(
-                pygame.font.Font.render(
-                    Font,
-                    str(ROCKET_PRICE),
-                    1,
-                    BLACK),
-                (self.rocket_upgrade_box.x +
-                 55,
-                 self.rocket_upgrade_box.y +
-                 25))
-            self.window.blit(
-                self.iron_icon,
-                (self.rocket_upgrade_box.x + 15,
-                 self.rocket_upgrade_box.y + 25))
+            self.window.blit(pygame.font.Font.render(Font, "BUILD ROCKET", 2, BLACK), (self.rocket_upgrade_box.x + 15, self.rocket_upgrade_box.y))
+            self.window.blit(pygame.font.Font.render(Font, str(ROCKET_PRICE), 1, BLACK), (self.rocket_upgrade_box.x + 55, self.rocket_upgrade_box.y + 25))
+            self.window.blit(self.iron_icon, (self.rocket_upgrade_box.x + 15, self.rocket_upgrade_box.y + 25))
             # walking upgrade
-            pygame.draw.rect(
-                self.window,
-                self.mining_colour,
-                self.mining_upgrade_box)
-            self.window.blit(
-                pygame.font.Font.render(
-                    Font,
-                    "MINE SKILL",
-                    2,
-                    BLACK),
-                (self.mining_upgrade_box.x + 15,
-                 self.mining_upgrade_box.y))  # name of upgrade
-            self.window.blit(pygame.font.Font.render(Font,
-                                                     str(self.mining_price),
-                                                     1,
-                                                     BLACK),
-                             (self.mining_upgrade_box.x + 55,
-                              self.mining_upgrade_box.y + 25))  # price of upgrade
-            self.window.blit(
-                self.water.icon,
-                (self.mining_upgrade_box.x +
-                 15,
-                 self.mining_upgrade_box.y +
-                 25))  # icon next to price
+            pygame.draw.rect(self.window, self.mining_colour, self.mining_upgrade_box)
+            self.window.blit(pygame.font.Font.render(Font, "MINE SKILL", 2, BLACK), (self.mining_upgrade_box.x + 15, self.mining_upgrade_box.y))  # name of upgrade
+            self.window.blit(pygame.font.Font.render(Font, str(self.mining_price), 1, BLACK), (self.mining_upgrade_box.x + 55, self.mining_upgrade_box.y + 25))  # price of upgrade
+            self.window.blit(self.water.icon, (self.mining_upgrade_box.x + 15, self.mining_upgrade_box.y + 25))  # icon next to price
             # mining upgrade
-            pygame.draw.rect(
-                self.window,
-                self.walking_colour,
-                self.walking_upgrade_box)
-            self.window.blit(
-                pygame.font.Font.render(
-                    Font,
-                    "WALK SKILL",
-                    2,
-                    BLACK),
-                (self.walking_upgrade_box.x + 15,
-                 self.walking_upgrade_box.y))
-            self.window.blit(pygame.font.Font.render(Font,
-                                                     str(self.walking_price),
-                                                     1,
-                                                     BLACK),
-                             (self.walking_upgrade_box.x + 55,
-                              self.walking_upgrade_box.y + 25))
-            self.window.blit(
-                self.mine.icon,
-                (self.walking_upgrade_box.x + 15,
-                 self.walking_upgrade_box.y + 25))
+            pygame.draw.rect(self.window, self.walking_colour, self.walking_upgrade_box)
+            self.window.blit(pygame.font.Font.render(Font, "WALK SKILL", 2, BLACK), (self.walking_upgrade_box.x + 15, self.walking_upgrade_box.y))
+            self.window.blit(pygame.font.Font.render(Font, str(self.walking_price), 1, BLACK), (self.walking_upgrade_box.x + 55,  self.walking_upgrade_box.y + 25))
+            self.window.blit(self.mine.icon, (self.walking_upgrade_box.x + 15, self.walking_upgrade_box.y + 25))
 
             """Smelting, turning rock and water into iron which you use for the upgrades and building the rocket"""
             pygame.draw.rect(self.window, self.smelt_colour, self.smelting_box)
             # the title
-            self.window.blit(
-                pygame.font.Font.render(
-                    Font,
-                    "SMELTING ORE",
-                    2,
-                    WHITE),
-                (self.smelting_box.x + 15,
-                 self.smelting_box.y))
+            self.window.blit(pygame.font.Font.render(Font, "SMELTING ORE", 2, WHITE), (self.smelting_box.x + 15, self.smelting_box.y))
             # rock price to smelt
-            self.window.blit(
-                self.mine.icon,
-                (self.smelting_box.x + 15,
-                 self.smelting_box.y + 25))
-            self.window.blit(pygame.font.Font.render(Font,
-                                                     str(self.smelting_price_ore),
-                                                     1,
-                                                     WHITE),
-                             (self.smelting_box.x + 55,
-                              self.smelting_box.y + 25))
+            self.window.blit(self.mine.icon, (self.smelting_box.x + 15, self.smelting_box.y + 25))
+            self.window.blit(pygame.font.Font.render(Font, str(self.smelting_price_ore), 1, WHITE), (self.smelting_box.x + 55, self.smelting_box.y + 25))
             # water price to smelt
-            self.window.blit(
-                self.water.icon,
-                (self.smelting_box.x + 15,
-                 self.smelting_box.y + 65))
-            self.window.blit(pygame.font.Font.render(Font,
-                                                     str(self.smelting_price_water),
-                                                     1,
-                                                     WHITE),
-                             (self.smelting_box.x + 55,
-                              self.smelting_box.y + 65))
+            self.window.blit(self.water.icon, (self.smelting_box.x + 15, self.smelting_box.y + 65))
+            self.window.blit(pygame.font.Font.render(Font, str(self.smelting_price_water), 1, WHITE), (self.smelting_box.x + 55,  self.smelting_box.y + 65))
             # equals sign
-            self.window.blit(
-                pygame.font.Font.render(
-                    Font,
-                    "=",
-                    1,
-                    WHITE),
-                (self.smelting_box.x +
-                 95,
-                 self.smelting_box.y +
-                 40))
+            self.window.blit(pygame.font.Font.render(Font, "=",  1, WHITE), (self.smelting_box.x + 95, self.smelting_box.y + 40))
             # how much iron you will get per smelt
-            self.window.blit(
-                self.iron_icon,
-                (self.smelting_box.x + 120,
-                 self.smelting_box.y + 35))
-            self.window.blit(
-                pygame.font.Font.render(
-                    Font,
-                    "1",
-                    1,
-                    WHITE),
-                (self.smelting_box.x +
-                 160,
-                 self.smelting_box.y +
-                 40))
+            self.window.blit(self.iron_icon, (self.smelting_box.x + 120, self.smelting_box.y + 35))
+            self.window.blit(pygame.font.Font.render(Font, "1", 1, WHITE), (self.smelting_box.x + 160, self.smelting_box.y + 40))
 
             # setting click back to false
             click = False
-            for event in pygame.event.get(
-            ):  # getting all the keyboard inputs from user
+            for event in pygame.event.get():  # getting all the keyboard inputs from user
                 if event.type == QUIT:  # if one of those inputs is the user pressing the quit button
                     pygame.quit()  # it will terminate ptgame
                     sys.exit()

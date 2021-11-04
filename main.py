@@ -30,8 +30,9 @@ def draw_text(text, color, surface, x, y):
     surface.blit(textobj, textrect)
 
 
-class Main_menu:  # this is the main menu and the dying screen on pygame #
-
+class Main_menu:
+    """Main code, starts off the game with the start screen, shows the title and if self.straight_to_mars is True it
+    puts a button that allows the user to go straight to the mars game and skipping the asteroid minigame"""
     def __init__(self):
         # debugger that skips the first sequence and intro to the game
         self.straight_to_mars = False
@@ -52,25 +53,13 @@ class Main_menu:  # this is the main menu and the dying screen on pygame #
 
             button_2 = pygame.Rect(200, 330, 200, 50)
             pygame.draw.rect(screen, (255, 0, 0), button_1)
-            draw_text("Start", (255, 255, 255), screen, button_1.x +
-                      25, button_1.y + 5)  # drawiing the start text
+            draw_text("Start", (255, 255, 255), screen, button_1.x + 25, button_1.y + 5)  # drawiing the start text
 
             if self.straight_to_mars:
                 pygame.draw.rect(screen, (255, 0, 0), button_2)
-            if button_1.collidepoint(
-                    (mx, my)):  # if the mouse is collding with the boxes x and y
-                pygame.draw.rect(
-                    screen, (100, 100, 100), button_1)  # makes it grey
-                draw_text(
-                    "Lets Go!",
-                    (255,
-                     255,
-                     255),
-                    screen,
-                    button_1.x +
-                    25,
-                    button_1.y +
-                    5)  # drawiing the start text
+            if button_1.collidepoint((mx, my)):  # if the mouse is collding with the boxes x and y
+                pygame.draw.rect(screen, (100, 100, 100), button_1)  # makes it grey
+                draw_text("Lets Go!", (255, 255, 255), screen, button_1.x + 25, button_1.y + 5)  # drawiing the start text
 
                 if click:  # when clicked sends you to rocket minigame
                     self.straight_to_mars = True
@@ -83,8 +72,7 @@ class Main_menu:  # this is the main menu and the dying screen on pygame #
                     game.game()
 
             click = False  # sets self.click to false before the mouse button down event but after the
-            for event in pygame.event.get(
-            ):  # getting all the keyboard inputs from user
+            for event in pygame.event.get():  # getting all the keyboard inputs from user
                 if event.type == QUIT:  # if one of those inputs is the user pressing the quit button
                     pygame.quit()  # it will terminate ptgame
                     sys.exit()

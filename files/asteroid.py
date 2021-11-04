@@ -20,9 +20,7 @@ class Asteroid:
         self.rect = ASTEROID_IMAGE.get_rect(topleft=(self.x, self.y))
 
     def draw(self):
-        self.rotated_asteroid_image = pygame.transform.rotate(
-            ASTEROID_IMAGE, self.rotate)
-        self.rect = self.rotated_asteroid_image.get_rect(
-            topleft=(self.x, self.y))
+        self.rotated_asteroid_image = pygame.transform.rotate(ASTEROID_IMAGE, self.rotate)
+        self.rect = self.rotated_asteroid_image.get_rect(topleft=(self.x, self.y))
 
         screen.blit(self.rotated_asteroid_image, self.rect)

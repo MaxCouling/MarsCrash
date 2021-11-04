@@ -11,9 +11,7 @@ class Rocket(
         self.movex = 0
         self.movey = 0
         self.frame = 0
-        self.images = [
-            pygame.image.load("assets/rocket1.png"),
-            pygame.image.load("assets/rocket2.png")]  # list is for animation
+        self.images = [pygame.image.load("assets/rocket1.png"), pygame.image.load("assets/rocket2.png")]  # list is for animation
         self.framenum = 1
 
         self.image = self.images[self.frame]

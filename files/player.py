@@ -34,7 +34,7 @@ class Player(pygame.sprite.Sprite):
         self.right_border = 3900
 
         self.ground_y = 280
-        #postion and direction
+        # postion and direction
         self.vx = 0
         self.pos = vec((200, 200))
         self.vel = vec(0, 0)
@@ -47,8 +47,7 @@ class Player(pygame.sprite.Sprite):
     def move(self):  # method to do the running\
         """This method is what makes the player move, they acceleate up or down by what button you press (A or D) (Up or Down) and
         takes all this into consideration when moving the player"""
-        self.acc = vec(
-            0, 0.5)  # gravity, Force that constantly pulls the player down
+        self.acc = vec(0, 0.5)  # gravity, Force that constantly pulls the player down
         # if at the border
         if self.rect.x >= self.right_border - 50:
             self.acc.x -= 10
@@ -89,9 +88,9 @@ class Player(pygame.sprite.Sprite):
                 self.image = self.image_left[self.move_frame]
             # makes it so it moves the frame by one everytime this goes over
             self.move_frame
-        # This final section fixes the bug that makes it so when you try to
-        # stop, the sprite for moving shows
-        # if the speed is below a certian point and the frame is not standing
+        """ This final section fixes the bug that makes it so when you try to
+        stop, the sprite for moving shows if the speed is below a certian point
+        and the frame is not standing"""
         if abs(self.vel.x) < 0.5 and self.move_frame != 0:
             self.move_frame = 0  # sets it to standing
             if self.vel.x > 0:  # still a little bit of velocity, will use this to detrimine either left or right
